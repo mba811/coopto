@@ -181,8 +181,8 @@ If all [build requirements](https://github.com/m451/coopto#build-requirements) a
 
 1.	Go to the folder where you unpacked the source files to
 2.	You now have to find out the URL to your vRO Maven repository. This should be *http://your-vro-server:8280/vco-repo*. You may test if you’re able to connect to that repository by just opening the URL within your browser. Again: be aware of proxy settings.
-3.	Now that you have found your vRO repository, you have to configure the project’s pom. Open the pom.xml file within the Coopto root folder. Search for the <properties> section and change the <repoUrl> so it fits you vRO repository.
-4.	Depending on your Maven setup, this may already be enough for maven to fetch all dependent libraries. If downloading from the repository in the following steps fails for you, consider adding the content of <repositories> and <pluginRepositories> to your ~/.m2/settings.xml file. When doing so, remember to replace the ${repoUrl} variable with the URL of your vRO repository.
+3.	Now that you have found your vRO repository, you have to configure the project’s pom. Open the pom.xml file within the Coopto root folder. Search for the \<properties\> section and change the \<repoUrl\> so it fits you vRO repository.
+4.	Depending on your Maven setup, this may already be enough for maven to fetch all dependent libraries. If downloading from the repository in the following steps fails for you, consider adding the content of \<repositories\> and \<pluginRepositories\>  to your ~/.m2/settings.xml file. When doing so, remember to replace the ${repoUrl} variable with the URL of your vRO repository.
 5.	Open a command prompt and change the directory to the unpacked Coopto folder.
 6.	Run mv install
 7.	Maven will compile Coopto and present you with a ready to use *.vmoapp file within the bin subfolder.
