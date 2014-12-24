@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item3" object-name="workflow:name=generic" id="e3c91e29-c168-45e9-80a5-c271566cbdbb"  version="0.0.1" api-version="3.1.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0" >
+<display-name><![CDATA[Create N Containers]]></display-name>
+<description><![CDATA[This is a showcase workflow which demos creation of multiple containers for stress testing and boot-time measurements.
+
+Author: Robert Szymczak (rszymczak@fum.de)]]></description>
+<position x='100.0' y='50.0'/>
+<input><param name='node' type='Coopto:DockerNode' >
+<description><![CDATA[Node to deploy to]]></description>
+</param>
+<param name='count' type='number' >
+<description><![CDATA[Number of containers to deploy]]></description>
+</param>
+</input><attrib name='itr' type='number' read-only='false' ><value encoded='n'><![CDATA[0.0]]></value>
+</attrib>
+<attrib name='errorCode' type='string' read-only='false' ><value encoded='n'><![CDATA[]]></value>
+</attrib>
+<workflow-item name='item3' out-name='item1' type='custom-condition' alt-out-name='item4' >
+<display-name><![CDATA[Custom decision]]></display-name>
+<script encoded='false'><![CDATA[if(itr < count)
+{
+	return true;
+}
+else
+{
+	return false;
+}]]></script>
+<in-binding><bind name='count' type='number' export-name="count" ></bind>
+<bind name='itr' type='number' export-name="itr" ></bind>
+</in-binding><position x='344.5' y='45.40909090909091'/>
+</workflow-item>
+<workflow-item name='item4' type='end' end-mode='0' >
+<position x='584.5' y='45.40909090909091'/>
+</workflow-item>
+<workflow-item name='item1' out-name='item2' throw-bind-name='errorCode' type='task' >
+<display-name><![CDATA[increment]]></display-name>
+<script encoded='false'><![CDATA[itr++;]]></script>
+<in-binding><bind name='itr' type='number' export-name="itr" ></bind>
+</in-binding><out-binding><bind name='itr' type='number' export-name="itr" ></bind>
+</out-binding><position x='344.5' y='119.04545454545453'/>
+</workflow-item>
+<workflow-item name='item2' out-name='item3' type='link' linked-workflow-id='93f931b4-c8f6-494e-bcea-725c329b336f' >
+<display-name><![CDATA[Create Busybox]]></display-name>
+<in-binding><bind name='node' type='Coopto:DockerNode' export-name="node" ></bind>
+<bind name='containerName' type='string' explicitly-not-bound='true' export-name="NULL" ></bind>
+</in-binding><out-binding></out-binding><description><![CDATA[This is a showcase workflow which demos creation of a simple Busybox container using start CMD command.
+
+Author: Robert Szymczak (rszymczak@fum.de)
+
+]]></description>
+<position x='205.0' y='119.04545454545453'/>
+</workflow-item>
+<presentation>
+<p-param name="node"><desc><![CDATA[Node to deploy to]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[true]]></p-qual></p-param>
+<p-param name="count"><desc><![CDATA[Number of containers to deploy]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[true]]></p-qual><p-qual kind="static" name="defaultValue" type="number" ><![CDATA[20.0]]></p-qual><p-qual kind="static" name="maxNumberValue" type="Number" ><![CDATA[200]]></p-qual></p-param>
+</presentation></workflow>

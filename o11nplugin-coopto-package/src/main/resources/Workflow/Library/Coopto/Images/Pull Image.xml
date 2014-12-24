@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item2" object-name="workflow:name=generic" id="3b6f1f47-acbd-4a11-869a-8f4db582cc84"  version="0.0.1" api-version="3.1.0" allowed-operations="vef" icon-id="31a576bf-8e9f-4ad3-83f2-14abb62fdc93" restartMode="1" resumeFromFailedMode="0" >
+<display-name><![CDATA[Pull Image]]></display-name>
+<description><![CDATA[Pull an docker image by usings it's name, tag or searching for it.
+
+Author: Robert Szymczak (rszymczak@fum.de)]]></description>
+<ref-types><![CDATA[(Coopto:DockerNode)]]></ref-types>
+<position x='100.0' y='50.0'/>
+<input><param name='node' type='Coopto:DockerNode' >
+<description><![CDATA[Node to pull the image at]]></description>
+</param>
+<param name='mode' type='boolean' >
+<description><![CDATA[Enter or search mode]]></description>
+</param>
+<param name='enteredName' type='string' >
+<description><![CDATA[Image tag of the image to pull]]></description>
+</param>
+<param name='searchTerm' type='string' >
+<description><![CDATA[Term to search for images with]]></description>
+</param>
+<param name='searchedName' type='string' >
+<description><![CDATA[Pick a search result]]></description>
+</param>
+</input><attrib name='imageId' type='string' read-only='false' ><value encoded='n'><![CDATA[]]></value>
+</attrib>
+<attrib name='result' type='string' read-only='false' ><value encoded='n'><![CDATA[]]></value>
+</attrib>
+<attrib name='errorCode' type='string' read-only='false' ><value encoded='n'><![CDATA[]]></value>
+</attrib>
+<workflow-item name='item0' type='end' end-mode='0' >
+<position x='664.5' y='45.40909090909091'/>
+</workflow-item>
+<workflow-item name='item1' out-name='item3' throw-bind-name='errorCode' type='task' script-module='de.fum.coopto.images/pullImage' >
+<display-name><![CDATA[pullImage]]></display-name>
+<script encoded='false'><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("de.fum.coopto.images").pullImage(imageName,node) ;]]></script>
+<in-binding><bind name='node' type='Coopto:DockerNode' export-name="node" ></bind>
+<bind name='imageName' type='string' export-name="imageId" ></bind>
+</in-binding><out-binding><bind name='actionResult' type='string' export-name="result" ></bind>
+</out-binding><position x='344.5' y='55.40909090909091'/>
+</workflow-item>
+<workflow-item name='item2' out-name='item1' type='task' >
+<display-name><![CDATA[choose mode]]></display-name>
+<script encoded='false'><![CDATA[System.log("Stating operation...");
+if(mode)
+{
+	imageId = searchedName;
+}
+else
+{
+	imageId = enteredName;
+}]]></script>
+<in-binding><bind name='mode' type='boolean' export-name="mode" ></bind>
+<bind name='enteredName' type='string' export-name="enteredName" ></bind>
+<bind name='searchedName' type='string' export-name="searchedName" ></bind>
+</in-binding><out-binding><bind name='imageId' type='string' export-name="imageId" ></bind>
+</out-binding><position x='204.5' y='55.40909090909091'/>
+</workflow-item>
+<workflow-item name='item3' out-name='item0' type='task' >
+<display-name><![CDATA[print result]]></display-name>
+<script encoded='false'><![CDATA[System.log("Operation finished.");
+System.log(result);]]></script>
+<in-binding><bind name='result' type='string' export-name="result" ></bind>
+</in-binding><out-binding></out-binding><position x='484.5' y='55.40909090909091'/>
+</workflow-item>
+<presentation>
+<p-step>
+<title><![CDATA[General Information]]></title>
+<p-param name="node"><desc><![CDATA[Node to pull the image at]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[true]]></p-qual><p-qual name="contextualParameter" type="void" ><![CDATA[__NULL__]]></p-qual></p-param>
+<p-param name="mode"><desc><![CDATA[Enter or search mode]]></desc>
+<p-qual kind="static" name="defaultValue" type="boolean" ><![CDATA[__NULL__]]></p-qual></p-param>
+</p-step>
+<p-step>
+<title><![CDATA[Enter]]></title>
+<p-qual kind="ognl" name="notVisible" type="boolean" ><![CDATA[#mode]]></p-qual><p-param name="enteredName"><desc><![CDATA[Image tag of the image to pull]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[true]]></p-qual><p-qual kind="static" name="minStringLength" type="Number" ><![CDATA[5]]></p-qual><p-qual kind="static" name="maxStringLength" type="Number" ><![CDATA[256]]></p-qual></p-param>
+</p-step>
+<p-step>
+<title><![CDATA[Search]]></title>
+<p-qual kind="ognl" name="visible" type="boolean" ><![CDATA[#mode]]></p-qual><p-param name="searchTerm"><desc><![CDATA[Term to search for images with]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[true]]></p-qual><p-qual kind="static" name="minStringLength" type="Number" ><![CDATA[5]]></p-qual><p-qual kind="static" name="maxStringLength" type="Number" ><![CDATA[256]]></p-qual></p-param>
+<p-param name="searchedName"><desc><![CDATA[Pick a search result]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[true]]></p-qual><p-qual kind="ognl" name="genericEnumeration" type="Array/string" ><![CDATA[GetAction("de.fum.coopto.images","searchImageOgnl").call( #searchTerm , 25.0 , #node )]]></p-qual></p-param>
+</p-step>
+</presentation></workflow>

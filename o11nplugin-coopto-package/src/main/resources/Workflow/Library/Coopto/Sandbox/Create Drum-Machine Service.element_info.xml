@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">Library.Coopto.Sandbox</entry>
+<entry key="name">Create Drum-Machine Service</entry>
+<entry key="type">Workflow</entry>
+<entry key="id">eed46450-99f1-42b1-a945-68be0a7fa11f</entry>
+</properties>

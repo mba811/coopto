@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<dunes-script-module name="pullImage" result-type="string" api-version="3.1.0"  id="d21d1992-152b-4396-a9f3-e165b6506840"  version="0.0.1"  allowed-operations="vef" ><param n="imageName" t="string"><![CDATA[]]></param><param n="node" t="Coopto:DockerNode"><![CDATA[]]></param><script encoded='false'><![CDATA[if(imageName)
+{
+	return node.pullImage(imageName);
+}]]></script>
+</dunes-script-module>

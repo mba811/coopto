@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">de.fum.coopto.images</entry>
+<entry key="name">searchImageOgnl</entry>
+<entry key="type">ScriptModule</entry>
+<entry key="id">e082cb07-e971-4533-9465-30c7009487c7</entry>
+</properties>

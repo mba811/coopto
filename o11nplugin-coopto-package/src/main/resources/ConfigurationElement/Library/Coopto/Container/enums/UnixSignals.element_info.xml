@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">Library.Coopto.Container.enums</entry>
+<entry key="name">UnixSignals</entry>
+<entry key="type">ConfigurationElement</entry>
+<entry key="id">6aaaae12-cad4-49d4-8915-f34d0446972c</entry>
+</properties>

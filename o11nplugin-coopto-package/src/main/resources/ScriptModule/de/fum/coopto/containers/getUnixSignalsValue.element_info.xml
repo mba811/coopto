@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">de.fum.coopto.containers</entry>
+<entry key="name">getUnixSignalsValue</entry>
+<entry key="type">ScriptModule</entry>
+<entry key="id">84d5e2a2-cfc1-41df-874a-03d8f2cabdd4</entry>
+</properties>

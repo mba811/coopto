@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">Library.Coopto.Container.enums</entry>
+<entry key="name">AccessModes</entry>
+<entry key="type">ConfigurationElement</entry>
+<entry key="id">6494ab88-176c-406a-9161-adef9f4cb836</entry>
+</properties>

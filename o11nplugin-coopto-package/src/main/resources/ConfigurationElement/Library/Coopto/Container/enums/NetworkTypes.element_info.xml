@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">Library.Coopto.Container.enums</entry>
+<entry key="name">NetworkTypes</entry>
+<entry key="type">ConfigurationElement</entry>
+<entry key="id">3f308c99-0f20-44fc-9c55-855f5d055f1a</entry>
+</properties>

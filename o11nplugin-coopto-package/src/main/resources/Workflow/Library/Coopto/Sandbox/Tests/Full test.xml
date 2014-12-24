@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="aced8329-9ec5-4c38-91ca-147abf57c19c"  version="0.0.1" api-version="3.1.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0" >
+<display-name><![CDATA[Full test]]></display-name>
+<description><![CDATA[This basicly tests (almost) all available Coopto functions.
+
+Author: Robert Szymczak (rszymczak@fum.de)]]></description>
+<position x='100.0' y='50.0'/>
+<input><param name='node' type='Coopto:DockerNode' >
+<description><![CDATA[Node to pull the image at]]></description>
+</param>
+<param name='imageTag' type='string' >
+<description><![CDATA[Image tag for the image to pull]]></description>
+</param>
+<param name='containerName' type='string' >
+<description><![CDATA[Name of the container to create]]></description>
+</param>
+</input><attrib name='image' type='Coopto:DockerImage' read-only='false' ><value encoded='n'><![CDATA[__NULL__]]></value>
+</attrib>
+<attrib name='exposedPorts' type='Array/CompositeType(type:string,port:number):cooptoPort' read-only='false' ><value encoded='n'><![CDATA[#{#CompositeType(type:string,port:number):cooptoPort##[#type#=#string#tcp#+#port#=#number#80.0#]##;#CompositeType(type:string,port:number):cooptoPort##[#type#=#string#udp#+#port#=#number#443.0#]##}#]]></value>
+<description><![CDATA[Exposed ports defined as network type ("tcp" or "udp") and port number to expose]]></description>
+</attrib>
+<attrib name='mountPoints' type='Array/string' read-only='false' ><value encoded='n'><![CDATA[#{#string#/mnt/containermnt#}#]]></value>
+<description><![CDATA[Mountpoint paths to create within the container]]></description>
+</attrib>
+<attrib name='linkable' type='boolean' read-only='false' ><value encoded='n'><![CDATA[true]]></value>
+<description><![CDATA[Make this container linkable?]]></description>
+</attrib>
+<attrib name='cmd' type='Array/string' read-only='false' ><value encoded='n'><![CDATA[#{#string#/bin/ash#}#]]></value>
+<description><![CDATA[CMD to execute]]></description>
+</attrib>
+<attrib name='attachStdIn' type='boolean' read-only='false' ><value encoded='n'><![CDATA[true]]></value>
+<description><![CDATA[Attach container to stdin?]]></description>
+</attrib>
+<attrib name='attachStdOut' type='boolean' read-only='false' ><value encoded='n'><![CDATA[true]]></value>
+<description><![CDATA[Attach container to stdout?]]></description>
+</attrib>
+<attrib name='attachStdErr' type='boolean' read-only='false' ><value encoded='n'><![CDATA[true]]></value>
+<description><![CDATA[Attach container to stderr?]]></description>
+</attrib>
+<attrib name='tty' type='boolean' read-only='false' ><value encoded='n'><![CDATA[true]]></value>
+<description><![CDATA[Attach standard streams to a tty?]]></description>
+</attrib>
+<attrib name='openStdin' type='boolean' read-only='false' ><value encoded='n'><![CDATA[true]]></value>
+<description><![CDATA[Open stdin?]]></description>
+</attrib>
+<attrib name='stdInOnce' type='boolean' read-only='false' ><value encoded='n'><![CDATA[false]]></value>
+<description><![CDATA[Close stdin after the 1 attached client disconnects? ]]></description>
+</attrib>
+<attrib name='NetworkDisabled' type='boolean' read-only='false' ><value encoded='n'><![CDATA[false]]></value>
+<description><![CDATA[Disable all networking?]]></description>
+</attrib>
+<attrib name='advancedSettings' type='boolean' read-only='false' ><value encoded='n'><![CDATA[true]]></value>
+<description><![CDATA[Show advanced settings?]]></description>
+</attrib>
+<attrib name='container' type='Coopto:DockerContainer' read-only='false' ><value encoded='n'><![CDATA[__NULL__]]></value>
+</attrib>
+<attrib name='portBindings' type='Array/CompositeType(type:string,containerPort:number,hostPort:number):portBind' read-only='false' ><value encoded='n'><![CDATA[#{#CompositeType(type:string,containerPort:number,hostPort:number):portBind##[#type#=#string#tcp#+#containerPort#=#number#80.0#+#hostPort#=#number#8080.0#]##}#]]></value>
+<description><![CDATA[Network port bindings defined as network type ("tcp" or "udp"), exposed container port number and mapped host port number]]></description>
+</attrib>
+<attrib name='volumeBindings' type='Array/CompositeType(hostMountPoint:string,accessMode:string,containerMountPoint:string):volumeBind' read-only='false' ><value encoded='n'><![CDATA[#{#CompositeType(hostMountPoint:string,accessMode:string,containerMountPoint:string):volumeBind##[#hostMountPoint#=#string#/mnt/testmnt#+#accessMode#=#string#rw#+#containerMountPoint#=#string#/mnt/containermnt#]##}#]]></value>
+<description><![CDATA[Mountpoint mappings to create defined as container mountpoint, access mode ("rw" or "ro") and mapped host mountpoint]]></description>
+</attrib>
+<attrib name='dns' type='Array/string' read-only='false' ><value encoded='n'><![CDATA[#{#string#8.8.8.8#;#string#8.8.4.4#}#]]></value>
+<description><![CDATA[DNS server to use]]></description>
+</attrib>
+<attrib name='dnsSearch' type='Array/string' read-only='false' ><value encoded='n'><![CDATA[#{#string#lab.local#}#]]></value>
+<description><![CDATA[DNS domains to search]]></description>
+</attrib>
+<attrib name='publishAllPorts' type='boolean' read-only='false' ><value encoded='n'><![CDATA[true]]></value>
+<description><![CDATA[Publish all ports?]]></description>
+</attrib>
+<attrib name='linkBool' type='boolean' read-only='false' ><value encoded='n'><![CDATA[true]]></value>
+<description><![CDATA[Create links?]]></description>
+</attrib>
+<attrib name='portBool' type='boolean' read-only='false' ><value encoded='n'><![CDATA[true]]></value>
+<description><![CDATA[Map ports?]]></description>
+</attrib>
+<attrib name='mountBool' type='boolean' read-only='false' ><value encoded='n'><![CDATA[true]]></value>
+<description><![CDATA[Mount volumes?]]></description>
+</attrib>
+<workflow-item name='item0' type='end' end-mode='0' >
+<position x='684.5' y='45.40909090909091'/>
+</workflow-item>
+<workflow-item name='item1' out-name='item2' type='link' linked-workflow-id='c6ed4a86-bff5-428d-afdf-3468468bbeb2' >
+<display-name><![CDATA[Pull if NotExists]]></display-name>
+<in-binding><bind name='node' type='Coopto:DockerNode' export-name="node" ><description><![CDATA[Node to pull the image at]]></description>
+</bind>
+<bind name='imageTag' type='string' export-name="imageTag" ><description><![CDATA[Image tag for the image to pull]]></description>
+</bind>
+</in-binding><out-binding><bind name='image' type='Coopto:DockerImage' export-name="image" ></bind>
+</out-binding><description><![CDATA[Will check if a image exists on a given node and pull it if not.
+Will return the image in any case if pull dosn't fail.
+
+Be aware: you have to use fully-qualified tags here, e.g. hackmann/empty:latest instead of hackmann/empty.
+
+Author: Robert Szymczak (rszymczak@fum.de)]]></description>
+<position x='204.5' y='55.40909090909091'/>
+</workflow-item>
+<workflow-item name='item2' out-name='item4' type='link' linked-workflow-id='e49d6e48-c24d-4715-840f-9bd9b77321e8' >
+<display-name><![CDATA[Create Container]]></display-name>
+<in-binding><bind name='image' type='Coopto:DockerImage' export-name="image" ><description><![CDATA[Image to create the container from]]></description>
+</bind>
+<bind name='exposedPorts' type='Array/CompositeType(type:string,port:number):cooptoPort' export-name="exposedPorts" ><description><![CDATA[Exposed ports defined as network type ("tcp" or "udp") and port number to expose]]></description>
+</bind>
+<bind name='mountPoints' type='Array/string' export-name="mountPoints" ><description><![CDATA[Mountpoint paths to create within the container]]></description>
+</bind>
+<bind name='linkable' type='boolean' export-name="linkable" ><description><![CDATA[Make this container linkable?]]></description>
+</bind>
+<bind name='name' type='string' export-name="containerName" ><description><![CDATA[Name of the container to create]]></description>
+</bind>
+<bind name='cmd' type='Array/string' export-name="cmd" ><description><![CDATA[CMD to execute]]></description>
+</bind>
+<bind name='env' type='Array/string' explicitly-not-bound='true' export-name="NULL" ><description><![CDATA[ENV to set]]></description>
+</bind>
+<bind name='workingDir' type='string' explicitly-not-bound='true' export-name="NULL" ><description><![CDATA[Working dir to use]]></description>
+</bind>
+<bind name='hostname' type='string' export-name="containerName" ><description><![CDATA[Hostname for the container to use]]></description>
+</bind>
+<bind name='user' type='string' explicitly-not-bound='true' export-name="NULL" ><description><![CDATA[User to execute CMD with]]></description>
+</bind>
+<bind name='attachStdIn' type='boolean' export-name="attachStdIn" ><description><![CDATA[Attach container to stdin?]]></description>
+</bind>
+<bind name='attachStdOut' type='boolean' export-name="attachStdOut" ><description><![CDATA[Attach container to stdout?]]></description>
+</bind>
+<bind name='attachStdErr' type='boolean' export-name="attachStdErr" ><description><![CDATA[Attach container to stderr?]]></description>
+</bind>
+<bind name='tty' type='boolean' export-name="tty" ><description><![CDATA[Attach standard streams to a tty?]]></description>
+</bind>
+<bind name='openStdin' type='boolean' export-name="openStdin" ><description><![CDATA[Open stdin?]]></description>
+</bind>
+<bind name='stdInOnce' type='boolean' export-name="stdInOnce" ><description><![CDATA[Close stdin after the 1 attached client disconnects? ]]></description>
+</bind>
+<bind name='NetworkDisabled' type='boolean' export-name="NetworkDisabled" ><description><![CDATA[Disable all networking?]]></description>
+</bind>
+<bind name='advancedSettings' type='boolean' export-name="advancedSettings" ><description><![CDATA[Show advanced settings?]]></description>
+</bind>
+</in-binding><out-binding><bind name='containerId' type='string' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='container' type='Coopto:DockerContainer' export-name="container" ></bind>
+</out-binding><description><![CDATA[Create a container from an image. Will return the container-id on success.
+
+Author: Robert Szymczak (rszymczak@fum.de)]]></description>
+<position x='344.5' y='55.40909090909091'/>
+</workflow-item>
+<workflow-item name='item4' out-name='item0' type='link' linked-workflow-id='5e90bab4-a14f-4b65-aaf7-11d89883545d' >
+<display-name><![CDATA[Start Container]]></display-name>
+<in-binding><bind name='container' type='Coopto:DockerContainer' export-name="container" ><description><![CDATA[Container to start]]></description>
+</bind>
+<bind name='links' type='Array/CompositeType(container:Coopto:DockerContainer,alias:string):link' explicitly-not-bound='true' export-name="NULL" ><description><![CDATA[Network links to other containers on the same node defined as desitination container and linking alias. Linked containers require a name.]]></description>
+</bind>
+<bind name='portBindings' type='Array/CompositeType(type:string,containerPort:number,hostPort:number):portBind' export-name="portBindings" ><description><![CDATA[Network port bindings defined as network type ("tcp" or "udp"), exposed container port number and mapped host port number]]></description>
+</bind>
+<bind name='volumeBindings' type='Array/CompositeType(hostMountPoint:string,accessMode:string,containerMountPoint:string):volumeBind' export-name="volumeBindings" ><description><![CDATA[Mountpoint mappings to create defined as container mountpoint, access mode ("rw" or "ro") and mapped host mountpoint]]></description>
+</bind>
+<bind name='dns' type='Array/string' export-name="dns" ><description><![CDATA[DNS server to use]]></description>
+</bind>
+<bind name='dnsSearch' type='Array/string' export-name="dnsSearch" ><description><![CDATA[DNS domains to search]]></description>
+</bind>
+<bind name='publishAllPorts' type='boolean' export-name="publishAllPorts" ><description><![CDATA[Publish all ports?]]></description>
+</bind>
+<bind name='linkBool' type='boolean' export-name="linkBool" ><description><![CDATA[Create links?]]></description>
+</bind>
+<bind name='portBool' type='boolean' export-name="portBool" ><description><![CDATA[Map ports?]]></description>
+</bind>
+<bind name='mountBool' type='boolean' export-name="mountBool" ><description><![CDATA[Mount volumes?]]></description>
+</bind>
+</in-binding><out-binding></out-binding><description><![CDATA[Start a container.
+
+Author: Robert Szymczak (rszymczak@fum.de)]]></description>
+<position x='504.5' y='55.40909090909091'/>
+</workflow-item>
+<presentation>
+<p-param name="node"><desc><![CDATA[Node to pull the image at]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[true]]></p-qual></p-param>
+<p-param name="imageTag"><desc><![CDATA[Image tag for the image to pull]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[true]]></p-qual><p-qual kind="static" name="defaultValue" type="string" ><![CDATA[busybox:latest]]></p-qual></p-param>
+<p-param name="containerName"><desc><![CDATA[Name of the container to create]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[false]]></p-qual><p-qual kind="static" name="defaultValue" type="string" ><![CDATA[fulltest]]></p-qual></p-param>
+</presentation></workflow>

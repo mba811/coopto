@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">de.fum.coopto.containers</entry>
+<entry key="name">startContainer</entry>
+<entry key="type">ScriptModule</entry>
+<entry key="id">0335b8e4-465b-4f8e-96f1-b6939f81e856</entry>
+</properties>

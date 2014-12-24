@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">Library.Coopto.Sandbox</entry>
+<entry key="name">Create Multi-Tier Liferay Service</entry>
+<entry key="type">Workflow</entry>
+<entry key="id">b2798a07-c748-4409-a4b5-c1526c0dad78</entry>
+</properties>

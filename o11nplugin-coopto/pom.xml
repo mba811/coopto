@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>o11nplugin-coopto</artifactId>
+	<packaging>dar</packaging>
+
+	<parent>
+		<artifactId>coopto</artifactId>
+		<groupId>org.hexlogic</groupId>
+		<version>${plugin.version}</version>
+	</parent>
+
+	<dependencies>
+		<!-- Default dependencies -->
+		<dependency>
+			<groupId>org.hexlogic</groupId>
+			<artifactId>o11nplugin-coopto-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hexlogic</groupId>
+			<artifactId>o11nplugin-coopto-package</artifactId>
+			<type>package</type>
+		</dependency>
+
+		<!-- Other dependencies -->
+		<dependency>
+			<groupId>com.vmware.o11n</groupId>
+			<artifactId>o11n-spring-tools</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- dar file generation -->
+			<plugin>
+				<groupId>com.vmware.o11n.mojo.dar</groupId>
+				<artifactId>maven-o11n-dar-plugin</artifactId>
+				<version>${vco.version}</version>
+				<extensions>true</extensions>
+				<configuration>
+					<filtering>true</filtering>
+					<nonFilteredFileExtensions>
+						<string>package</string>
+					</nonFilteredFileExtensions>
+					<modules>
+						<jarModule>
+							<groupId>org.hexlogic</groupId>
+							<artifactId>o11nplugin-coopto-core</artifactId>
+						</jarModule>
+						<packageModule>
+							<groupId>org.hexlogic</groupId>
+							<artifactId>o11nplugin-coopto-package</artifactId>
+						</packageModule>
+					</modules>
+				</configuration>
+			</plugin>
+			<!-- vso.xml generation -->
+			<plugin>
+				<groupId>com.vmware.o11n</groupId>
+				<artifactId>o11n-vso-generator</artifactId>
+				<version>${vco.version}</version>
+				<executions>
+					<execution>
+						<id>Generate vso</id>
+						<goals>
+							<goal>vso</goal>
+						</goals>
+						<configuration>
+							<moduleBuilder>org.hexlogic.CooptoModuleBuilder</moduleBuilder>
+						</configuration>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.hexlogic</groupId>
+						<artifactId>o11nplugin-coopto-core</artifactId>
+						<version>${project.version}</version>
+						<scope>runtime</scope>
+					</dependency>
+					<dependency>
+						<groupId>com.fasterxml.jackson.jaxrs</groupId>
+						<artifactId>jackson-jaxrs-json-provider</artifactId>
+						<version>2.3.3</version>
+					</dependency>
+					<dependency>
+						<groupId>com.fasterxml.jackson.jaxrs</groupId>
+						<artifactId>jackson-jaxrs-base</artifactId>
+						<version>2.3.3</version>
+					</dependency>
+					<dependency>
+						<groupId>com.fasterxml.jackson.core</groupId>
+						<artifactId>jackson-core</artifactId>
+						<version>2.3.3</version>
+					</dependency>
+					<dependency>
+						<groupId>com.fasterxml.jackson.core</groupId>
+						<artifactId>jackson-databind</artifactId>
+						<version>2.3.3</version>
+					</dependency>
+					<dependency>
+						<groupId>com.fasterxml.jackson.module</groupId>
+						<artifactId>jackson-module-jaxb-annotations</artifactId>
+						<version>2.3.3</version>
+					</dependency>
+				</dependencies>
+
+			</plugin>
+
+			<!-- vmoapp file generation -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>CreateVmoApp</id>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<copy
+									tofile="${basedir}/target/${project.artifactId}.${project.packaging}"
+									flatten="true" overwrite="true" verbose="true" failonerror="true"
+									file="${basedir}/target/${project.build.finalName}.${project.packaging}" />
+								<mkdir dir="${basedir}/target/VSO-INF" />
+								<copy todir="${basedir}/target/VSO-INF" overwrite="true"
+									verbose="true" failonerror="true">
+									<fileset dir="${basedir}/src/main/vmoapp/VSO-INF" />
+								</copy>
+								<jar destfile="${basedir}/target/${project.build.finalName}.vmoapp">
+									<fileset dir="${basedir}/target/">
+										<include name="${project.artifactId}.${project.packaging}" />
+										<include name="VSO-INF/*" />
+									</fileset>
+								</jar>
+								<!-- Custom copy job so clean plugin dosn't delete our bins -->
+								<copy todir="${basedir}/../bin" overwrite="true" verbose="true"
+									failonerror="true">
+									<fileset dir="${basedir}/target/" includes="${project.build.finalName}.vmoapp" />
+								</copy>
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>attach-artifacts</id>
+						<phase>package</phase>
+						<goals>
+							<goal>attach-artifact</goal>
+						</goals>
+						<configuration>
+							<artifacts>
+								<artifact>
+									<file>${basedir}/target/${project.build.finalName}.vmoapp</file>
+									<type>vmoapp</type>
+								</artifact>
+							</artifacts>
+						</configuration>
+					</execution>
+					<execution>
+						<id>ExtractVSOPluginVersion</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>parse-version</goal>
+						</goals>
+						<configuration>
+							<propertyPrefix>vsoPluginVersion</propertyPrefix>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- Custom Plugins -->
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>2.4.1</version>
+				<executions>
+					<execution>
+						<id>auto-clean</id>
+						<phase>install</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

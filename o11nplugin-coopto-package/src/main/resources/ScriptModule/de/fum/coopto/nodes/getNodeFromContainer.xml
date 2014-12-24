@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<dunes-script-module name="getNodeFromContainer" result-type="Coopto:DockerNode" api-version="3.1.0"  id="ea667cda-784a-46c4-8cf6-6f5e5b398b24"  version="0.0.1"  allowed-operations="vef" ><param n="container" t="Coopto:DockerContainer"><![CDATA[]]></param><script encoded='false'><![CDATA[return container.getDockerNode();]]></script>
+</dunes-script-module>

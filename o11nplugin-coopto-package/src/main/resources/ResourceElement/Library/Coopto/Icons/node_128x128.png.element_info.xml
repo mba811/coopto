@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="version">0.0.1</entry>
+<entry key="mimetype">image/png</entry>
+<entry key="categoryPath">Library.Coopto.Icons</entry>
+<entry key="name">node_128x128.png</entry>
+<entry key="type">ResourceElement</entry>
+<entry key="description">Part of Oxygen-icons (http://www.oxygen-icons.org/). Licensed under LGPLv3. For details, please review the LICENSE file.</entry>
+<entry key="id">89a4ff61-6da0-4b7d-9f6d-b00b0e2e32dc</entry>
+</properties>

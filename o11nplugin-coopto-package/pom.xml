@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>o11nplugin-coopto-package</artifactId>
+	<packaging>package</packaging>
+
+	<parent>
+		<artifactId>coopto</artifactId>
+		<groupId>org.hexlogic</groupId>
+		<version>${plugin.version}</version>
+	</parent>
+
+	<properties>
+		<!-- This keystore is meant for easier initial setup and should not be used in production! -->
+		<keystoreLocation>coopto.public</keystoreLocation>
+		<keystorePassword>password123</keystorePassword>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.vmware.o11n.mojo.pkg</groupId>
+				<artifactId>maven-o11n-package-plugin</artifactId>
+				<version>${vco.version}</version>
+				<extensions>true</extensions>
+				<configuration>
+					<packageName>org.hexlogic</packageName>
+					<!-- Set the local path to the *.vmokeystore file used to sign the content -->
+					<keystoreLocation>${keystoreLocation}</keystoreLocation>
+					<keystorePassword>${keystorePassword}</keystorePassword>
+					<includes>
+						<include>**/*.element_info.xml</include>
+					</includes>
+					<packageFileName>o11nplugin-coopto-package-${project.version}</packageFileName>
+					<!-- TODO For release build change to vf. It will lock the workflows -->
+					<allowedMask>vef</allowedMask>
+				</configuration>
+			</plugin>
+			<!-- Custom Plugins -->
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>2.4.1</version>
+				<executions>
+					<execution>
+						<id>auto-clean</id>
+						<phase>install</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

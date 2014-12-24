@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="114a8f66-a346-40c9-be00-cae244bdcb04"  version="0.0.1" api-version="3.1.0" allowed-operations="vef" icon-id="89a4ff61-6da0-4b7d-9f6d-b00b0e2e32dc" restartMode="1" resumeFromFailedMode="0" >
+<display-name><![CDATA[Add Docker Node]]></display-name>
+<description><![CDATA[Add a new docker node to the inventory.
+
+Author: Robert Szymczak (rszymczak@fum.de)]]></description>
+<position x='100.0' y='50.0'/>
+<input><param name='displayName' type='string' >
+</param>
+<param name='hostname' type='string' >
+</param>
+<param name='hostPort' type='number' >
+</param>
+<param name='apiVersion' type='string' >
+</param>
+</input><workflow-item name='item0' type='end' end-mode='0' >
+<position x='384.5' y='45.40909090909091'/>
+</workflow-item>
+<workflow-item name='item1' out-name='item0' type='task' script-module='de.fum.coopto.nodes/addDockerNode' >
+<display-name><![CDATA[addDockerNode]]></display-name>
+<script encoded='false'><![CDATA[//Auto generated script, cannot be modified !
+System.getModule("de.fum.coopto.nodes").addDockerNode(displayName,hostname,hostPort,apiVersion) ;]]></script>
+<in-binding><bind name='displayName' type='string' export-name="displayName" ></bind>
+<bind name='hostname' type='string' export-name="hostname" ></bind>
+<bind name='hostPort' type='number' export-name="hostPort" ></bind>
+<bind name='apiVersion' type='string' export-name="apiVersion" ></bind>
+</in-binding><out-binding></out-binding><position x='205.0' y='55.40909090909091'/>
+</workflow-item>
+<presentation>
+<p-param name="displayName"><desc><![CDATA[Display name for this node]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[true]]></p-qual><p-qual kind="static" name="maxStringLength" type="Number" ><![CDATA[64]]></p-qual><p-qual kind="static" name="minStringLength" type="Number" ><![CDATA[6]]></p-qual></p-param>
+<p-param name="hostname"><desc><![CDATA[Full qualified hostname or IP-address for this node]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[true]]></p-qual><p-qual kind="static" name="inetAddress" type="String" ><![CDATA[Host name or IP address]]></p-qual></p-param>
+<p-param name="hostPort"><desc><![CDATA[Docker remote API port the Docker node is listening on]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[false]]></p-qual><p-qual kind="static" name="defaultValue" type="number" ><![CDATA[2375.0]]></p-qual></p-param>
+<p-param name="apiVersion"><desc><![CDATA[API version of the Docker remote API]]></desc>
+<p-qual kind="static" name="genericEnumeration" type="Array/string" ><![CDATA[#{#string#1.15#;#string#1.14#;#string#1.13#}#]]></p-qual><p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[false]]></p-qual></p-param>
+</presentation></workflow>

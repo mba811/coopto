@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<config-element id="6494ab88-176c-406a-9161-adef9f4cb836"  version="0.0.1" >
+<display-name><![CDATA[AccessModes]]></display-name>
+<description><![CDATA[Volume access modes]]></description>
+<atts>
+<att name='ReadOnly' type='string' read-only='false' ></att>
+<att name='ReadWrite' type='string' read-only='false' ></att>
+</atts>
+</config-element>

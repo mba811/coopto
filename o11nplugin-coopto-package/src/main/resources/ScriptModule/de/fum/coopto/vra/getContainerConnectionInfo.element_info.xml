@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">de.fum.coopto.vra</entry>
+<entry key="name">getContainerConnectionInfo</entry>
+<entry key="type">ScriptModule</entry>
+<entry key="id">1c1481d6-f6e0-4b1a-87ba-c9084bc9d66c</entry>
+</properties>

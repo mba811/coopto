@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<dunes-script-module name="restartContainer" result-type="void" api-version="3.1.0"  id="e072d3e6-4c33-4c9d-ab49-4c370819e4ae"  version="0.0.1"  allowed-operations="vef" ><param n="container" t="Coopto:DockerContainer"><![CDATA[]]></param><param n="wait" t="number"><![CDATA[]]></param><script encoded='false'><![CDATA[container.restart(wait);]]></script>
+</dunes-script-module>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<config-element id="6aaaae12-cad4-49d4-8915-f34d0446972c"  version="0.0.1" >
+<display-name><![CDATA[UnixSignals]]></display-name>
+<description><![CDATA[List of UNIX signals one can send along with some Docker operations]]></description>
+<atts>
+<att name='SIGKILL' type='string' read-only='false' ></att>
+<att name='SIGINT' type='string' read-only='false' ></att>
+<att name='SIGABRT' type='string' read-only='false' ></att>
+<att name='SIGTERM' type='string' read-only='false' ></att>
+<att name='SIGINFO' type='string' read-only='false' ></att>
+</atts>
+</config-element>

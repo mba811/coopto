@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item2" object-name="workflow:name=generic" id="b2798a07-c748-4409-a4b5-c1526c0dad78"  version="0.0.1" api-version="3.1.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0" >
+<display-name><![CDATA[Create Multi-Tier Liferay Service]]></display-name>
+<description><![CDATA[This is a showcase workflow which demos multi-container setups for a multi-tier web-application (liferay 6.2) with a external database (mysql 5.6).
+Since the container names in this example are hardcoded, make sure no such container(s) do exist yet on the given node.
+
+Author: Robert Szymczak (rszymczak@fum.de)]]></description>
+<position x='225.0' y='45.90909090909091'/>
+<input><param name='node' type='Coopto:DockerNode' >
+<description><![CDATA[Node to deploy to]]></description>
+</param>
+</input><output><param name='portalOut' type='Coopto:DockerContainer' >
+</param>
+<param name='databaseOut' type='Coopto:DockerContainer' >
+</param>
+</output><attrib name='liferayImage' type='Coopto:DockerImage' read-only='false' ><value encoded='n'><![CDATA[__NULL__]]></value>
+</attrib>
+<attrib name='mysqlImage' type='Coopto:DockerImage' read-only='false' ><value encoded='n'><![CDATA[__NULL__]]></value>
+</attrib>
+<attrib name='liferayContainer' type='Coopto:DockerContainer' read-only='false' ><value encoded='n'><![CDATA[__NULL__]]></value>
+</attrib>
+<attrib name='liferayContainerId' type='string' read-only='false' ><value encoded='n'><![CDATA[]]></value>
+</attrib>
+<attrib name='mysqlContainer' type='Coopto:DockerContainer' read-only='false' ><value encoded='n'><![CDATA[__NULL__]]></value>
+</attrib>
+<attrib name='mysqlContainerId' type='string' read-only='false' ><value encoded='n'><![CDATA[]]></value>
+</attrib>
+<attrib name='mysqlPublishPorts' type='boolean' read-only='false' ><value encoded='n'><![CDATA[false]]></value>
+</attrib>
+<attrib name='dbAlias' type='string' read-only='false' ><value encoded='n'><![CDATA[db_lr]]></value>
+</attrib>
+<attrib name='liferayImageTag' type='string' read-only='false' ><value encoded='n'><![CDATA[m451/liferay-6.2:latest]]></value>
+</attrib>
+<attrib name='mysqlImageTag' type='string' read-only='false' ><value encoded='n'><![CDATA[mysql:5.6]]></value>
+</attrib>
+<attrib name='mysqlContainerName' type='string' read-only='false' ><value encoded='n'><![CDATA[lep-mysql]]></value>
+</attrib>
+<attrib name='liferayContainerName' type='string' read-only='false' ><value encoded='n'><![CDATA[lep-portal]]></value>
+</attrib>
+<attrib name='mysqlEnv' type='Array/string' read-only='false' ><value encoded='n'><![CDATA[#{#string#MYSQL_ROOT_PASSWORD=r00tpassw0rd#;#string#MYSQL_USER=lportal#;#string#MYSQL_PASSWORD=p455w0rd#;#string#MYSQL_DATABASE=liferaydb#}#]]></value>
+</attrib>
+<attrib name='mysqlAttachStdIn' type='boolean' read-only='false' ><value encoded='n'><![CDATA[true]]></value>
+</attrib>
+<attrib name='mysqlAttachStdOut' type='boolean' read-only='false' ><value encoded='n'><![CDATA[true]]></value>
+</attrib>
+<attrib name='mysqlAttachStdErr' type='boolean' read-only='false' ><value encoded='n'><![CDATA[true]]></value>
+</attrib>
+<attrib name='liferayTty' type='boolean' read-only='false' ><value encoded='n'><![CDATA[true]]></value>
+</attrib>
+<attrib name='liferayAttachStdIn' type='boolean' read-only='false' ><value encoded='n'><![CDATA[true]]></value>
+</attrib>
+<attrib name='liferayAttachStdOut' type='boolean' read-only='false' ><value encoded='n'><![CDATA[true]]></value>
+</attrib>
+<attrib name='liferayAttachStdErr' type='boolean' read-only='false' ><value encoded='n'><![CDATA[true]]></value>
+</attrib>
+<attrib name='dbLinks' type='Array/Coopto:DockerLink' read-only='false' ><value encoded='n'><![CDATA[__NULL__]]></value>
+</attrib>
+<attrib name='LiferayPublishPorts' type='boolean' read-only='false' ><value encoded='n'><![CDATA[true]]></value>
+</attrib>
+<attrib name='mySqlOpenStdIn' type='boolean' read-only='false' ><value encoded='n'><![CDATA[false]]></value>
+</attrib>
+<attrib name='mySqlStdInOnce' type='boolean' read-only='false' ><value encoded='n'><![CDATA[false]]></value>
+</attrib>
+<attrib name='liferayOpenStdIn' type='boolean' read-only='false' ><value encoded='n'><![CDATA[false]]></value>
+</attrib>
+<attrib name='liferayStdInOnce' type='boolean' read-only='false' ><value encoded='n'><![CDATA[false]]></value>
+</attrib>
+<workflow-item name='item0' type='end' end-mode='0' >
+<position x='224.5' y='118.13636363636363'/>
+</workflow-item>
+<workflow-item name='item1' out-name='item6' type='task' script-module='de.fum.coopto.containers/createContainerFromImage' >
+<display-name><![CDATA[create database]]></display-name>
+<script encoded='false'><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("de.fum.coopto.containers").createContainerFromImage(image,ports,volumes,name,cmd,env,workingDir,hostname,user,attachStdIn,attachStdOut,attachStdErr,tty,openStdIn,stdInOnce,NetworkDisabled) ;]]></script>
+<in-binding><bind name='image' type='Coopto:DockerImage' export-name="mysqlImage" ></bind>
+<bind name='name' type='string' export-name="mysqlContainerName" ></bind>
+<bind name='cmd' type='Array/string' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='attachStdIn' type='boolean' export-name="mysqlAttachStdIn" ></bind>
+<bind name='attachStdOut' type='boolean' export-name="mysqlAttachStdOut" ></bind>
+<bind name='attachStdErr' type='boolean' export-name="mysqlAttachStdErr" ></bind>
+<bind name='tty' type='boolean' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='env' type='Array/string' export-name="mysqlEnv" ></bind>
+<bind name='stdInOnce' type='boolean' export-name="mySqlStdInOnce" ></bind>
+<bind name='user' type='string' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='openStdIn' type='boolean' export-name="mySqlOpenStdIn" ></bind>
+<bind name='workingDir' type='string' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='NetworkDisabled' type='boolean' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='ports' type='Array/Coopto:DockerPort' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='hostname' type='string' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='volumes' type='Array/Coopto:DockerVolume' explicitly-not-bound='true' export-name="NULL" ></bind>
+</in-binding><out-binding><bind name='actionResult' type='string' export-name="mysqlContainerId" ></bind>
+</out-binding><position x='464.5' y='55.40909090909091'/>
+</workflow-item>
+<workflow-item name='item3' out-name='item9' type='task' script-module='de.fum.coopto.containers/startContainer' >
+<display-name><![CDATA[start database]]></display-name>
+<script encoded='false'><![CDATA[//Auto generated script, cannot be modified !
+System.getModule("de.fum.coopto.containers").startContainer(container,links,portBindings,volumeBindings,dns,dnsSearch,publishAllPorts) ;]]></script>
+<in-binding><bind name='container' type='Coopto:DockerContainer' export-name="mysqlContainer" ></bind>
+<bind name='dns' type='Array/string' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='dnsSearch' type='Array/string' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='links' type='Array/Coopto:DockerLink' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='publishAllPorts' type='boolean' export-name="mysqlPublishPorts" ></bind>
+<bind name='volumeBindings' type='Array/Coopto:DockerVolumeBind' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='portBindings' type='Array/Coopto:DockerPortBind' explicitly-not-bound='true' export-name="NULL" ></bind>
+</in-binding><out-binding></out-binding><position x='704.5' y='55.40909090909091'/>
+</workflow-item>
+<workflow-item name='item4' out-name='item5' type='task' script-module='de.fum.coopto.containers/createContainerFromImage' >
+<display-name><![CDATA[create webportal]]></display-name>
+<script encoded='false'><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("de.fum.coopto.containers").createContainerFromImage(image,ports,volumes,name,cmd,env,workingDir,hostname,user,attachStdIn,attachStdOut,attachStdErr,tty,openStdIn,stdInOnce,NetworkDisabled) ;]]></script>
+<in-binding><bind name='image' type='Coopto:DockerImage' export-name="liferayImage" ></bind>
+<bind name='name' type='string' export-name="liferayContainerName" ></bind>
+<bind name='cmd' type='Array/string' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='attachStdIn' type='boolean' export-name="liferayAttachStdIn" ></bind>
+<bind name='attachStdOut' type='boolean' export-name="liferayAttachStdOut" ></bind>
+<bind name='attachStdErr' type='boolean' export-name="liferayAttachStdErr" ></bind>
+<bind name='tty' type='boolean' export-name="liferayTty" ></bind>
+<bind name='env' type='Array/string' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='stdInOnce' type='boolean' export-name="liferayStdInOnce" ></bind>
+<bind name='user' type='string' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='openStdIn' type='boolean' export-name="liferayOpenStdIn" ></bind>
+<bind name='workingDir' type='string' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='NetworkDisabled' type='boolean' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='ports' type='Array/Coopto:DockerPort' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='hostname' type='string' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='volumes' type='Array/Coopto:DockerVolume' explicitly-not-bound='true' export-name="NULL" ></bind>
+</in-binding><out-binding><bind name='actionResult' type='string' export-name="liferayContainerId" ></bind>
+</out-binding><position x='704.5' y='182.68181818181816'/>
+</workflow-item>
+<workflow-item name='item6' out-name='item3' type='task' script-module='de.fum.coopto.containers/getContainerById' >
+<display-name><![CDATA[getContainer]]></display-name>
+<script encoded='false'><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("de.fum.coopto.containers").getContainerById(node,containerId) ;]]></script>
+<in-binding><bind name='node' type='Coopto:DockerNode' export-name="node" ></bind>
+<bind name='containerId' type='string' export-name="mysqlContainerId" ></bind>
+</in-binding><out-binding><bind name='actionResult' type='Coopto:DockerContainer' export-name="mysqlContainer" ></bind>
+</out-binding><position x='584.5' y='55.40909090909091'/>
+</workflow-item>
+<workflow-item name='item7' out-name='item8' type='task' script-module='de.fum.coopto.containers/getContainerById' >
+<display-name><![CDATA[getContainer]]></display-name>
+<script encoded='false'><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("de.fum.coopto.containers").getContainerById(node,containerId) ;]]></script>
+<in-binding><bind name='node' type='Coopto:DockerNode' export-name="node" ></bind>
+<bind name='containerId' type='string' export-name="liferayContainerId" ></bind>
+</in-binding><out-binding><bind name='actionResult' type='Coopto:DockerContainer' export-name="liferayContainer" ></bind>
+</out-binding><position x='464.5' y='182.68181818181816'/>
+</workflow-item>
+<workflow-item name='item8' out-name='item10' type='task' script-module='de.fum.coopto.containers/startContainer' >
+<display-name><![CDATA[start webportal]]></display-name>
+<script encoded='false'><![CDATA[//Auto generated script, cannot be modified !
+System.getModule("de.fum.coopto.containers").startContainer(container,links,portBindings,volumeBindings,dns,dnsSearch,publishAllPorts) ;]]></script>
+<in-binding><bind name='container' type='Coopto:DockerContainer' export-name="liferayContainer" ></bind>
+<bind name='dns' type='Array/string' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='dnsSearch' type='Array/string' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='links' type='Array/Coopto:DockerLink' export-name="dbLinks" ></bind>
+<bind name='publishAllPorts' type='boolean' export-name="LiferayPublishPorts" ></bind>
+<bind name='volumeBindings' type='Array/Coopto:DockerVolumeBind' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='portBindings' type='Array/Coopto:DockerPortBind' explicitly-not-bound='true' export-name="NULL" ></bind>
+</in-binding><out-binding></out-binding><position x='324.5' y='182.68181818181816'/>
+</workflow-item>
+<workflow-item name='item5' out-name='item7' type='task' >
+<display-name><![CDATA[build links]]></display-name>
+<script encoded='false'><![CDATA[dbLink = new Array();
+dbLink.push(new CooptoDockerLink(mysqlContainer, dbAlias));]]></script>
+<in-binding><bind name='mysqlContainer' type='Coopto:DockerContainer' export-name="mysqlContainer" ></bind>
+<bind name='dbAlias' type='string' export-name="dbAlias" ></bind>
+</in-binding><out-binding><bind name='dbLink' type='Array/Coopto:DockerLink' export-name="dbLinks" ></bind>
+</out-binding><position x='584.5' y='182.68181818181816'/>
+</workflow-item>
+<workflow-item name='item2' out-name='item1' type='link' linked-workflow-id='c6ed4a86-bff5-428d-afdf-3468468bbeb2' >
+<display-name><![CDATA[pull database]]></display-name>
+<in-binding><bind name='imageTag' type='string' export-name="mysqlImageTag" ></bind>
+<bind name='node' type='Coopto:DockerNode' export-name="node" ></bind>
+</in-binding><out-binding><bind name='image' type='Coopto:DockerImage' export-name="mysqlImage" ></bind>
+</out-binding><description><![CDATA[Will check if a image exists on a given node and pull it if not.
+Will return the image in any case if pull dosn't fail.
+
+Be aware: you have to use fully-qualified tags here, e.g. hackmann/empty:latest instead of hackmann/empty.
+
+Autor: Robert Szymczak (rszymczak@fum.de)]]></description>
+<position x='324.5' y='55.40909090909091'/>
+</workflow-item>
+<workflow-item name='item9' out-name='item4' type='link' linked-workflow-id='c6ed4a86-bff5-428d-afdf-3468468bbeb2' >
+<display-name><![CDATA[pull webportal]]></display-name>
+<in-binding><bind name='imageTag' type='string' export-name="liferayImageTag" ></bind>
+<bind name='node' type='Coopto:DockerNode' export-name="node" ></bind>
+</in-binding><out-binding><bind name='image' type='Coopto:DockerImage' export-name="liferayImage" ></bind>
+</out-binding><description><![CDATA[Will check if a image exists on a given node and pull it if not.
+Will return the image in any case if pull dosn't fail.
+
+Be aware: you have to use fully-qualified tags here, e.g. hackmann/empty:latest instead of hackmann/empty.
+
+Autor: Robert Szymczak (rszymczak@fum.de)]]></description>
+<position x='705.0' y='119.04545454545453'/>
+</workflow-item>
+<workflow-item name='item10' out-name='item0' type='task' >
+<display-name><![CDATA[info]]></display-name>
+<script encoded='false'><![CDATA[System.log("LifeRay CMS deployed!");
+System.log("Get the work done at " + node.getHostName()+":"+liferayContainer.getPrimaryBind());
+System.warn("Note that LifeRay may take a few minutes to boot up. You can monitor the process using docker logs.");
+
+portalOut = liferayContainer;
+databaseOut = mysqlContainer;]]></script>
+<in-binding><bind name='node' type='Coopto:DockerNode' export-name="node" ></bind>
+<bind name='liferayContainer' type='Coopto:DockerContainer' export-name="liferayContainer" ></bind>
+<bind name='mysqlContainer' type='Coopto:DockerContainer' export-name="mysqlContainer" ></bind>
+</in-binding><out-binding><bind name='databaseOut' type='Coopto:DockerContainer' export-name="databaseOut" ></bind>
+<bind name='portalOut' type='Coopto:DockerContainer' export-name="portalOut" ></bind>
+</out-binding><position x='184.5' y='182.68181818181816'/>
+</workflow-item>
+<presentation>
+<p-param name="node"><desc><![CDATA[Node to deploy to]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[true]]></p-qual></p-param>
+</presentation></workflow>

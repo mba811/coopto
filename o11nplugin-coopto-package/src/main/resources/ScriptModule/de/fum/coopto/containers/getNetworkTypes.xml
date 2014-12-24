@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<dunes-script-module name="getNetworkTypes" result-type="Array/string" api-version="3.1.0"  id="2abe9c65-1bfe-4ad3-8623-65d17013a936"  version="0.0.1"  allowed-operations="vef" ><description><![CDATA[Return configuration element keys for predefined workflow elements.]]></description>
+<script encoded='false'><![CDATA[var returnArray = [];
+var configpath = Server.getConfigurationElementCategoryWithPath("Library/Coopto/Container/enums");
+if(configpath != undefined && configpath != null)
+{
+	var elements = configpath.configurationElements;
+	for each (element in elements)
+	{
+		if(element.name == "NetworkTypes")
+		{
+			var attributes = element.attributes;
+			for each(attribute in attributes)
+			{
+				returnArray.push(attribute.name);
+			}
+			return returnArray;
+		}
+	}
+}
+else
+{
+	throw("Error: the configuration element was not found.");
+}]]></script>
+</dunes-script-module>

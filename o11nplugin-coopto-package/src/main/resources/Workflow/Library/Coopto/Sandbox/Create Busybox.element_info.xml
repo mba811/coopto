@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">Library.Coopto.Sandbox</entry>
+<entry key="name">Create Busybox</entry>
+<entry key="type">Workflow</entry>
+<entry key="id">93f931b4-c8f6-494e-bcea-725c329b336f</entry>
+</properties>

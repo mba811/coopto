@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<dunes-script-module name="searchImage" result-type="Array/string" api-version="3.1.0"  id="9f0df9bd-8e57-492b-a08e-df05688638de"  version="0.0.1"  allowed-operations="vef" ><param n="term" t="string"><![CDATA[]]></param><param n="limit" t="number"><![CDATA[]]></param><param n="node" t="Coopto:DockerNode"><![CDATA[]]></param><script encoded='false'><![CDATA[if(limit >= 0)
+{
+	return node.searchImage(term, limit);
+}
+else
+{
+	return node.searchImage(term);
+}]]></script>
+</dunes-script-module>

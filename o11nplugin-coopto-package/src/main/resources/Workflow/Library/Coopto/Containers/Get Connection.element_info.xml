@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">Library.Coopto.Containers</entry>
+<entry key="name">Get Connection</entry>
+<entry key="type">Workflow</entry>
+<entry key="id">a07c7293-3f9a-46c0-8351-8aa9834a3a36</entry>
+</properties>

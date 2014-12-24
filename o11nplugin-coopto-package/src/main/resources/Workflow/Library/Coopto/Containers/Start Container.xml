@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item2" object-name="workflow:name=generic" id="5e90bab4-a14f-4b65-aaf7-11d89883545d"  version="0.0.1" api-version="3.1.0" allowed-operations="vef" icon-id="1b8bf4b9-126e-4e5e-9d7d-a9b4f0060529" restartMode="1" resumeFromFailedMode="0" >
+<display-name><![CDATA[Start Container]]></display-name>
+<description><![CDATA[Start a container.
+
+Author: Robert Szymczak (rszymczak@fum.de)]]></description>
+<ref-types><![CDATA[(Coopto:DockerContainer)]]></ref-types>
+<position x='100.0' y='50.0'/>
+<input><param name='container' type='Coopto:DockerContainer' >
+<description><![CDATA[Container to start]]></description>
+</param>
+<param name='links' type='Array/CompositeType(container:Coopto:DockerContainer,alias:string):link' >
+<description><![CDATA[Network links to other containers on the same node defined as desitination container and linking alias. Linked containers require a name.]]></description>
+</param>
+<param name='portBindings' type='Array/CompositeType(type:string,containerPort:number,hostPort:number):portBind' >
+<description><![CDATA[Network port bindings defined as network type ("tcp" or "udp"), exposed container port number and mapped host port number]]></description>
+</param>
+<param name='volumeBindings' type='Array/CompositeType(hostMountPoint:string,accessMode:string,containerMountPoint:string):volumeBind' >
+<description><![CDATA[Mountpoint mappings to create defined as container mountpoint, access mode ("rw" or "ro") and mapped host mountpoint]]></description>
+</param>
+<param name='dns' type='Array/string' >
+<description><![CDATA[DNS server to use]]></description>
+</param>
+<param name='dnsSearch' type='Array/string' >
+<description><![CDATA[DNS domains to search]]></description>
+</param>
+<param name='publishAllPorts' type='boolean' >
+<description><![CDATA[Publish all ports?]]></description>
+</param>
+<param name='linkBool' type='boolean' >
+<description><![CDATA[Create links?]]></description>
+</param>
+<param name='portBool' type='boolean' >
+<description><![CDATA[Map ports?]]></description>
+</param>
+<param name='mountBool' type='boolean' >
+<description><![CDATA[Mount volumes?]]></description>
+</param>
+</input><attrib name='dockerLinks' type='Array/Coopto:DockerLink' read-only='false' ><value encoded='n'><![CDATA[__NULL__]]></value>
+</attrib>
+<attrib name='dockerPortBinds' type='Array/Coopto:DockerPortBind' read-only='false' ><value encoded='n'><![CDATA[__NULL__]]></value>
+</attrib>
+<attrib name='dockerVolumeBinds' type='Array/Coopto:DockerVolumeBind' read-only='false' ><value encoded='n'><![CDATA[__NULL__]]></value>
+</attrib>
+<workflow-item name='item0' type='end' end-mode='0' >
+<position x='524.5' y='45.40909090909091'/>
+</workflow-item>
+<workflow-item name='item1' out-name='item0' type='task' script-module='de.fum.coopto.containers/startContainer' >
+<display-name><![CDATA[startContainer]]></display-name>
+<script encoded='false'><![CDATA[//Auto generated script, cannot be modified !
+System.getModule("de.fum.coopto.containers").startContainer(container,links,portBindings,volumeBindings,dns,dnsSearch,publishAllPorts) ;]]></script>
+<in-binding><bind name='container' type='Coopto:DockerContainer' export-name="container" ></bind>
+<bind name='dns' type='Array/string' export-name="dns" ></bind>
+<bind name='links' type='Array/Coopto:DockerLink' export-name="dockerLinks" ></bind>
+<bind name='dnsSearch' type='Array/string' export-name="dnsSearch" ></bind>
+<bind name='publishAllPorts' type='boolean' export-name="publishAllPorts" ></bind>
+<bind name='volumeBindings' type='Array/Coopto:DockerVolumeBind' export-name="dockerVolumeBinds" ></bind>
+<bind name='portBindings' type='Array/Coopto:DockerPortBind' export-name="dockerPortBinds" ></bind>
+</in-binding><out-binding></out-binding><position x='344.5' y='55.40909090909091'/>
+</workflow-item>
+<workflow-item name='item2' out-name='item1' type='task' >
+<display-name><![CDATA[Create Objects]]></display-name>
+<script encoded='false'><![CDATA[dockerLinks = new Array();
+if(links != null)
+{
+	for (var i = 0; i < links.length; i++) 
+	{
+		System.log("Creating new link with alias '" + links[i].get("alias") + "'");
+	 	dockerLinks.push(new CooptoDockerLink(links[i].get("container"), links[i].get("alias")));
+	}
+}
+
+dockerPortBinds = new Array();
+if(portBindings != null)
+{
+	for (var i = 0; i < portBindings.length; i++) 
+	{
+		System.log("Creating new port binding for '" + portBindings[i].get("type") + portBindings[i].get("containerPort") + "' on host port '" + portBindings[i].get("hostPort") +"'.");
+	 	
+		var port = new CooptoDockerPort(portBindings[i].get("type"), portBindings[i].get("containerPort"));
+		var binding = new CooptoDockerPortBind(port, portBindings[i].get("hostPort"));
+		dockerPortBinds.push(binding);
+	}
+}
+
+
+dockerVolumeBinds = new Array();
+if(volumeBindings != null)
+{
+	for (var i = 0; i < volumeBindings.length; i++) 
+	{
+		System.log("Creating new volume binding for container mountpoint '" + volumeBindings[i].get("containerMountPoint") + "' on host mountpoint '" + volumeBindings[i].get("hostMountPoint") + "' with access mode '" + volumeBindings[i].get("accessMode") + "'.");
+		
+		var volume = new CooptoDockerVolume(volumeBindings[i].get("containerMountPoint"));
+		var binding = new CooptoDockerVolumeBind(volumeBindings[i].get("hostMountPoint"), volumeBindings[i].get("accessMode"), volume);
+	 	dockerVolumeBinds.push(binding);
+	}
+}]]></script>
+<in-binding><bind name='links' type='Array/CompositeType(container:Coopto:DockerContainer,alias:string):link' export-name="links" ></bind>
+<bind name='portBindings' type='Array/CompositeType(type:string,containerPort:number,hostPort:number):portBind' export-name="portBindings" ></bind>
+<bind name='volumeBindings' type='Array/CompositeType(hostMountPoint:string,accessMode:string,containerMountPoint:string):volumeBind' export-name="volumeBindings" ></bind>
+</in-binding><out-binding><bind name='dockerLinks' type='Array/Coopto:DockerLink' export-name="dockerLinks" ></bind>
+<bind name='dockerPortBinds' type='Array/Coopto:DockerPortBind' export-name="dockerPortBinds" ></bind>
+<bind name='dockerVolumeBinds' type='Array/Coopto:DockerVolumeBind' export-name="dockerVolumeBinds" ></bind>
+</out-binding><position x='204.5' y='55.40909090909091'/>
+</workflow-item>
+<presentation>
+<p-step>
+<title><![CDATA[Basic]]></title>
+<p-param name="container"><desc><![CDATA[Container to start]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[true]]></p-qual><p-qual name="contextualParameter" type="void" ><![CDATA[__NULL__]]></p-qual></p-param>
+<p-param name="dns"><desc><![CDATA[DNS server to use]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[false]]></p-qual></p-param>
+<p-param name="dnsSearch"><desc><![CDATA[DNS domains to search]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[false]]></p-qual></p-param>
+<p-param name="publishAllPorts"><desc><![CDATA[Publish all ports?]]></desc>
+<p-qual kind="static" name="defaultValue" type="boolean" ><![CDATA[true]]></p-qual></p-param>
+<p-param name="linkBool"><desc><![CDATA[Create links?]]></desc>
+<p-qual kind="static" name="defaultValue" type="boolean" ><![CDATA[__NULL__]]></p-qual></p-param>
+<p-param name="portBool"><desc><![CDATA[Map ports?]]></desc>
+<p-qual kind="static" name="defaultValue" type="boolean" ><![CDATA[__NULL__]]></p-qual></p-param>
+<p-param name="mountBool"><desc><![CDATA[Mount volumes?]]></desc>
+<p-qual kind="static" name="defaultValue" type="boolean" ><![CDATA[__NULL__]]></p-qual></p-param>
+</p-step>
+<p-step>
+<title><![CDATA[Links]]></title>
+<p-qual kind="ognl" name="visible" type="boolean" ><![CDATA[#linkBool]]></p-qual><p-param name="links"><desc><![CDATA[Network links to other containers on the same node defined as desitination container and linking alias. Linked containers require a name.]]></desc>
+<p-qual kind="ognl" name="mandatory" type="boolean" ><![CDATA[#linkBool]]></p-qual></p-param>
+</p-step>
+<p-step>
+<title><![CDATA[Ports]]></title>
+<p-qual kind="ognl" name="visible" type="boolean" ><![CDATA[#portBool]]></p-qual><p-param name="portBindings"><desc><![CDATA[Network port bindings defined as network type ("tcp" or "udp"), exposed container port number and mapped host port number]]></desc>
+<p-qual kind="ognl" name="mandatory" type="boolean" ><![CDATA[#portBool]]></p-qual></p-param>
+</p-step>
+<p-step>
+<title><![CDATA[Mounts]]></title>
+<p-qual kind="ognl" name="visible" type="boolean" ><![CDATA[#mountBool]]></p-qual><p-param name="volumeBindings"><desc><![CDATA[Mountpoint mappings to create defined as container mountpoint, access mode ("rw" or "ro") and mapped host mountpoint]]></desc>
+<p-qual kind="ognl" name="mandatory" type="boolean" ><![CDATA[#mountBool]]></p-qual></p-param>
+</p-step>
+</presentation></workflow>

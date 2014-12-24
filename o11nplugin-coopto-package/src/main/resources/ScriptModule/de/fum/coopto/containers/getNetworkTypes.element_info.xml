@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">de.fum.coopto.containers</entry>
+<entry key="name">getNetworkTypes</entry>
+<entry key="type">ScriptModule</entry>
+<entry key="id">2abe9c65-1bfe-4ad3-8623-65d17013a936</entry>
+</properties>

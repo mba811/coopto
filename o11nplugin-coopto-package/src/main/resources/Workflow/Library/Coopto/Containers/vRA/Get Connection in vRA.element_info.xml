@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">Library.Coopto.Containers.vRA</entry>
+<entry key="name">Get Connection in vRA</entry>
+<entry key="type">Workflow</entry>
+<entry key="id">033dc10b-4be0-4fde-bddb-cdbc4fb14ce1</entry>
+</properties>

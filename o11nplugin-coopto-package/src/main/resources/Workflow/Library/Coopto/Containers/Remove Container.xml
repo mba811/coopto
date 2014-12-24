@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="4d98c804-733a-4cfe-9622-409b0ccdcf67"  version="0.0.1" api-version="3.1.0" allowed-operations="vef" icon-id="1b8bf4b9-126e-4e5e-9d7d-a9b4f0060529" restartMode="1" resumeFromFailedMode="0" >
+<display-name><![CDATA[Remove Container]]></display-name>
+<description><![CDATA[Remove a container from your local node.
+
+Author: Robert Szymczak (rszymczak@fum.de)]]></description>
+<ref-types><![CDATA[(Coopto:DockerContainer)]]></ref-types>
+<position x='100.0' y='50.0'/>
+<input><param name='container' type='Coopto:DockerContainer' >
+<description><![CDATA[Container to remove]]></description>
+</param>
+<param name='force' type='boolean' >
+<description><![CDATA[Force remove?]]></description>
+</param>
+<param name='removeVolumes' type='boolean' >
+<description><![CDATA[Remove mapped volumes?]]></description>
+</param>
+</input><workflow-item name='item0' type='end' end-mode='0' >
+<position x='384.5' y='45.40909090909091'/>
+</workflow-item>
+<workflow-item name='item1' out-name='item0' type='task' script-module='de.fum.coopto.containers/removeContainer' >
+<display-name><![CDATA[removeContainer]]></display-name>
+<script encoded='false'><![CDATA[//Auto generated script, cannot be modified !
+System.getModule("de.fum.coopto.containers").removeContainer(container,force,removeVolumes) ;]]></script>
+<in-binding><bind name='container' type='Coopto:DockerContainer' export-name="container" ></bind>
+<bind name='force' type='boolean' export-name="force" ></bind>
+<bind name='removeVolumes' type='boolean' export-name="removeVolumes" ></bind>
+</in-binding><out-binding></out-binding><position x='204.5' y='55.40909090909091'/>
+</workflow-item>
+<presentation>
+<p-param name="container"><desc><![CDATA[Container to remove]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[true]]></p-qual><p-qual name="contextualParameter" type="void" ><![CDATA[__NULL__]]></p-qual></p-param>
+<p-param name="force"><desc><![CDATA[Force remove?]]></desc>
+<p-qual kind="static" name="defaultValue" type="boolean" ><![CDATA[__NULL__]]></p-qual></p-param>
+<p-param name="removeVolumes"><desc><![CDATA[Remove mapped volumes?]]></desc>
+<p-qual kind="static" name="defaultValue" type="boolean" ><![CDATA[__NULL__]]></p-qual></p-param>
+</presentation></workflow>

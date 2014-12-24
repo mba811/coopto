@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item2" object-name="workflow:name=generic" id="773f6606-8fb4-432b-aa13-5f9c8b5a4ded"  version="0.0.1" api-version="3.1.0" allowed-operations="vef" icon-id="1b8bf4b9-126e-4e5e-9d7d-a9b4f0060529" restartMode="1" resumeFromFailedMode="0" >
+<display-name><![CDATA[Kill Container]]></display-name>
+<description><![CDATA[Kill a container.
+
+Author: Robert Szymczak (rszymczak@fum.de)]]></description>
+<ref-types><![CDATA[(Coopto:DockerContainer)]]></ref-types>
+<position x='100.0' y='50.0'/>
+<input><param name='container' type='Coopto:DockerContainer' >
+<description><![CDATA[Container to kill]]></description>
+</param>
+<param name='signalKey' type='string' >
+<description><![CDATA[Unix signal to send]]></description>
+</param>
+</input><attrib name='signalValue' type='string' read-only='false' ><value encoded='n'><![CDATA[]]></value>
+</attrib>
+<workflow-item name='item0' type='end' end-mode='0' >
+<position x='524.5' y='45.40909090909091'/>
+</workflow-item>
+<workflow-item name='item1' out-name='item0' type='task' script-module='de.fum.coopto.containers/killContainer' >
+<display-name><![CDATA[killContainer]]></display-name>
+<script encoded='false'><![CDATA[//Auto generated script, cannot be modified !
+System.getModule("de.fum.coopto.containers").killContainer(container,signal) ;]]></script>
+<in-binding><bind name='container' type='Coopto:DockerContainer' export-name="container" ></bind>
+<bind name='signal' type='string' export-name="signalValue" ></bind>
+</in-binding><out-binding></out-binding><position x='344.5' y='55.40909090909091'/>
+</workflow-item>
+<workflow-item name='item2' out-name='item1' type='task' script-module='de.fum.coopto.containers/getUnixSignalsValue' >
+<display-name><![CDATA[getUnixSignalsValue]]></display-name>
+<script encoded='false'><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("de.fum.coopto.containers").getUnixSignalsValue(attributeName) ;]]></script>
+<in-binding><bind name='attributeName' type='string' export-name="signalKey" ></bind>
+</in-binding><out-binding><bind name='actionResult' type='string' export-name="signalValue" ></bind>
+</out-binding><position x='204.5' y='55.40909090909091'/>
+</workflow-item>
+<presentation>
+<p-param name="container"><desc><![CDATA[Container to kill]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[true]]></p-qual><p-qual name="contextualParameter" type="void" ><![CDATA[__NULL__]]></p-qual></p-param>
+<p-param name="signalKey"><desc><![CDATA[Unix signal to send]]></desc>
+<p-qual kind="static" name="defaultValue" type="string" ><![CDATA[SIGKILL]]></p-qual><p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[false]]></p-qual><p-qual kind="ognl" name="linkedEnumeration" type="Array/string" ><![CDATA[GetAction("de.fum.coopto.containers","getUnixSignals").call()]]></p-qual></p-param>
+</presentation></workflow>

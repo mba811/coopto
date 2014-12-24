@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<dunes-script-module name="killContainer" result-type="void" api-version="3.1.0"  id="129ea984-bea4-426d-8de8-f6bb76fcd36c"  version="0.0.1"  allowed-operations="vef" ><param n="container" t="Coopto:DockerContainer"><![CDATA[]]></param><param n="signal" t="string"><![CDATA[]]></param><script encoded='false'><![CDATA[container.kill(signal);]]></script>
+</dunes-script-module>

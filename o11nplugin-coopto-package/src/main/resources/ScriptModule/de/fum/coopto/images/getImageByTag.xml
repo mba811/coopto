@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<dunes-script-module name="getImageByTag" result-type="Coopto:DockerImage" api-version="3.1.0"  id="ff3b89f8-ecf3-420e-ba67-d04ccce59292"  version="0.0.1"  allowed-operations="vef" ><param n="node" t="Coopto:DockerNode"><![CDATA[]]></param><param n="imageTag" t="string"><![CDATA[]]></param><script encoded='false'><![CDATA[return node.getImageByTag(imageTag);]]></script>
+</dunes-script-module>

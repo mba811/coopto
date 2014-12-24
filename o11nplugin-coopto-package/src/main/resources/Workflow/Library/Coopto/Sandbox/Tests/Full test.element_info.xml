@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">Library.Coopto.Sandbox.Tests</entry>
+<entry key="name">Full test</entry>
+<entry key="type">Workflow</entry>
+<entry key="id">aced8329-9ec5-4c38-91ca-147abf57c19c</entry>
+</properties>

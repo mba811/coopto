@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<dunes-script-module name="searchImageOgnl" result-type="Array/string" api-version="3.1.0"  id="e082cb07-e971-4533-9465-30c7009487c7"  version="0.0.1"  allowed-operations="vef" ><param n="term" t="string"><![CDATA[]]></param><param n="limit" t="number"><![CDATA[]]></param><param n="node" t="Coopto:DockerNode"><![CDATA[]]></param><script encoded='false'><![CDATA[// minimum input before search is triggered: 5 chars
+if(term)
+{
+	if(term.charAt(5))
+	{
+		if(limit >= 0)
+		{
+			return node.searchImage(term, limit);
+		}
+		else
+		{
+			return node.searchImage(term);
+		}
+	}
+}
+return null;]]></script>
+</dunes-script-module>

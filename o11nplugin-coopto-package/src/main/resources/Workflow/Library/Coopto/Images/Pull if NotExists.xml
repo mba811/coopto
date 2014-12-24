@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="c6ed4a86-bff5-428d-afdf-3468468bbeb2"  version="0.0.1" api-version="3.1.0" allowed-operations="vef" icon-id="31a576bf-8e9f-4ad3-83f2-14abb62fdc93" restartMode="1" resumeFromFailedMode="0" >
+<display-name><![CDATA[Pull if NotExists]]></display-name>
+<description><![CDATA[Will check if a image exists on a given node and pull it if not.
+Will return the image in any case if pull dosn't fail.
+
+Be aware: you have to use fully-qualified tags here, e.g. hackmann/empty:latest instead of hackmann/empty.
+
+Author: Robert Szymczak (rszymczak@fum.de)]]></description>
+<position x='100.0' y='50.0'/>
+<input><param name='node' type='Coopto:DockerNode' >
+<description><![CDATA[Node to pull the image at]]></description>
+</param>
+<param name='imageTag' type='string' >
+<description><![CDATA[Image tag for the image to pull]]></description>
+</param>
+</input><output><param name='image' type='Coopto:DockerImage' >
+</param>
+</output><attrib name='errorCode' type='string' read-only='false' ><value encoded='n'><![CDATA[]]></value>
+</attrib>
+<attrib name='pullResult' type='string' read-only='false' ><value encoded='n'><![CDATA[]]></value>
+</attrib>
+<workflow-item name='item0' type='end' end-mode='0' >
+<position x='524.5' y='45.40909090909091'/>
+</workflow-item>
+<workflow-item name='item1' out-name='item8' catch-name='item5' throw-bind-name='errorCode' type='task' script-module='de.fum.coopto.images/getImageByTag' >
+<display-name><![CDATA[getImageByTag]]></display-name>
+<script encoded='false'><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("de.fum.coopto.images").getImageByTag(node,imageTag) ;]]></script>
+<in-binding><bind name='node' type='Coopto:DockerNode' export-name="node" ></bind>
+<bind name='imageTag' type='string' export-name="imageTag" ></bind>
+</in-binding><out-binding><bind name='actionResult' type='Coopto:DockerImage' export-name="image" ></bind>
+</out-binding><position x='205.0' y='55.90909090909091'/>
+</workflow-item>
+<workflow-item name='item3' type='end' end-mode='0' >
+<position x='385.0' y='227.22727272727272'/>
+</workflow-item>
+<workflow-item name='item4' out-name='item7' type='task' >
+<display-name><![CDATA[log success]]></display-name>
+<script encoded='false'><![CDATA[System.log(pullResult);]]></script>
+<in-binding><bind name='pullResult' type='string' export-name="pullResult" ></bind>
+</in-binding><out-binding></out-binding><position x='205.0' y='191.77272727272725'/>
+</workflow-item>
+<workflow-item name='item5' out-name='item2' type='task' >
+<display-name><![CDATA[log notexists]]></display-name>
+<script encoded='false'><![CDATA[System.log("Image '"+ imageTag + " dosn't exist on node '" + node.getDisplayName() + "'. Error was: errorCode");
+System.log("Trying to pull the image to the node...");]]></script>
+<in-binding><bind name='errorCode' type='string' export-name="errorCode" ></bind>
+<bind name='imageTag' type='string' export-name="imageTag" ></bind>
+<bind name='node' type='Coopto:DockerNode' export-name="node" ></bind>
+</in-binding><out-binding></out-binding><position x='205.0' y='100.86363636363636'/>
+</workflow-item>
+<workflow-item name='item2' out-name='item4' catch-name='item6' throw-bind-name='errorCode' type='task' script-module='de.fum.coopto.images/pullImage' >
+<display-name><![CDATA[pullImage]]></display-name>
+<script encoded='false'><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("de.fum.coopto.images").pullImage(imageName,node) ;]]></script>
+<in-binding><bind name='imageName' type='string' export-name="imageTag" ></bind>
+<bind name='node' type='Coopto:DockerNode' export-name="node" ></bind>
+</in-binding><out-binding><bind name='actionResult' type='string' export-name="pullResult" ></bind>
+</out-binding><position x='205.0' y='146.3181818181818'/>
+</workflow-item>
+<workflow-item name='item6' throw-bind-name='errorCode' type='end' end-mode='1' >
+<position x='384.5' y='136.3181818181818'/>
+</workflow-item>
+<workflow-item name='item7' out-name='item3' type='task' script-module='de.fum.coopto.images/getImageByTag' >
+<display-name><![CDATA[getImageByTag]]></display-name>
+<script encoded='false'><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("de.fum.coopto.images").getImageByTag(node,imageTag) ;]]></script>
+<in-binding><bind name='node' type='Coopto:DockerNode' export-name="node" ></bind>
+<bind name='imageTag' type='string' export-name="imageTag" ></bind>
+</in-binding><out-binding><bind name='actionResult' type='Coopto:DockerImage' export-name="image" ></bind>
+</out-binding><position x='205.0' y='237.22727272727272'/>
+</workflow-item>
+<workflow-item name='item8' out-name='item0' type='task' >
+<display-name><![CDATA[log exists]]></display-name>
+<script encoded='false'><![CDATA[System.log("Image '"+ imageTag + " exists on node '" + node.getDisplayName() + "'.");]]></script>
+<in-binding><bind name='imageTag' type='string' export-name="imageTag" ></bind>
+<bind name='node' type='Coopto:DockerNode' export-name="node" ></bind>
+</in-binding><out-binding></out-binding><position x='344.5' y='55.40909090909091'/>
+</workflow-item>
+<presentation>
+<p-param name="node"><desc><![CDATA[Node to pull the image at]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[true]]></p-qual></p-param>
+<p-param name="imageTag"><desc><![CDATA[Image tag for the image to pull]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[true]]></p-qual><p-qual kind="static" name="maxStringLength" type="Number" ><![CDATA[256]]></p-qual><p-qual kind="static" name="minStringLength" type="Number" ><![CDATA[5]]></p-qual></p-param>
+</presentation></workflow>

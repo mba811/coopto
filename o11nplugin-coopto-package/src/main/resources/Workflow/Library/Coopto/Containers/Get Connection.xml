@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item2" object-name="workflow:name=generic" id="a07c7293-3f9a-46c0-8351-8aa9834a3a36"  version="0.0.1" api-version="3.1.0" allowed-operations="vef" icon-id="1b8bf4b9-126e-4e5e-9d7d-a9b4f0060529" restartMode="1" resumeFromFailedMode="0" >
+<display-name><![CDATA[Get Connection]]></display-name>
+<description><![CDATA[Will return connection information in form of  PREFIXDockerhost:ContainerportPOSTFIX
+This may be used as custom day-2-operation to return the current connection information to the user. Prefix and postfix are optional parameters.
+
+Author: Robert Szymczak (rszymczak@fum.de)]]></description>
+<ref-types><![CDATA[(Coopto:DockerContainer)]]></ref-types>
+<position x='100.0' y='50.0'/>
+<input><param name='container' type='Coopto:DockerContainer' >
+<description><![CDATA[Container to get the connection information from]]></description>
+</param>
+<param name='prefix' type='string' >
+<description><![CDATA[Prefix to attach to the URL]]></description>
+</param>
+<param name='postfix' type='string' >
+<description><![CDATA[Postfix to attach to the URL]]></description>
+</param>
+</input><output><param name='connectionString' type='string' >
+</param>
+</output><attrib name='connection' type='string' read-only='false' ><value encoded='n'><![CDATA[]]></value>
+</attrib>
+<workflow-item name='item0' type='end' end-mode='0' >
+<position x='524.5' y='45.40909090909091'/>
+</workflow-item>
+<workflow-item name='item1' out-name='item0' type='task' >
+<display-name><![CDATA[Out]]></display-name>
+<script encoded='false'><![CDATA[connectionString = connection;
+System.log("Connect to: " + connectionString);]]></script>
+<in-binding><bind name='connection' type='string' export-name="connection" ></bind>
+</in-binding><out-binding><bind name='connectionString' type='string' export-name="connectionString" ></bind>
+</out-binding><position x='344.5' y='55.40909090909091'/>
+</workflow-item>
+<workflow-item name='item2' out-name='item1' type='task' script-module='de.fum.coopto.vra/getContainerConnectionInfo' >
+<display-name><![CDATA[getContainerConnectionInfo]]></display-name>
+<script encoded='false'><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("de.fum.coopto.vra").getContainerConnectionInfo(container,prefix,postfix) ;]]></script>
+<in-binding><bind name='container' type='Coopto:DockerContainer' export-name="container" ></bind>
+<bind name='prefix' type='string' export-name="prefix" ></bind>
+<bind name='postfix' type='string' export-name="postfix" ></bind>
+</in-binding><out-binding><bind name='actionResult' type='string' export-name="connection" ></bind>
+</out-binding><position x='204.5' y='55.40909090909091'/>
+</workflow-item>
+<presentation>
+<p-step>
+<title><![CDATA[Input]]></title>
+<p-param name="container"><desc><![CDATA[Container to get the connection information from]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[true]]></p-qual><p-qual name="contextualParameter" type="void" ><![CDATA[__NULL__]]></p-qual></p-param>
+<p-param name="prefix"><desc><![CDATA[Prefix to attach to the URL]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[false]]></p-qual></p-param>
+<p-param name="postfix"><desc><![CDATA[Postfix to attach to the URL]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[false]]></p-qual></p-param>
+</p-step>
+<p-step>
+<title><![CDATA[Output]]></title>
+</p-step>
+</presentation></workflow>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item6" object-name="workflow:name=generic" id="eed46450-99f1-42b1-a945-68be0a7fa11f"  version="0.0.1" api-version="3.1.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0" >
+<display-name><![CDATA[Create Drum-Machine Service]]></display-name>
+<description><![CDATA[This is a showcase workflow which demos a simple containerized web-application based on AngularJS.
+
+Author: Robert Szymczak (rszymczak@fum.de)]]></description>
+<position x='100.0' y='50.0'/>
+<input><param name='node' type='Coopto:DockerNode' >
+<description><![CDATA[Node to deploy to]]></description>
+</param>
+<param name='containerName' type='string' >
+<description><![CDATA[Container name to use]]></description>
+</param>
+</input><output><param name='outContainer' type='Coopto:DockerContainer' >
+</param>
+</output><attrib name='image' type='Coopto:DockerImage' read-only='false' ><value encoded='n'><![CDATA[__NULL__]]></value>
+</attrib>
+<attrib name='containerId' type='string' read-only='false' ><value encoded='n'><![CDATA[]]></value>
+</attrib>
+<attrib name='container' type='Coopto:DockerContainer' read-only='false' ><value encoded='n'><![CDATA[__NULL__]]></value>
+</attrib>
+<attrib name='publishAllPorts' type='boolean' read-only='false' ><value encoded='n'><![CDATA[true]]></value>
+</attrib>
+<attrib name='attachStdIn' type='boolean' read-only='false' ><value encoded='n'><![CDATA[true]]></value>
+</attrib>
+<attrib name='tty' type='boolean' read-only='false' ><value encoded='n'><![CDATA[true]]></value>
+</attrib>
+<attrib name='imageTag' type='string' read-only='false' ><value encoded='n'><![CDATA[m451/drum-machine:latest]]></value>
+</attrib>
+<attrib name='openStdIn' type='boolean' read-only='false' ><value encoded='n'><![CDATA[true]]></value>
+</attrib>
+<attrib name='stdInOnce' type='boolean' read-only='false' ><value encoded='n'><![CDATA[true]]></value>
+</attrib>
+<workflow-item name='item0' type='end' end-mode='0' >
+<position x='844.5' y='45.40909090909091'/>
+</workflow-item>
+<workflow-item name='item1' out-name='item3' type='task' script-module='de.fum.coopto.containers/createContainerFromImage' >
+<display-name><![CDATA[createContainerFromImage]]></display-name>
+<script encoded='false'><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("de.fum.coopto.containers").createContainerFromImage(image,ports,volumes,name,cmd,env,workingDir,hostname,user,attachStdIn,attachStdOut,attachStdErr,tty,openStdIn,stdInOnce,NetworkDisabled) ;]]></script>
+<in-binding><bind name='image' type='Coopto:DockerImage' export-name="image" ></bind>
+<bind name='name' type='string' export-name="containerName" ></bind>
+<bind name='cmd' type='Array/string' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='attachStdIn' type='boolean' export-name="attachStdIn" ></bind>
+<bind name='attachStdOut' type='boolean' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='attachStdErr' type='boolean' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='tty' type='boolean' export-name="tty" ></bind>
+<bind name='env' type='Array/string' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='stdInOnce' type='boolean' export-name="stdInOnce" ></bind>
+<bind name='user' type='string' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='openStdIn' type='boolean' export-name="openStdIn" ></bind>
+<bind name='workingDir' type='string' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='NetworkDisabled' type='boolean' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='ports' type='Array/Coopto:DockerPort' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='hostname' type='string' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='volumes' type='Array/Coopto:DockerVolume' explicitly-not-bound='true' export-name="NULL" ></bind>
+</in-binding><out-binding><bind name='actionResult' type='string' export-name="containerId" ></bind>
+</out-binding><position x='324.5' y='55.40909090909091'/>
+</workflow-item>
+<workflow-item name='item2' out-name='item5' type='task' script-module='de.fum.coopto.containers/startContainer' >
+<display-name><![CDATA[startContainer]]></display-name>
+<script encoded='false'><![CDATA[//Auto generated script, cannot be modified !
+System.getModule("de.fum.coopto.containers").startContainer(container,links,portBindings,volumeBindings,dns,dnsSearch,publishAllPorts) ;]]></script>
+<in-binding><bind name='container' type='Coopto:DockerContainer' export-name="container" ></bind>
+<bind name='dns' type='Array/string' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='dnsSearch' type='Array/string' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='links' type='Array/Coopto:DockerLink' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='publishAllPorts' type='boolean' export-name="publishAllPorts" ></bind>
+<bind name='volumeBindings' type='Array/Coopto:DockerVolumeBind' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='portBindings' type='Array/Coopto:DockerPortBind' explicitly-not-bound='true' export-name="NULL" ></bind>
+</in-binding><out-binding></out-binding><position x='564.5' y='55.40909090909091'/>
+</workflow-item>
+<workflow-item name='item3' out-name='item2' type='task' script-module='de.fum.coopto.containers/getContainerById' >
+<display-name><![CDATA[getContainerById]]></display-name>
+<script encoded='false'><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("de.fum.coopto.containers").getContainerById(node,containerId) ;]]></script>
+<in-binding><bind name='node' type='Coopto:DockerNode' export-name="node" ></bind>
+<bind name='containerId' type='string' export-name="containerId" ></bind>
+</in-binding><out-binding><bind name='actionResult' type='Coopto:DockerContainer' export-name="container" ></bind>
+</out-binding><position x='444.5' y='55.40909090909091'/>
+</workflow-item>
+<workflow-item name='item5' out-name='item0' type='task' >
+<display-name><![CDATA[Info]]></display-name>
+<script encoded='false'><![CDATA[System.log("Drum-Machine deployed!");
+System.log("Kick the beat at " + node.getHostName()+":"+container.getPrimaryBind());
+outContainer = container;]]></script>
+<in-binding><bind name='node' type='Coopto:DockerNode' export-name="node" ></bind>
+<bind name='container' type='Coopto:DockerContainer' export-name="container" ></bind>
+</in-binding><out-binding><bind name='outContainer' type='Coopto:DockerContainer' export-name="outContainer" ></bind>
+</out-binding><position x='684.5' y='55.40909090909091'/>
+</workflow-item>
+<workflow-item name='item6' out-name='item1' type='link' linked-workflow-id='c6ed4a86-bff5-428d-afdf-3468468bbeb2' >
+<display-name><![CDATA[Pull if NotExists]]></display-name>
+<in-binding><bind name='imageTag' type='string' export-name="imageTag" ></bind>
+<bind name='node' type='Coopto:DockerNode' export-name="node" ></bind>
+</in-binding><out-binding><bind name='image' type='Coopto:DockerImage' export-name="image" ></bind>
+</out-binding><description><![CDATA[Will check if a image exists on a given node and pull it if not.
+Will return the image in any case if pull dosn't fail.
+
+Be aware: you have to use fully-qualified tags here, e.g. hackmann/empty:latest instead of hackmann/empty.
+
+Autor: Robert Szymczak (rszymczak@fum.de)]]></description>
+<position x='204.5' y='55.40909090909091'/>
+</workflow-item>
+<presentation>
+<p-param name="node"><desc><![CDATA[Node to deploy to]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[true]]></p-qual></p-param>
+<p-param name="containerName"><desc><![CDATA[name]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[false]]></p-qual><p-qual kind="static" name="defaultValue" type="string" ><![CDATA[drum-machine]]></p-qual></p-param>
+</presentation></workflow>

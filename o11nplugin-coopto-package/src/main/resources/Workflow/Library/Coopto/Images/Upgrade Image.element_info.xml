@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">Library.Coopto.Images</entry>
+<entry key="name">Upgrade Image</entry>
+<entry key="type">Workflow</entry>
+<entry key="id">c622ff82-62bc-499f-9186-24ce2af46434</entry>
+</properties>

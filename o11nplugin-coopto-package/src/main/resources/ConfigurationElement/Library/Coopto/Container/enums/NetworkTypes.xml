@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<config-element id="3f308c99-0f20-44fc-9c55-855f5d055f1a"  version="0.0.1" >
+<display-name><![CDATA[NetworkTypes]]></display-name>
+<description><![CDATA[Port binding network types]]></description>
+<atts>
+<att name='TCP' type='string' read-only='false' ></att>
+<att name='UDP' type='string' read-only='false' ></att>
+</atts>
+</config-element>

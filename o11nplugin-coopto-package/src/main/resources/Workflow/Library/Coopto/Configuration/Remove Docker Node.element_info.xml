@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">Library.Coopto.Configuration</entry>
+<entry key="name">Remove Docker Node</entry>
+<entry key="type">Workflow</entry>
+<entry key="id">f40f1f55-5d3d-4137-8fc7-d54c1b89e634</entry>
+</properties>

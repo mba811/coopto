@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<dunes-script-module name="getContainerConnectionInfo" result-type="string" api-version="3.1.0"  id="1c1481d6-f6e0-4b1a-87ba-c9084bc9d66c"  version="0.0.1"  allowed-operations="vef" ><param n="container" t="Coopto:DockerContainer"><![CDATA[]]></param><param n="prefix" t="string"><![CDATA[]]></param><param n="postfix" t="string"><![CDATA[]]></param><script encoded='false'><![CDATA[outString = "";
+
+if(prefix)
+{
+	outString = outString + prefix;
+}
+
+outString = outString + container.getDockerNode().getHostName()+":" + container.getPrimaryBind();
+
+if(postfix)
+{
+	outString = outString + postfix;
+}
+
+return outString;]]></script>
+</dunes-script-module>

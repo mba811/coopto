@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item5" object-name="workflow:name=generic" id="e49d6e48-c24d-4715-840f-9bd9b77321e8"  version="0.0.1" api-version="3.1.0" allowed-operations="vef" icon-id="1b8bf4b9-126e-4e5e-9d7d-a9b4f0060529" restartMode="1" resumeFromFailedMode="0" >
+<display-name><![CDATA[Create Container]]></display-name>
+<description><![CDATA[Create a container from an image. Will return the container-id on success.
+
+Author: Robert Szymczak (rszymczak@fum.de)]]></description>
+<ref-types><![CDATA[(Coopto:DockerImage)]]></ref-types>
+<position x='100.0' y='50.0'/>
+<input><param name='image' type='Coopto:DockerImage' >
+<description><![CDATA[Image to create the container from]]></description>
+</param>
+<param name='exposedPorts' type='Array/CompositeType(type:string,port:number):cooptoPort' >
+<description><![CDATA[Exposed ports defined as network type ("tcp" or "udp") and port number to expose]]></description>
+</param>
+<param name='mountPoints' type='Array/string' >
+<description><![CDATA[Mountpoint paths to create within the container]]></description>
+</param>
+<param name='linkable' type='boolean' >
+<description><![CDATA[Make this container linkable?]]></description>
+</param>
+<param name='name' type='string' >
+<description><![CDATA[Name of the container to create]]></description>
+</param>
+<param name='cmd' type='Array/string' >
+<description><![CDATA[CMD to execute]]></description>
+</param>
+<param name='env' type='Array/string' >
+<description><![CDATA[ENV to set]]></description>
+</param>
+<param name='workingDir' type='string' >
+<description><![CDATA[Working dir to use]]></description>
+</param>
+<param name='hostname' type='string' >
+<description><![CDATA[Hostname for the container to use]]></description>
+</param>
+<param name='user' type='string' >
+<description><![CDATA[User to execute CMD with]]></description>
+</param>
+<param name='attachStdIn' type='boolean' >
+<description><![CDATA[Attach container to stdin?]]></description>
+</param>
+<param name='attachStdOut' type='boolean' >
+<description><![CDATA[Attach container to stdout?]]></description>
+</param>
+<param name='attachStdErr' type='boolean' >
+<description><![CDATA[Attach container to stderr?]]></description>
+</param>
+<param name='tty' type='boolean' >
+<description><![CDATA[Attach standard streams to a tty?]]></description>
+</param>
+<param name='openStdin' type='boolean' >
+<description><![CDATA[Open stdin?]]></description>
+</param>
+<param name='stdInOnce' type='boolean' >
+<description><![CDATA[Close stdin after the 1 attached client disconnects? ]]></description>
+</param>
+<param name='NetworkDisabled' type='boolean' >
+<description><![CDATA[Disable all networking?]]></description>
+</param>
+<param name='advancedSettings' type='boolean' >
+<description><![CDATA[Show advanced settings?]]></description>
+</param>
+</input><output><param name='containerId' type='string' >
+</param>
+<param name='container' type='Coopto:DockerContainer' >
+</param>
+</output><attrib name='tempContainerId' type='string' read-only='false' ><value encoded='n'><![CDATA[]]></value>
+</attrib>
+<attrib name='node' type='Coopto:DockerNode' read-only='false' ><value encoded='n'><![CDATA[__NULL__]]></value>
+</attrib>
+<attrib name='volumes' type='Array/Coopto:DockerVolume' read-only='false' ><value encoded='n'><![CDATA[__NULL__]]></value>
+</attrib>
+<attrib name='ports' type='Array/Coopto:DockerPort' read-only='false' ><value encoded='n'><![CDATA[__NULL__]]></value>
+</attrib>
+<workflow-item name='item0' type='end' end-mode='0' >
+<position x='944.5' y='45.40909090909091'/>
+</workflow-item>
+<workflow-item name='item1' out-name='item3' type='task' script-module='de.fum.coopto.containers/createContainerFromImage' >
+<display-name><![CDATA[createContainerFromImage]]></display-name>
+<script encoded='false'><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("de.fum.coopto.containers").createContainerFromImage(image,ports,volumes,name,cmd,env,workingDir,hostname,user,attachStdIn,attachStdOut,attachStdErr,tty,openStdIn,stdInOnce,NetworkDisabled) ;]]></script>
+<in-binding><bind name='image' type='Coopto:DockerImage' export-name="image" ></bind>
+<bind name='attachStdErr' type='boolean' export-name="attachStdErr" ></bind>
+<bind name='attachStdIn' type='boolean' export-name="attachStdIn" ></bind>
+<bind name='name' type='string' export-name="name" ></bind>
+<bind name='cmd' type='Array/string' export-name="cmd" ></bind>
+<bind name='attachStdOut' type='boolean' export-name="attachStdOut" ></bind>
+<bind name='tty' type='boolean' export-name="tty" ></bind>
+<bind name='env' type='Array/string' export-name="env" ></bind>
+<bind name='stdInOnce' type='boolean' export-name="stdInOnce" ></bind>
+<bind name='user' type='string' export-name="user" ></bind>
+<bind name='openStdIn' type='boolean' export-name="openStdin" ></bind>
+<bind name='workingDir' type='string' export-name="workingDir" ></bind>
+<bind name='NetworkDisabled' type='boolean' export-name="NetworkDisabled" ></bind>
+<bind name='ports' type='Array/Coopto:DockerPort' export-name="ports" ></bind>
+<bind name='hostname' type='string' export-name="hostname" ></bind>
+<bind name='volumes' type='Array/Coopto:DockerVolume' export-name="volumes" ></bind>
+</in-binding><out-binding><bind name='actionResult' type='string' export-name="tempContainerId" ></bind>
+</out-binding><position x='484.5' y='55.40909090909091'/>
+</workflow-item>
+<workflow-item name='item2' out-name='item0' type='task' >
+<display-name><![CDATA[Build Output]]></display-name>
+<script encoded='false'><![CDATA[containerId = tempContainerId;]]></script>
+<in-binding><bind name='tempContainerId' type='string' export-name="tempContainerId" ></bind>
+</in-binding><out-binding><bind name='containerId' type='string' export-name="containerId" ></bind>
+</out-binding><position x='764.5' y='55.40909090909091'/>
+</workflow-item>
+<workflow-item name='item3' out-name='item2' type='task' script-module='de.fum.coopto.containers/getContainerById' >
+<display-name><![CDATA[getContainerById]]></display-name>
+<script encoded='false'><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("de.fum.coopto.containers").getContainerById(node,containerId) ;]]></script>
+<in-binding><bind name='node' type='Coopto:DockerNode' export-name="node" ></bind>
+<bind name='containerId' type='string' export-name="tempContainerId" ></bind>
+</in-binding><out-binding><bind name='actionResult' type='Coopto:DockerContainer' export-name="container" ></bind>
+</out-binding><position x='624.5' y='55.40909090909091'/>
+</workflow-item>
+<workflow-item name='item4' out-name='item1' type='task' script-module='de.fum.coopto.nodes/getNodeFromImage' >
+<display-name><![CDATA[getNodeFromImage]]></display-name>
+<script encoded='false'><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("de.fum.coopto.nodes").getNodeFromImage(image) ;]]></script>
+<in-binding><bind name='image' type='Coopto:DockerImage' export-name="image" ></bind>
+</in-binding><out-binding><bind name='actionResult' type='Coopto:DockerNode' export-name="node" ></bind>
+</out-binding><position x='344.5' y='55.40909090909091'/>
+</workflow-item>
+<workflow-item name='item5' out-name='item4' type='task' >
+<display-name><![CDATA[Create Objects]]></display-name>
+<script encoded='false'><![CDATA[ports = new Array();
+if(exposedPorts != null)
+{
+	for (var i = 0; i < exposedPorts.length; i++) 
+	{
+		System.log("Creating new port on '" + exposedPorts[i].get("type") + exposedPorts[i].get("port") + "'.");
+	 	ports.push(new CooptoDockerPort(exposedPorts[i].get("type"), exposedPorts[i].get("port")));
+	}
+}
+
+volumes = new Array();
+if(mountPoints != null)
+{
+	System.log("We are here");
+	for (var i = 0; i < mountPoints.length; i++) 
+	{
+		System.log("Creating new volume on '" + mountPoints[i] + "'.");
+	 	volumes.push(new CooptoDockerVolume(mountPoints[i]));
+	}
+}]]></script>
+<in-binding><bind name='exposedPorts' type='Array/CompositeType(type:string,port:number):cooptoPort' export-name="exposedPorts" ></bind>
+<bind name='mountPoints' type='Array/string' export-name="mountPoints" ></bind>
+</in-binding><out-binding><bind name='volumes' type='Array/Coopto:DockerVolume' export-name="volumes" ></bind>
+<bind name='ports' type='Array/Coopto:DockerPort' export-name="ports" ></bind>
+</out-binding><position x='204.5' y='55.40909090909091'/>
+</workflow-item>
+<presentation>
+<p-step>
+<title><![CDATA[Basic]]></title>
+<p-param name="image"><desc><![CDATA[Image to create the container from]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[true]]></p-qual><p-qual name="contextualParameter" type="void" ><![CDATA[__NULL__]]></p-qual></p-param>
+<p-param name="linkable"><desc><![CDATA[Make this container linkable?]]></desc>
+<p-qual kind="static" name="defaultValue" type="boolean" ><![CDATA[__NULL__]]></p-qual></p-param>
+<p-param name="name"><desc><![CDATA[Name of the container to create]]></desc>
+<p-qual kind="ognl" name="mandatory" type="boolean" ><![CDATA[#linkable]]></p-qual></p-param>
+<p-param name="cmd"><desc><![CDATA[CMD to execute]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[false]]></p-qual></p-param>
+<p-param name="attachStdIn"><desc><![CDATA[Attach container to stdin?]]></desc>
+<p-qual kind="static" name="defaultValue" type="boolean" ><![CDATA[__NULL__]]></p-qual></p-param>
+<p-param name="attachStdOut"><desc><![CDATA[Attach container to stdout?]]></desc>
+<p-qual kind="static" name="defaultValue" type="boolean" ><![CDATA[__NULL__]]></p-qual></p-param>
+<p-param name="attachStdErr"><desc><![CDATA[Attach container to stderr?]]></desc>
+<p-qual kind="static" name="defaultValue" type="boolean" ><![CDATA[__NULL__]]></p-qual></p-param>
+<p-param name="tty"><desc><![CDATA[Attach standard streams to a tty?]]></desc>
+<p-qual kind="static" name="defaultValue" type="boolean" ><![CDATA[__NULL__]]></p-qual></p-param>
+<p-param name="openStdin"><desc><![CDATA[Open stdin?]]></desc>
+<p-qual kind="static" name="defaultValue" type="boolean" ><![CDATA[__NULL__]]></p-qual></p-param>
+<p-param name="stdInOnce"><desc><![CDATA[Close stdin after the 1 attached client disconnects? ]]></desc>
+<p-qual kind="static" name="defaultValue" type="boolean" ><![CDATA[__NULL__]]></p-qual></p-param>
+<p-param name="advancedSettings"><desc><![CDATA[Show advanced settings?]]></desc>
+<p-qual kind="static" name="defaultValue" type="boolean" ><![CDATA[__NULL__]]></p-qual></p-param>
+</p-step>
+<p-step>
+<title><![CDATA[Advanced]]></title>
+<p-qual kind="ognl" name="visible" type="boolean" ><![CDATA[#advancedSettings]]></p-qual><p-param name="exposedPorts"><desc><![CDATA[Exposed ports defined as network type ("tcp" or "udp") and port number to expose]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[false]]></p-qual><p-qual kind="ognl" name="dataBinding" type="Array/CompositeType(type:string,port:number):cooptoPort" ><![CDATA[__NULL__]]></p-qual></p-param>
+<p-param name="mountPoints"><desc><![CDATA[Mountpoint paths to create within the container]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[false]]></p-qual></p-param>
+<p-param name="env"><desc><![CDATA[ENV to set]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[false]]></p-qual></p-param>
+<p-param name="workingDir"><desc><![CDATA[Working dir to use]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[false]]></p-qual></p-param>
+<p-param name="hostname"><desc><![CDATA[Hostname for the container to use]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[false]]></p-qual></p-param>
+<p-param name="user"><desc><![CDATA[User to execute CMD with]]></desc>
+<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[false]]></p-qual></p-param>
+<p-param name="NetworkDisabled"><desc><![CDATA[Disable all networking?]]></desc>
+<p-qual kind="static" name="defaultValue" type="boolean" ><![CDATA[__NULL__]]></p-qual></p-param>
+</p-step>
+</presentation></workflow>
