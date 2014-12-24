@@ -30,10 +30,10 @@ If you own a copy of vRealize Orchestrator, you got everything you need to get s
 ##Basic plug-in installation
 This section explains how to download and install Coopto. Please note that we’re unable to provide you with a ready-to-run binary in the *.vmoapp format because the plugin will require some libraries that are intellectual property of VMware. This is why – at this time – we require you to compile the plug-in yourself. We’re already working on a solution to this legal limitation but as with any legal affairs it will take some time. Till then: don’t worry, it’s not that hard at all and we’ll lead you though the process step by step.
 
-1.	Download the latest release of Coopto in the release section of the project.
+1.	Download the latest release of Coopto in the [release section of the project](https://github.com/m451/coopto/releases).
 2.	You’ll get a *.zip file containing the source files of the release you selected. Unzip it and change to the folder.
-3.	Follow the instructions within the quick build section of this document.
-4.	Visit the configuration page, usually available at https://your-vro-server:8283. 
+3.	Follow the instructions within the [quick build section](https://github.com/m451/coopto#quick-build) of this document.
+4.	Visit the configuration page, usually available at *https://your-vro-server:8283*. 
 5.	Login, browse to plugins and upload the *.vmoapp file. For further advice please read the official vRO documentation available at http://www.vmware.com/de/support/vcenter-orchestrator.
 6.	Once installed, you have to restart your vRO service. Still on the configuration website of vRO browse to start up options and select restart service. Depending on the hardware backing your vRO this should usually take between 1-3 minutes.
 7.	Connect to your vRO using your vRO client. Again, if you have no idea how to do that you should take a look at the official vRO documentation.
@@ -96,14 +96,14 @@ The reason for this is that Coopto is only performing updates on changes (pull) 
 If you absolutely have to manage a Docker host manually, please update the inventory in vRO afterwards by right clicking on the Coopto object in the inventory tab in vRO and selecting “reload”. This will update the inventory to represent the current state of the Docker nodes. If you wish to automate this task, feel free to create a scheduled task that will update the inventory for you. 
 
 #Usage examples
-This plugin aims to provide all Docker operations within vRO. It’s up to you how to use and combine them with other technologies. This section will lead you through the process of deploying a custom container. If you want to get more usage examples please consider visiting our [sandbox examples wiki](https://github.com/m451/coopto/wiki/Sandbox-Examples).
+This plugin aims to provide all Docker operations within vRO. It’s up to you how to use and combine them with other technologies. This section will lead you through the process of deploying a custom container. If you want to get more usage examples please consider visiting our [sandbox examples wiki](https://github.com/m451/coopto/wiki/Sandbox-examples).
 
 ##Creating new containers
 The plugin doesn’t limit you to any specific image or container functionality. Nearly all features supported by the Docker API are available to you. So this example will demonstrate how to run virtually any Docker image using Coopto. 
-Once you installed the plugin as described within the getting started section, start up your vRO client and connect to the vRO server you installed Coopto at.
+Once you installed the plugin as described within the [getting started section](https://github.com/m451/coopto#getting-started), start up your vRO client and connect to the vRO server you installed Coopto at.
 
 ###Part I – searching and pulling new images
-Assuming you already added the Docker node you want to deploy to, as described within getting started, the next step is to download the image you want to deploy a container from. This example will use the official Docker registry and the PostgreSQL image, but you could use any other registry and image.
+Assuming you already added the Docker node you want to deploy to, as described within [getting started](https://github.com/m451/coopto#getting-started), the next step is to download the image you want to deploy a container from. This example will use the official Docker registry and the PostgreSQL image, but you could use any other registry and image.
 
 1.	Start the Coopto workflow Library/Coopto/Images/**Pull image**
 2.	Select the Docker node to use and a search method. There are two modes:
@@ -148,7 +148,7 @@ Now that you rolled out your container, you probably want to connect to it. You 
 #Help and issues
 To provide you with the support you need to get things going we’ve put together a cosy wiki page for you. This is the first place you should visit if you got any issues or questions. 
 
-If the issue you’re facing isn’t covered within the wiki you might consider visiting the Coopto thread within the community forums of vRO. Nothing there? Feel free to submit a new issue on the [issues page](https://github.com/m451/coopto/issues). 
+If the issue you’re facing isn’t covered within the wiki you might consider visiting the Coopto thread within the [community forums of vRO](https://communities.vmware.com/community/vmtn/vcenter/orchestrator). Nothing there? Feel free to submit a new issue on the [issues page](https://github.com/m451/coopto/issues). 
 
 Please understand that the open source nature of this project also means that we – as in “we the Coopto open source community” – cannot guarantee to provide you with support and even less with support within a certain response time. 
 
@@ -164,7 +164,7 @@ You are very welcomed to work with us on Coopto. You may provide anything that i
 Please note that in order to keep the plug-in clean and its footprint small, we have to be picky about what additions we accept. *A rule of thumb for contributions* is that there has to be a general interest to the added functionality and that the functionality is not trivial, which means it cannot be implemented with little effort using the already available functions.
 
 #Building
-If you want to contribute, you’ll have to setup you environment first. The following sections are supposed to give you initial direction about the requirements and teach you everything you need to know for a basic compilation. If you’re a developer and want to contribute you might take a look at the exemplary build stack section within the projects wiki.
+If you want to contribute, you’ll have to setup you environment first. The following sections are supposed to give you initial direction about the requirements and teach you everything you need to know for a basic compilation. If you’re a developer and want to contribute you might take a look at the [exemplary build stack section](https://github.com/m451/coopto/wiki/Exemplary-build-stack) within the projects wiki.
 
 ##Build requirements
 This section lists the requirements for a successful build of this project.
@@ -177,7 +177,7 @@ This section lists the requirements for a successful build of this project.
 - Maven central repository added to your Maven setup, see [maven documentation](http://maven.apache.org/guides/mini/guide-multiple-repositories.html) for details.
 
 ##Quick build
-If all build requirements are met, this section will lead you though the process of a quick build so you end up with an installable binary (*.vmoapp) of Coopto.
+If all [build requirements](https://github.com/m451/coopto#build-requirements) are met, this section will lead you though the process of a quick build so you end up with an installable binary (*.vmoapp) of Coopto.
 
 1.	Go to the folder where you unpacked the source files to
 2.	You now have to find out the URL to your vRO Maven repository. This should be *http://your-vro-server:8280/vco-repo*. You may test if you’re able to connect to that repository by just opening the URL within your browser. Again: be aware of proxy settings.
