@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
-<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="c6ed4a86-bff5-428d-afdf-3468468bbeb2"  version="0.0.1" api-version="3.1.0" allowed-operations="vef" icon-id="31a576bf-8e9f-4ad3-83f2-14abb62fdc93" restartMode="1" resumeFromFailedMode="0" >
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="c6ed4a86-bff5-428d-afdf-3468468bbeb2"  version="0.0.2" api-version="3.1.0" allowed-operations="vef" icon-id="31a576bf-8e9f-4ad3-83f2-14abb62fdc93" restartMode="1" resumeFromFailedMode="0" >
 <display-name><![CDATA[Pull if NotExists]]></display-name>
 <description><![CDATA[Will check if a image exists on a given node and pull it if not.
 Will return the image in any case if pull dosn't fail.
@@ -43,7 +43,7 @@ actionResult = System.getModule("de.fum.coopto.images").getImageByTag(node,image
 </workflow-item>
 <workflow-item name='item5' out-name='item2' type='task' >
 <display-name><![CDATA[log notexists]]></display-name>
-<script encoded='false'><![CDATA[System.log("Image '"+ imageTag + " dosn't exist on node '" + node.getDisplayName() + "'. Error was: errorCode");
+<script encoded='false'><![CDATA[System.log("Image '"+ imageTag + " dosn't exist on node '" + node.getDisplayName() + "'. Error was: " +errorCode);
 System.log("Trying to pull the image to the node...");]]></script>
 <in-binding><bind name='errorCode' type='string' export-name="errorCode" ></bind>
 <bind name='imageTag' type='string' export-name="imageTag" ></bind>
