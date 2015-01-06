@@ -15,7 +15,7 @@ Digging in deeper the combination of both can result in an even more powerful co
 
 In order to bring both worlds together we use a simple to use and yet very common orchestration engine: vRealize Orchestrator. In fact: if you’re running on a vSphere stack, you probably already own vRealize Orchestrator.
 
-![Coopto scope](/doc/github/readme/coopto-scope.png)
+![Coopto scope](/doc/github/readme/coopto-scope-01.png)
 
 From our point of view both technologies, virtualization and containerization, currently have their advantages and disadvantages and therefore a right to exist. Time will show how both develop and eventually one will be the winner or both will merge into a new, even more powerful technology.
 However this will turn out, within the here and now we want to combine the best of the two technologies. That’s where Coopto comes in – and due to its open source nature you can be a part of it, if you wish to.
