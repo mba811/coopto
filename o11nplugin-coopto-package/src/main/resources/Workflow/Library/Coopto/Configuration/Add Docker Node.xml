@@ -34,5 +34,5 @@ System.getModule("de.fum.coopto.nodes").addDockerNode(displayName,hostname,hostP
 <p-param name="hostPort"><desc><![CDATA[Docker remote API port the Docker node is listening on]]></desc>
 <p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[false]]></p-qual><p-qual kind="static" name="defaultValue" type="number" ><![CDATA[2375.0]]></p-qual></p-param>
 <p-param name="apiVersion"><desc><![CDATA[API version of the Docker remote API]]></desc>
-<p-qual kind="static" name="genericEnumeration" type="Array/string" ><![CDATA[#{#string#1.15#;#string#1.14#;#string#1.13#}#]]></p-qual><p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[false]]></p-qual></p-param>
+<p-qual kind="static" name="genericEnumeration" type="Array/string" ><![CDATA[#{#string#1.15#;#string#1.16#;#string#1.14#;#string#1.13#}#]]></p-qual><p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[false]]></p-qual></p-param>
 </presentation></workflow>
