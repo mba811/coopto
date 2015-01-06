@@ -26,11 +26,13 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.hexlogic.CooptoPluginAdaptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -57,6 +59,7 @@ import com.github.dockerjava.api.model.Ports;
 import com.github.dockerjava.api.model.SearchItem;
 import com.github.dockerjava.api.model.Volume;
 import com.github.dockerjava.core.DockerClientBuilder;
+import com.github.dockerjava.core.DockerClientConfig;
 import com.vmware.o11n.plugin.sdk.annotation.Cardinality;
 import com.vmware.o11n.plugin.sdk.annotation.VsoFinder;
 import com.vmware.o11n.plugin.sdk.annotation.VsoMethod;
@@ -92,6 +95,9 @@ public class DockerNode implements IDockerNode
 	// Minimum set of values we need to persist the object properties, using K-V mapping in IEndpointConfiguration
 	public final static int defaultPort = 2375; // Fall back to default 2375
 	public final static String defaultApi = "1.15"; // Fall back to default 1.15
+	
+	// config done at runtime
+	DockerClientConfig config;
 
 	// Properties should never be edited directly, so we make them readOnly.
 	@VsoProperty(readOnly = true, hidden = true,  displayName = "Id", description = "Unique identifier of this Docker node")
@@ -132,7 +138,18 @@ public class DockerNode implements IDockerNode
 
 	// --------------------------------------------------------------------------------------------------------------------------
 	
-	public DockerNode(){}
+	public DockerNode()
+	{
+		configureNode();		
+	}
+	
+	public void configureNode()
+	{
+		config = DockerClientConfig.createDefaultConfigBuilder()
+				.withVersion(this.getDockerApiVersion())
+			    .withUri("http://" + this.getHostName() + ":" + this.getHostPortNumber())
+			    .build();
+	}
 
 	// setId should normally not be used since we auto-generate the id. Thus we prevent access by not annoting this method with @VsoMethod
 	// NO ACCESS from vCO
@@ -190,7 +207,9 @@ public class DockerNode implements IDockerNode
 		DockerClient dockerClient = null;
 		try
 		{
-			dockerClient = DockerClientBuilder.getInstance("http://" + this.getHostName() + ":" + this.getHostPortNumber()).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
+			configureNode();
+			dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
+			
 		}
 		catch (Exception e)
 		{
@@ -295,7 +314,8 @@ public class DockerNode implements IDockerNode
 				List<Image> newImages = null;
 				try
 				{	
-					DockerClient dockerClient = DockerClientBuilder.getInstance("http://" + this.getHostName() + ":" + this.getHostPortNumber()).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
+					configureNode();
+					DockerClient dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
 					log.info("Loading Images with option all=" + allImages + ".");
 					newImages = dockerClient.listImagesCmd().withShowAll(allImages).exec();
 				}
@@ -552,7 +572,8 @@ public class DockerNode implements IDockerNode
 				List<Container> newContainers = null;
 				try
 				{
-					DockerClient dockerClient = DockerClientBuilder.getInstance("http://" + this.getHostName() + ":" + this.getHostPortNumber()).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
+					configureNode();
+					DockerClient dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
 					log.info("Loading containers with option all=" + allContainers + ".");
 					newContainers = dockerClient.listContainersCmd().withShowAll(allContainers).exec();
 				}
@@ -745,7 +766,8 @@ public class DockerNode implements IDockerNode
 		DockerClient dockerClient = null;
 		try
 		{
-			dockerClient = DockerClientBuilder.getInstance("http://" + this.getHostName() + ":" + this.getHostPortNumber()).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
+			configureNode();
+			dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
 
 			return dockerClient.inspectContainerCmd(container.getContainerId()).exec();
 		}
@@ -768,7 +790,8 @@ public class DockerNode implements IDockerNode
 		DockerClient dockerClient = null;
 		try
 		{
-			dockerClient = DockerClientBuilder.getInstance("http://" + this.getHostName() + ":" + this.getHostPortNumber()).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
+			configureNode();
+			dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
 
 			return dockerClient.inspectImageCmd(image.getImageId()).exec();
 		}
@@ -898,7 +921,8 @@ public class DockerNode implements IDockerNode
 		DockerClient dockerClient = null;
 		try
 		{
-			dockerClient = DockerClientBuilder.getInstance("http://" + this.getHostName() + ":" + this.getHostPortNumber()).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
+			configureNode();
+			dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
 			return dockerClient.infoCmd().exec().toString();
 		}
 		catch (Exception e)
@@ -944,7 +968,8 @@ public class DockerNode implements IDockerNode
 		MappingIterator<Map> it = null;
 		try
 		{
-			DockerClient dockerClient = DockerClientBuilder.getInstance("http://" + this.getHostName() + ":" + this.getHostPortNumber()).build();
+			configureNode();
+			DockerClient dockerClient = DockerClientBuilder.getInstance(config).build();
 			System.out.println("Starting pull operation...");
 
 			/*
@@ -1170,7 +1195,8 @@ public class DockerNode implements IDockerNode
 	public void removeImage(String id, boolean force) throws Exception
 	{
 		log.info("Removing image '" + id + "'.");
-		DockerClient dockerClient = DockerClientBuilder.getInstance("http://" + this.getHostName() + ":" + this.getHostPortNumber()).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
+		configureNode();
+		DockerClient dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
 
 		try
 		{
@@ -1230,7 +1256,8 @@ public class DockerNode implements IDockerNode
 		List<SearchItem> result = null;
 		try
 		{
-			dockerClient = DockerClientBuilder.getInstance("http://" + this.getHostName() + ":" + this.getHostPortNumber()).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
+			configureNode();
+			dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
 			result = dockerClient.searchImagesCmd(imageName).exec();
 		}
 		catch (Exception e)
@@ -1302,7 +1329,8 @@ public class DockerNode implements IDockerNode
 		CreateContainerResponse response = null;
 		try
 		{
-			DockerClient dockerClient = DockerClientBuilder.getInstance("http://" + this.getHostName() + ":" + this.getHostPortNumber()).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
+			configureNode();
+			DockerClient dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
 
 			CreateContainerCmd command = dockerClient
 					.createContainerCmd(image.getImageId())
@@ -1492,7 +1520,8 @@ public class DockerNode implements IDockerNode
 
 		try
 		{
-			DockerClient dockerClient = DockerClientBuilder.getInstance("http://" + this.getHostName() + ":" + this.getHostPortNumber()).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
+			configureNode();
+			DockerClient dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
 
 			dockerClient
 			.removeContainerCmd(container.getContainerId())
@@ -1550,7 +1579,8 @@ public class DockerNode implements IDockerNode
 		
 		try
 		{
-			DockerClient dockerClient = DockerClientBuilder.getInstance("http://" + this.getHostName() + ":" + this.getHostPortNumber()).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
+			configureNode();
+			DockerClient dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
 
 			StartContainerCmd command = dockerClient
 					.startContainerCmd(container.getContainerId())
@@ -1652,7 +1682,8 @@ public class DockerNode implements IDockerNode
 
 		try
 		{
-			DockerClient dockerClient = DockerClientBuilder.getInstance("http://" + this.getHostName() + ":" + this.getHostPortNumber()).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
+			configureNode();
+			DockerClient dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
 
 			StopContainerCmd command = dockerClient.stopContainerCmd(container.getContainerId());
 			if (wait < 0)
@@ -1706,7 +1737,8 @@ public class DockerNode implements IDockerNode
 
 		try
 		{
-			DockerClient dockerClient = DockerClientBuilder.getInstance("http://" + this.getHostName() + ":" + this.getHostPortNumber()).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
+			configureNode();
+			DockerClient dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
 			RestartContainerCmd command = dockerClient.restartContainerCmd(container.getContainerId());
 			
 			if (wait < 0)
@@ -1753,7 +1785,8 @@ public class DockerNode implements IDockerNode
 
 		try
 		{
-			DockerClient dockerClient = DockerClientBuilder.getInstance("http://" + this.getHostName() + ":" + this.getHostPortNumber()).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
+			configureNode();
+			DockerClient dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
 
 			KillContainerCmd command = dockerClient.killContainerCmd(container.getContainerId());
 			if (signal != null && !signal.isEmpty())
