@@ -1,8 +1,0 @@
-Authors ordered by first contribution.
-
-Project Lead:
-Robert Szymczak (rszymczak@fum.de)
-
-
-Developers:
-Robert Szymczak (rszymczak@fum.de)
