@@ -19,10 +19,14 @@
 package org.hexlogic.model;
 
 import java.io.IOException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import ch.dunes.vso.sdk.api.IPluginFactory;
+
 import com.vmware.o11n.plugin.sdk.annotation.VsoMethod;
 import com.vmware.o11n.plugin.sdk.annotation.VsoObject;
 import com.vmware.o11n.plugin.sdk.annotation.VsoParam;
@@ -36,7 +40,7 @@ import com.vmware.o11n.plugin.sdk.spring.watch.WatchRequestService;
 @VsoObject(singleton = true, strict = false)
 public class DockerNodeManager
 {
-	private static final Logger log = LoggerFactory.getLogger(DockerNodeManager.class);
+	private static final Logger log = LogManager.getLogger(DockerNodeManager.class);
 	
 	@Autowired 
 	private DockerNodeService service;
@@ -57,6 +61,7 @@ public class DockerNodeManager
 	 */
     public static DockerNodeManager createScriptingSingleton(IPluginFactory factory) 
     {
+    	log.setLevel(Level.DEBUG);
     	/* TAKE CARE if you call another class within createScriptingObject, that class will be used 
     	 * E.g. whenever you call DockerNodeManager.myMethod() it will try to run ClassUsed.myMethod()
     	 * Such a typo results in very confusing behavior!
@@ -72,27 +77,27 @@ public class DockerNodeManager
     						@VsoParam(description = "The docker remote API port to be used for this Docker node", required = false) int hostPort,
     						@VsoParam(description = "The version of the docker remote API executed on this Docker node", required = false) String dockerApiVersion) throws NullPointerException
     {
-    	log.info("Running createNode(...)...");
+    	log.debug("Running createNode(...)...");
     	if(displayName != null && !displayName.isEmpty())
     	{
     		if(hostName != null && !hostName.isEmpty())
     		{
     			// The same docker host may be added multiple times to the inventory - we have no way to prevent that - but the will be a different one
-    			log.info("Creating new Docker node configuration...");
+    			log.debug("Creating new Docker node configuration...");
     			service.createNode(displayName, hostName, hostPort, dockerApiVersion);
-    			log.info("Finished running createNode(...)...");
+    			log.debug("Finished running createNode(...)...");
     		}
     		else
     		{
     			log.error("The parameter hostName may not be empty.");
-    			log.info("Finished running createNode(...)...");
+    			log.debug("Finished running createNode(...)...");
     			throw new NullPointerException("The parameter hostName may not be empty.");
     		}
     	}
 		else
 		{
 			log.error("The parameter displayName may not be empty.");
-			log.info("Finished running createNode(...)...");
+			log.debug("Finished running createNode(...)...");
 			throw new NullPointerException("The parameter displayName may not be empty.");
 		}
     }
@@ -100,15 +105,15 @@ public class DockerNodeManager
     @VsoMethod
     public void deleteNode(@VsoParam(description = "The id of the Docker node to delete", required = true) String id) throws IOException
     {
-    	log.info("Running createNode(...)...");
+    	log.debug("Running createNode(...)...");
     	try
 		{
 			service.deleteNode(id);
-			log.info("Finished running createNode(...)...");
+			log.debug("Finished running createNode(...)...");
 		} catch (IOException e)
 		{
 			log.error("No Docker node with id '" + id + "' was found in the vCO configuration. Please check your vCO configuration.");
-			log.info("Finished running createNode(...)...");
+			log.debug("Finished running createNode(...)...");
 			throw new IOException("No Docker node with id '" + id + "' was found in the vCO configuration. Please check your vCO configuration.");
 		}
     }

@@ -22,8 +22,11 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import com.github.dockerjava.api.command.InspectContainerResponse;
 import com.github.dockerjava.api.model.ContainerConfig;
 import com.github.dockerjava.api.model.ExposedPort;
@@ -43,7 +46,7 @@ import com.vmware.o11n.plugin.sdk.spring.InventoryRef;
 @VsoObject(description = "A Container running on a Docker node", create = false, strict = true)
 public class DockerContainer
 {
-	private static final Logger log = LoggerFactory.getLogger(DockerContainer.class);
+	private static final Logger log = LogManager.getLogger(DockerContainer.class);
 	
 	// vCO TYPE & RELATION information
 	public static final String TYPE = "DockerContainer";
@@ -114,8 +117,10 @@ public class DockerContainer
 	private ArrayList<String> volumeBindings = new ArrayList<String>(); // "/dest/mntpoint:/src/mntpoint"
 
 	// --------------------------------------------------------------------------------------------------------------------------
+	
 	public DockerContainer(DockerNode node, String containerName, String containerId)
 	{
+		log.setLevel(Level.DEBUG);
 		// Do not use a random UUID here. We're not persisting container objects. Thus, on inventory reload we would loose reference to the container object if re-generating the UUID every time.
 		// Rather then using a random UUID, generate a unique ID using the persistent node id + the unique container id.
 		this.id = node.getId() + "_" + containerId;

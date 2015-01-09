@@ -24,8 +24,10 @@ import java.io.StringWriter;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.UUID;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -44,12 +46,15 @@ public class DockerNodeService
     @Autowired
     private GlobalPluginNotificationHandler notificationHandler;
     
-	private static final Logger log = LoggerFactory.getLogger(DockerNodeService.class);
-	public DockerNodeService(){}
+	private static final Logger log = LogManager.getLogger(DockerNodeService.class);
+	public DockerNodeService()
+	{
+		log.setLevel(Level.DEBUG);
+	}
 	
 	public void createNode(String displayName, String hostName, int hostPort, String dockerApiVersion)
 	{
-		log.info("Running createNode()...");
+		log.debug("Running createNode()...");
 		try
 		{
 			// serialize a host to a collection of key value pairs
@@ -81,10 +86,10 @@ public class DockerNodeService
 			
 			// Invalidate the plugin-inventory by calling notifyElementsInvalidate
 			// This will trigger 'sdk-invalidate' on object 'Coopto'
-			log.info("Reloading inventory...");
+			log.debug("Reloading inventory...");
 			notificationHandler.notifyElementsInvalidate();
 			
-			log.info("Finished running createNode().");
+			log.debug("Finished running createNode().");
 		}
 		catch (IOException e)
 		{
@@ -97,27 +102,27 @@ public class DockerNodeService
 	
 	public void deleteNode(String id) throws IOException
 	{	
-		log.info("Running deleteNode()...");
+		log.debug("Running deleteNode()...");
 		service.deleteEndpointConfiguration(id);
 
 		// Notify plugin-inventory about the deleted node by calling notifyElementDeleted
 		// This will trigger 'sdk-del' on object 'DockerNode/ID'
-		log.info("Reloading inventory...");
+		log.debug("Reloading inventory...");
 		notificationHandler.notifyElementDeleted(InventoryRef.valueOf(DockerNode.TYPE, id));
-		log.info("Finished running deleteNode().");
+		log.debug("Finished running deleteNode().");
 	}
 	
 	
 	public Collection<IEndpointConfiguration> getNodes()
 	{
-		log.info("Running getNodes() and loading nodes from vCO EndpointConfiguration...");
+		log.debug("Running getNodes() and loading nodes from vCO EndpointConfiguration...");
 		try
 		{
 			Collection<IEndpointConfiguration> endpointConfigurations = service.getEndpointConfigurations();
 			if(endpointConfigurations != null && !endpointConfigurations.isEmpty())
 			{
-				log.info(endpointConfigurations.size() + " nodes are currently stored within the vCO EndpointConfiguration. Returning...");
-				log.info("Finished running getNodes().");
+				log.debug(endpointConfigurations.size() + " nodes are currently stored within the vCO EndpointConfiguration. Returning...");
+				log.debug("Finished running getNodes().");
 				return endpointConfigurations;
 			}
 		}
@@ -128,7 +133,7 @@ public class DockerNodeService
 			e.printStackTrace(pw);
 			log.error("Error: " + sw.getBuffer().toString());
 		}
-		log.info("Finished running getNodes().");
+		log.debug("Finished running getNodes().");
 		return Collections.emptyList();
 	}
 	

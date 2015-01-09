@@ -26,13 +26,12 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.hexlogic.CooptoPluginAdaptor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -77,7 +76,7 @@ import com.vmware.o11n.plugin.sdk.spring.platform.GlobalPluginNotificationHandle
 @VsoObject(create = false, strict = true)
 public class DockerNode implements IDockerNode
 {
-	private static final Logger log = LoggerFactory.getLogger(DockerNode.class);
+	private static final Logger log = LogManager.getLogger(DockerNode.class);
 
 	// vCO TYPE & RELATION information
 	public static final String TYPE = "DockerNode";
@@ -140,7 +139,8 @@ public class DockerNode implements IDockerNode
 	
 	public DockerNode()
 	{
-		configureNode();		
+		log.setLevel(Level.DEBUG);
+		configureNode();
 	}
 	
 	public void configureNode()
@@ -222,8 +222,7 @@ public class DockerNode implements IDockerNode
 		return dockerClient;
 	}
 	
-	// NO ACCESS from vCO
-	@VsoMethod(showInApi = false)
+	// NO ACCESS from vCO, NO ACCESS from outside
 	private void initNode()
 	{
 		if(isOnline())
@@ -264,10 +263,10 @@ public class DockerNode implements IDockerNode
 				while (itr.hasNext())
 				{
 					DockerImage image = itr.next();
-					log.info("Searching images. Current image: " + image.getId() + ".");
+					log.debug("Searching images. Current image: " + image.getId() + ".");
 					if (image.getId().equals(id))
 					{
-						log.info("Found image '" + id + "'.");
+						log.debug("Found image '" + id + "'.");
 						return image;
 					}
 				}
@@ -276,13 +275,13 @@ public class DockerNode implements IDockerNode
 			// if not found in cache, refresh the cache and re-run the cache search
 			if(runs  == 0)
 			{
-				log.info("Image with id '" + id + "' not found in cache of this docker node. Refreshing cache...");
+				log.debug("Image with id '" + id + "' not found in cache of this docker node. Refreshing cache...");
 				this.reloadImages();
 			}
 		}
 
 		// if not found in cache after cache was synchronized, the image dosn't exist on this host. Return null.
-		log.info("Image with id '" + id + "' not found on this docker node.");
+		log.debug("Image with id '" + id + "' not found on this docker node.");
 		return null;
 	}
 
@@ -293,8 +292,7 @@ public class DockerNode implements IDockerNode
 		this.images = images;
 	}
 
-	// NO ACCESS from vCO
-	@VsoMethod(showInApi = false)
+	// NO ACCESS from vCO, NO ACCESS from outside
 	private synchronized void addImage(DockerImage item) throws Exception
 	{
 		images.add(item);
@@ -305,7 +303,7 @@ public class DockerNode implements IDockerNode
 	@VsoMethod(showInApi = false)
 	public void initImages(boolean allImages)
 	{
-		log.info("About to load images for node '" + this.id + "'");
+		log.debug("About to load images for node '" + this.id + "'");
 		if ((this.hostName != null) && (this.hostPortNumber > 0) && (this.hostPortNumber < 65535))
 		{
 			try
@@ -316,14 +314,14 @@ public class DockerNode implements IDockerNode
 				{	
 					configureNode();
 					DockerClient dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
-					log.info("Loading Images with option all=" + allImages + ".");
+					log.debug("Loading Images with option all=" + allImages + ".");
 					newImages = dockerClient.listImagesCmd().withShowAll(allImages).exec();
 				}
 				catch (Exception e)
 				{
 					log.error("Error occured while loading images: " + e.getMessage());
 					// if a error occurs, clear the cache and throw an error to prevent the client from seeing out-dated data
-					log.info("Clearing image cache on node '" + displayName + "'.");
+					log.debug("Clearing image cache on node '" + displayName + "'.");
 					this.images.clear();
 					throw e;
 				}
@@ -335,7 +333,7 @@ public class DockerNode implements IDockerNode
 					// 1a. Only in newList == addedImages, add and notifyInvalidate(node) when done with everything. newList - oldList = addedImages
 					List<Image> addedImages = new ArrayList<Image>(newImages);
 					Iterator<Image> addItr = addedImages.iterator();
-					log.info("Checking for new images...");
+					log.debug("Checking for new images...");
 					while (addItr.hasNext())
 					{
 						Image img = addItr.next();
@@ -346,17 +344,17 @@ public class DockerNode implements IDockerNode
 							if (img.getId().equals(image.getImageId()))
 							{
 								// if the image exists in the oldList, remove it from the addedImages
-								log.info("Image '" + img.getId() + "' seems to be already cached.");
+								log.debug("Image '" + img.getId() + "' seems to be already cached.");
 								addItr.remove();
 							}
 						}
 					}
-					log.info("New images found are: " +addedImages.toString());
+					log.debug("New images found are: " +addedImages.toString());
 					
 					// 1b. Only in oldList == deletedImages, delete and notifyDelete(image). oldList - newList = deletedImages
 					List<DockerImage> deletedImages = new ArrayList<DockerImage>();
 					Iterator<DockerImage> delItr = this.images.iterator();
-					log.info("Checking for deleted images...");
+					log.debug("Checking for deleted images...");
 					deleteloop:
 					while (delItr.hasNext())
 					{
@@ -372,14 +370,14 @@ public class DockerNode implements IDockerNode
 							}
 						}
 						// loop was not exited, so our image was not found in the newList and can be considered as deleted
-						log.info("Image '" + image.getImageId() + "' seems to be deleted.");
+						log.debug("Image '" + image.getImageId() + "' seems to be deleted.");
 						deletedImages.add(image);
 					}
-					log.info("Deleted images found are: " +deletedImages.toString());
+					log.debug("Deleted images found are: " +deletedImages.toString());
 					
 					// 1c. In newList and in oldList == eventually updated images, run inspectImage and notifyUpdated(image). in both == updatedImages		
 					Iterator<Image> updItr = newImages.iterator();
-					log.info("Updateing loaded images on node's cache...");
+					log.debug("Updateing loaded images on node's cache...");
 					while (updItr.hasNext())
 					{
 						Image img = updItr.next();
@@ -390,18 +388,18 @@ public class DockerNode implements IDockerNode
 							if(img.getId().equals(image.getImageId()))
 							{
 								// if a image exists within the old and the new list, just update it's details
-								log.info("Found image in node's cache. Updateing image info...");
+								log.debug("Found image in node's cache. Updateing image info...");
 								image.reloadImage();
 							}
 						}		
 					}
-					log.info("Finished updateing loaded images on node's cache.");
+					log.debug("Finished updateing loaded images on node's cache.");
 					
 					if(!addedImages.isEmpty())
 					{
 						// for every added image, add it to our image list. This will also call updateChildInventory for that image
 						// Do not use for-loops for this, since it will cause ConcurrentModificationExceptions to be thrown!
-						log.info("Adding loaded images to node's cache...");
+						log.debug("Adding loaded images to node's cache...");
 						Iterator<Image> iterator = addedImages.iterator();
 						while (iterator.hasNext())
 						{
@@ -414,7 +412,7 @@ public class DockerNode implements IDockerNode
 
 							try
 							{
-								log.info("Adding image " + tag);
+								log.debug("Adding image " + tag);
 								this.addImage((new DockerImage(this, tag, id)));
 								
 								//TODO call some notify method to let the node know there's a new child! (currently the constructor only calls update!)
@@ -425,14 +423,14 @@ public class DockerNode implements IDockerNode
 								log.error("Error while adding image to image-list. " + e.getMessage());
 							}
 						}
-						log.info("Finished adding loaded images to node's cache.");
+						log.debug("Finished adding loaded images to node's cache.");
 					}
 					
 					if(!deletedImages.isEmpty())
 					{
 						// for every deleted image, delete it from our list.
 						// Do not use for-loops for this, since it will cause ConcurrentModificationExceptions to be thrown!
-						log.info("Removeing deleted images from node cache...");
+						log.debug("Removeing deleted images from node cache...");
 						Iterator<DockerImage> iterator = deletedImages.iterator();
 						while (iterator.hasNext())
 						{
@@ -445,7 +443,7 @@ public class DockerNode implements IDockerNode
 									DockerImage img = itr.next();
 									if(img.getImageId().equals(i.getImageId()))
 									{
-										log.info("Deleting image '" + img.getDisplayName() + "' from node cache...");
+										log.debug("Deleting image '" + img.getDisplayName() + "' from node cache...");
 										InventoryRef ref = img.toRef();
 										itr.remove();
 										
@@ -458,7 +456,7 @@ public class DockerNode implements IDockerNode
 								log.error("Error while removeing deleted image from image-list. " + e.getMessage());
 							}
 						}
-						log.info("Finished removeing deleted images from node's cache.");
+						log.debug("Finished removeing deleted images from node's cache.");
 					}
 				}
 			}
@@ -475,7 +473,7 @@ public class DockerNode implements IDockerNode
 		{
 			log.error("Failed to load images from node '" + this.id + "'. Check the node's settings");
 		}
-		log.info("Finished loading images for node '" + this.id + "' into cache.");
+		log.debug("Finished loading images for node '" + this.id + "' into cache.");
 	}
 
 	// NO ACCESS from vCO
@@ -490,7 +488,7 @@ public class DockerNode implements IDockerNode
 	@VsoMethod(showInApi = false)
 	public void clearImages()
 	{
-		log.info("Clearing image cache...");
+		log.debug("Clearing image cache...");
 		// handle update in a synchronized manner
 		synchronized (this.images) 
 		{
@@ -522,10 +520,10 @@ public class DockerNode implements IDockerNode
 				while (itr.hasNext())
 				{
 					DockerContainer container = itr.next();
-					log.info("Searching containers. Current container: " + container.getId() + ".");
+					log.debug("Searching containers. Current container: " + container.getId() + ".");
 					if (container.getId().equals(id))
 					{
-						log.info("Found container '" + id + "'.");
+						log.debug("Found container '" + id + "'.");
 						return container;
 					}
 				}
@@ -534,13 +532,13 @@ public class DockerNode implements IDockerNode
 			// if not found in cache, refresh the cache and re-run the cache search
 			if(runs  == 0)
 			{
-				log.info("Container with id '" + id + "' not found in cache of this docker node. Refreshing cache...");
+				log.debug("Container with id '" + id + "' not found in cache of this docker node. Refreshing cache...");
 				this.reloadContainers();
 			}
 		}
 
 		// if not found in cache after cache was synchronized, the container dosn't exist on this host. Return null.
-		log.info("Container with id '" + id + "' not found on this docker node.");
+		log.debug("Container with id '" + id + "' not found on this docker node.");
 		return null;
 	}
 
@@ -551,8 +549,7 @@ public class DockerNode implements IDockerNode
 		this.containers = containers;
 	}
 
-	// NO ACCESS from vCO
-	@VsoMethod(showInApi = false)
+	// NO ACCESS from vCO, NO ACCESS from outside
 	private synchronized void addContainer(DockerContainer item) throws IllegalArgumentException, IOException
 	{
 		containers.add(item);
@@ -563,7 +560,7 @@ public class DockerNode implements IDockerNode
 	@VsoMethod(showInApi = false)
 	public void initContainers(boolean allContainers)
 	{
-		log.info("About to load containers for node '" + this.id + "'");
+		log.debug("About to load containers for node '" + this.id + "'");
 		if ((this.hostName != null) && (this.hostPortNumber > 0) && (this.hostPortNumber < 65535))
 		{
 			try
@@ -574,14 +571,14 @@ public class DockerNode implements IDockerNode
 				{
 					configureNode();
 					DockerClient dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
-					log.info("Loading containers with option all=" + allContainers + ".");
+					log.debug("Loading containers with option all=" + allContainers + ".");
 					newContainers = dockerClient.listContainersCmd().withShowAll(allContainers).exec();
 				}
 				catch (Exception e)
 				{
 					log.error("Error occured while loading containers: " + e.getMessage());
 					// if a error occurs, clear the cache and throw an error to prevent the client from seeing outdated data
-					log.info("Clearing container cache on node '" + displayName + "'.");
+					log.debug("Clearing container cache on node '" + displayName + "'.");
 					this.containers.clear();
 					throw e;
 				}
@@ -593,7 +590,7 @@ public class DockerNode implements IDockerNode
 					// 1a. Only in newList == addedContainers, add and notifyInvalidate(node) when done with everything. newList - oldList = addedContainers
 					List<Container> addedContainers = new ArrayList<Container>(newContainers);
 					Iterator<Container> addItr = addedContainers.iterator();
-					log.info("Checking for new containers...");
+					log.debug("Checking for new containers...");
 					while (addItr.hasNext())
 					{
 						Container cnt = addItr.next();
@@ -604,17 +601,17 @@ public class DockerNode implements IDockerNode
 							if (container.getContainerId().equals(cnt.getId()))
 							{
 								// if the container exists in the oldList, remove it from the addedContainers
-								log.info("Container '" + cnt.getId() + "' seems to be already cached.");
+								log.debug("Container '" + cnt.getId() + "' seems to be already cached.");
 								addItr.remove();
 							}
 						}
 					}
-					log.info("New containers found are: " +addedContainers.toString());
+					log.debug("New containers found are: " +addedContainers.toString());
 					
 					// 1b. Only in oldList == deletedContainers, delete and notifyDelete(container). oldList - newList = deletedContainers
 					List<DockerContainer> deletedContainers = new ArrayList<DockerContainer>();
 					Iterator<DockerContainer> delItr = this.containers.iterator();
-					log.info("Checking for deleted containers...");
+					log.debug("Checking for deleted containers...");
 					deleteloop:
 					while (delItr.hasNext())
 					{
@@ -630,15 +627,15 @@ public class DockerNode implements IDockerNode
 							}
 						}
 						// loop was not exited, so our container was not found in the newList and can be considered as deleted
-						log.info("Container '" + container.getContainerId() + "' seems to be deleted.");
+						log.debug("Container '" + container.getContainerId() + "' seems to be deleted.");
 						deletedContainers.add(container);
 					}
-					log.info("Deleted containers found are: " +deletedContainers.toString());
+					log.debug("Deleted containers found are: " +deletedContainers.toString());
 
 
 					// 1c. In newList and in oldList == eventually updated containers, run inspectContainer and notifyUpdated(container). in both == updatedContainers		
 					Iterator<Container> updItr = newContainers.iterator();
-					log.info("Updateing loaded containers on node's cache...");
+					log.debug("Updateing loaded containers on node's cache...");
 					while (updItr.hasNext())
 					{
 						Container cnt = updItr.next();
@@ -649,25 +646,25 @@ public class DockerNode implements IDockerNode
 							if(cnt.getId().equals(container.getContainerId()))
 							{
 								// if a container exists within the old and the new list, just update it's details
-								log.info("Found container in node's cache. Updateing container info...");
+								log.debug("Found container in node's cache. Updateing container info...");
 								container.reloadContainer();
 							}
 						}		
 					}
-					log.info("Finished updateing loaded containers on node's cache.");
+					log.debug("Finished updateing loaded containers on node's cache.");
 					
 					if(!addedContainers.isEmpty())
 					{
 						// for every added container, add it to our container list. This will also call updateChildInventory for that container
 						// Do not use for-loops for this, since it will cause ConcurrentModificationExceptions to be thrown!
-						log.info("Adding loaded containers to node's cache...");
+						log.debug("Adding loaded containers to node's cache...");
 						Iterator<Container> iterator = addedContainers.iterator();
 						while (iterator.hasNext())
 						{
 							Container c = iterator.next();
 							try
 							{
-								log.info("Adding container " + c.getId());
+								log.debug("Adding container " + c.getId());
 								this.addContainer((new DockerContainer(this, c.getNames()[0], c.getId())));
 								
 								//TODO call some notify method to let the node know there's a new child! (currently the constructor only calls update!)
@@ -677,14 +674,14 @@ public class DockerNode implements IDockerNode
 								log.error("Error while adding container to container-cache. " + e.getMessage());
 							}
 						}
-						log.info("Finished adding loaded containers to node's cache.");
+						log.debug("Finished adding loaded containers to node's cache.");
 					}
 					
 					if(!deletedContainers.isEmpty())
 					{
 						// for every deleted container, delete it from our list.
 						// Do not use for-loops for this, since it will cause ConcurrentModificationExceptions to be thrown!
-						log.info("Removeing deleted containers from node's cache...");
+						log.debug("Removeing deleted containers from node's cache...");
 						Iterator<DockerContainer> iterator = deletedContainers.iterator();
 						while (iterator.hasNext())
 						{
@@ -697,7 +694,7 @@ public class DockerNode implements IDockerNode
 									DockerContainer cnt = itr.next();
 									if(cnt.getContainerId().equals(c.getContainerId()))
 									{
-										log.info("Deleting container '" + cnt.getDisplayName() + "' from node cache...");
+										log.debug("Deleting container '" + cnt.getDisplayName() + "' from node cache...");
 										InventoryRef ref = cnt.toRef();
 										itr.remove();
 										
@@ -710,7 +707,7 @@ public class DockerNode implements IDockerNode
 								log.error("Error while removeing deleted container from container-list. " + e.getMessage());
 							}
 						}
-						log.info("Finished removeing deleted containers from node's cache.");
+						log.debug("Finished removeing deleted containers from node's cache.");
 					}
 				}
 			}
@@ -727,7 +724,7 @@ public class DockerNode implements IDockerNode
 		{
 			log.error("Failed to load containers from node '" + this.id + "'. Check the node's settings");
 		}
-		log.info("Finished loading containers for node '" + this.id + "' into cache.");
+		log.debug("Finished loading containers for node '" + this.id + "' into cache.");
 	}
 
 	// NO ACCESS from vCO
@@ -742,7 +739,7 @@ public class DockerNode implements IDockerNode
 	@VsoMethod(showInApi = false)
 	public void clearContainer()
 	{
-		log.info("Clearing container cache...");
+		log.debug("Clearing container cache...");
 		// handle update in a synchronized manner
 		synchronized (this.containers) 
 		{
@@ -762,7 +759,7 @@ public class DockerNode implements IDockerNode
 	@VsoMethod(showInApi = false)
 	public InspectContainerResponse inspectDockerContainer(DockerContainer container) throws Exception
 	{
-		log.info("Running inspectDockerContainer...");
+		log.debug("Running inspectDockerContainer...");
 		DockerClient dockerClient = null;
 		try
 		{
@@ -786,7 +783,7 @@ public class DockerNode implements IDockerNode
 	@VsoMethod(showInApi = false)
 	public InspectImageResponse inspectDockerImage(DockerImage image) throws Exception
 	{
-		log.info("Running inspectDockerImage...");
+		log.debug("Running inspectDockerImage...");
 		DockerClient dockerClient = null;
 		try
 		{
@@ -917,7 +914,7 @@ public class DockerNode implements IDockerNode
 	@VsoMethod(showInApi = true, name = "getHostInfo", description = "Returns information about the docker node")
 	public String getHostInfo() throws Exception
 	{
-		log.info("Getting host info...");
+		log.debug("Getting host info...");
 		DockerClient dockerClient = null;
 		try
 		{
@@ -962,7 +959,7 @@ public class DockerNode implements IDockerNode
 	@VsoMethod(showInApi = true, name = "pullImage", description = "Pull the image matching the given string from the docker hub repository, saving it on the docker host.")
 	public String pullImage(String imageName) throws Exception
 	{
-		log.info("Pulling image '" + imageName + "'...");
+		log.debug("Pulling image '" + imageName + "'...");
 
 		@SuppressWarnings("rawtypes")
 		MappingIterator<Map> it = null;
@@ -1075,7 +1072,7 @@ public class DockerNode implements IDockerNode
 				if (StringUtils.containsIgnoreCase(lastStatus, "Download complete"))
 				{
 					downloadStatus = "successed";
-					log.info("The requested layer was downloaded successfuly.");
+					log.debug("The requested layer was downloaded successfuly.");
 				}
 				else
 				{
@@ -1091,7 +1088,7 @@ public class DockerNode implements IDockerNode
 			// update inventory - another way to do this would be to update our ArrayList and call notifyElementDeleted on the image object
 			notificationHandler.notifyElementInvalidate(toRef());
 
-			log.info("Pull operation " + downloadStatus + ". " + finalStatus + ".");
+			log.debug("Pull operation " + downloadStatus + ". " + finalStatus + ".");
 			return "Pull operation " + downloadStatus + ". " + finalStatus + ".";
 
 		}
@@ -1116,9 +1113,9 @@ public class DockerNode implements IDockerNode
 		{
 			if (it != null)
 			{
-				log.info("Closeing pullImage stream...");
+				log.debug("Closeing pullImage stream...");
 				it.close();
-				log.info("Closed pullImage stream.");
+				log.debug("Closed pullImage stream.");
 			}
 		}
 
@@ -1137,10 +1134,10 @@ public class DockerNode implements IDockerNode
 				while (itr.hasNext())
 				{
 					DockerImage image = itr.next();
-					log.info("Searching images. Current image: " + image.getImageId() + ".");
+					log.debug("Searching images. Current image: " + image.getImageId() + ".");
 					if (image.getImageTag().equals(imageTag))
 					{
-						log.info("Found image '" + imageTag + "'.");
+						log.debug("Found image '" + imageTag + "'.");
 						return image;
 					}
 				}
@@ -1148,7 +1145,7 @@ public class DockerNode implements IDockerNode
 			// if not found in cache, refresh the cache and re-run the cache search
 			if(runs  == 0)
 			{
-				log.info("Image with tag '" + imageTag + "' not found in cache of this docker node. Refreshing cache...");
+				log.debug("Image with tag '" + imageTag + "' not found in cache of this docker node. Refreshing cache...");
 				this.reloadImages();
 			}
 		}
@@ -1170,10 +1167,10 @@ public class DockerNode implements IDockerNode
 				while (itr.hasNext())
 				{
 					DockerImage image = itr.next();
-					log.info("Searching images. Current image: " + image.getImageId() + ".");
+					log.debug("Searching images. Current image: " + image.getImageId() + ".");
 					if (image.getImageId().equals(imageId))
 					{
-						log.info("Found image '" + imageId + "'.");
+						log.debug("Found image '" + imageId + "'.");
 						return image;
 					}
 				}
@@ -1181,7 +1178,7 @@ public class DockerNode implements IDockerNode
 			// if not found in cache, refresh the cache and re-run the cache search
 			if(runs  == 0)
 			{
-				log.info("Image with image id '" + imageId + "' not found in cache of this docker node. Refreshing cache...");
+				log.debug("Image with image id '" + imageId + "' not found in cache of this docker node. Refreshing cache...");
 				this.reloadImages();
 			}
 		}
@@ -1194,13 +1191,13 @@ public class DockerNode implements IDockerNode
 	@VsoMethod(showInApi = true, name = "deleteImage", description = "Deletes an image from the docker node")
 	public void removeImage(String id, boolean force) throws Exception
 	{
-		log.info("Removing image '" + id + "'.");
+		log.debug("Removing image '" + id + "'.");
 		configureNode();
 		DockerClient dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
 
 		try
 		{
-			log.info("Executing...");
+			log.debug("Executing...");
 			dockerClient.removeImageCmd(id).withForce(force).exec();
 		}
 		catch (NotFoundException e)
@@ -1245,7 +1242,7 @@ public class DockerNode implements IDockerNode
 	@VsoMethod(showInApi = true, name = "searchImage", description = "Returns a list of images from the docker hub repository matching the input string.")
 	public String[] searchImage(String imageName, int limit) throws Exception
 	{
-		log.info("Searching image '" + imageName + "' with limit " + limit + ".");
+		log.debug("Searching image '" + imageName + "' with limit " + limit + ".");
 		// prevent negative values
 		if (limit < 0)
 		{
@@ -1324,7 +1321,7 @@ public class DockerNode implements IDockerNode
 			throw new Exception("Error: no image specified.");
 		}
 
-		log.info("Creating new container...");
+		log.debug("Creating new container...");
 
 		CreateContainerResponse response = null;
 		try
@@ -1406,7 +1403,7 @@ public class DockerNode implements IDockerNode
 			}
 
 			response = command.exec();
-			log.info("Created container '" + response.getId() + "'.");
+			log.debug("Created container '" + response.getId() + "'.");
 		}
 		catch (NotFoundException e)
 		{
@@ -1454,10 +1451,10 @@ public class DockerNode implements IDockerNode
 				while (itr.hasNext())
 				{
 					DockerContainer container = itr.next();
-					log.info("Searching containers. Current container: " + container.getName() + ".");
+					log.debug("Searching containers. Current container: " + container.getName() + ".");
 					if (container.getName().equals(containerName))
 					{
-						log.info("Found container '" + containerName + "'.");
+						log.debug("Found container '" + containerName + "'.");
 						return container;
 					}
 				}
@@ -1465,7 +1462,7 @@ public class DockerNode implements IDockerNode
 			// if not found in cache, refresh the cache and re-run the cache search
 			if(runs  == 0)
 			{
-				log.info("Container with name '" + containerName + "' not found in cache of this docker node. Refreshing cache...");
+				log.debug("Container with name '" + containerName + "' not found in cache of this docker node. Refreshing cache...");
 				this.reloadContainers();
 			}
 		}
@@ -1487,10 +1484,10 @@ public class DockerNode implements IDockerNode
 				while (itr.hasNext())
 				{
 					DockerContainer container = itr.next();
-					log.info("Searching containers. Current container: " + container.getName() + ".");
+					log.debug("Searching containers. Current container: " + container.getName() + ".");
 					if (container.getContainerId().equals(containerId))
 					{
-						log.info("Found container '" + containerId + "'.");
+						log.debug("Found container '" + containerId + "'.");
 						return container;
 					}
 				}
@@ -1498,7 +1495,7 @@ public class DockerNode implements IDockerNode
 			// if not found in cache, refresh the cache and re-run the cache search
 			if(runs  == 0)
 			{
-				log.info("Container with container id '" + containerId + "' not found in cache of this docker node. Refreshing cache...");
+				log.debug("Container with container id '" + containerId + "' not found in cache of this docker node. Refreshing cache...");
 				this.reloadContainers();
 			}
 		}
@@ -1516,7 +1513,7 @@ public class DockerNode implements IDockerNode
 			throw new Exception("Error: no container specified.");
 		}
 		
-		log.info("Deleting container '" + container.getContainerId() + "' with force '" + force + "' and removeVolumes '" + removeVolumes + "'.");
+		log.debug("Deleting container '" + container.getContainerId() + "' with force '" + force + "' and removeVolumes '" + removeVolumes + "'.");
 
 		try
 		{
@@ -1546,7 +1543,7 @@ public class DockerNode implements IDockerNode
 			throw new Exception("Error while deleting container: " + sw.getBuffer().toString());
 		}
 
-		log.info("Delete operation finished.");
+		log.debug("Delete operation finished.");
 		// reload images from docker node
 		this.reloadContainers();
 		// update inventory - another way to do this would be to update our ArrayList and call notifyElementDeleted on the container object
@@ -1575,7 +1572,7 @@ public class DockerNode implements IDockerNode
 			throw new Exception("Error: no container specified.");
 		}
 
-		log.info("Starting container '" + id + "'.");
+		log.debug("Starting container '" + id + "'.");
 		
 		try
 		{
@@ -1664,7 +1661,7 @@ public class DockerNode implements IDockerNode
 			log.error("Error while starting container: " + sw.getBuffer().toString());
 			throw new Exception("Error while starting container: " + sw.getBuffer().toString());
 		}
-		log.info("Start operation finished.");
+		log.debug("Start operation finished.");
 		
 		container.reloadContainer();
 	}
@@ -1678,7 +1675,7 @@ public class DockerNode implements IDockerNode
 			throw new Exception("Error: no container specified.");
 		}
 		
-		log.info("Stopping container '" + id + "'.");
+		log.debug("Stopping container '" + id + "'.");
 
 		try
 		{
@@ -1719,7 +1716,7 @@ public class DockerNode implements IDockerNode
 			log.error("Error while stopping container: " + sw.getBuffer().toString());
 			throw new Exception("Error while stopping container: " + sw.getBuffer().toString());
 		}
-		log.info("Stop operation finished.");
+		log.debug("Stop operation finished.");
 
 		container.reloadContainer();
 	}
@@ -1733,7 +1730,7 @@ public class DockerNode implements IDockerNode
 			throw new Exception("Error: no container specified.");
 		}
 		
-		log.info("Restarting container '" + container.getContainerId() + "'.");
+		log.debug("Restarting container '" + container.getContainerId() + "'.");
 
 		try
 		{
@@ -1767,7 +1764,7 @@ public class DockerNode implements IDockerNode
 			log.error("Error while restarting container: " + sw.getBuffer().toString());
 			throw new Exception("Error while restarting container: " + sw.getBuffer().toString());
 		}
-		log.info("Reload operation finished.");
+		log.debug("Reload operation finished.");
 		
 		container.reloadContainer();
 	}
@@ -1781,7 +1778,7 @@ public class DockerNode implements IDockerNode
 			throw new Exception("Error: no container specified.");
 		}
 		
-		log.info("Killing container '" + container.getContainerId() + "' with signal '" + signal + "'.");
+		log.debug("Killing container '" + container.getContainerId() + "' with signal '" + signal + "'.");
 
 		try
 		{
@@ -1811,7 +1808,7 @@ public class DockerNode implements IDockerNode
 			log.error("Error while killing container: " + sw.getBuffer().toString());
 			throw new Exception("Error while killing container: " + sw.getBuffer().toString());
 		}
-		log.info("Kill operation finished.");
+		log.debug("Kill operation finished.");
 
 		container.reloadContainer();
 	}

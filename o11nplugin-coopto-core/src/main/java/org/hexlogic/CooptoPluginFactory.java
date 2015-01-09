@@ -25,12 +25,13 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.hexlogic.model.DockerContainer;
 import org.hexlogic.model.DockerImage;
 import org.hexlogic.model.DockerNode;
 import org.hexlogic.model.DockerNodeService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ch.dunes.vso.sdk.api.QueryResult;
@@ -41,8 +42,13 @@ import com.vmware.o11n.plugin.sdk.spring.InventoryRef;
 
 public final class CooptoPluginFactory extends AbstractSpringPluginFactory 
 {
-	private static final Logger log = LoggerFactory.getLogger(CooptoPluginFactory.class);
+	private static final Logger log = LogManager.getLogger(CooptoPluginFactory.class);
 	private static List<DockerNode> nodes = Collections.synchronizedList(new ArrayList<DockerNode>());
+	
+	public CooptoPluginFactory()
+	{
+		log.setLevel(Level.DEBUG);
+	}
 	
 	@Autowired
 	private DockerNodeService service;
@@ -51,7 +57,7 @@ public final class CooptoPluginFactory extends AbstractSpringPluginFactory
     @Override
     public Object find(InventoryRef ref) 
     {
-    	log.info("running find() with id=" + ref.getId() + " and type=" + ref.getType() + ".");
+    	log.debug("running find() with id=" + ref.getId() + " and type=" + ref.getType() + ".");
         if(ref.isOfType(DockerNode.TYPE))
         {
     		try
@@ -64,10 +70,10 @@ public final class CooptoPluginFactory extends AbstractSpringPluginFactory
 						while (itr.hasNext())
 						{
 							DockerNode node = itr.next();
-							log.info("Checking cache. Current node: " + node.getId() + ".");
+							log.debug("Checking cache. Current node: " + node.getId() + ".");
 							if (node.getId().equals(ref.getId()))
 							{
-								log.info("Found node '" + ref.getId() + "' in cache.");
+								log.debug("Found node '" + ref.getId() + "' in cache.");
 								return node;
 							}
 						}
@@ -107,7 +113,7 @@ public final class CooptoPluginFactory extends AbstractSpringPluginFactory
         				DockerImage image = node.getImage(ref.getId());
                 		if(image != null)
                 		{
-                			log.info("Found " + ref.getType() + " '" + ref.getId() + "' in cache.");
+                			log.debug("Found " + ref.getType() + " '" + ref.getId() + "' in cache.");
                 			return image;
                 		}
 					}
@@ -138,7 +144,7 @@ public final class CooptoPluginFactory extends AbstractSpringPluginFactory
         				DockerContainer container = node.getContainer(ref.getId());
                 		if(container != null)
                 		{
-                			log.info("Found " + ref.getType() + " '" + ref.getId() + "' in cache.");
+                			log.debug("Found " + ref.getType() + " '" + ref.getId() + "' in cache.");
                 			return container;
                 		}
 					}
@@ -164,7 +170,7 @@ public final class CooptoPluginFactory extends AbstractSpringPluginFactory
     @Override
     public QueryResult findAll(String type, String query) 
     {
-    	log.info("running findAll() with type=" + type + " and query=" + query + ".");
+    	log.debug("running findAll() with type=" + type + " and query=" + query + ".");
     	QueryResult qr = new QueryResult();
     	
         if(type.equals(DockerNode.TYPE))
@@ -179,7 +185,7 @@ public final class CooptoPluginFactory extends AbstractSpringPluginFactory
     			}
     			else
     			{
-    				log.info("Found " + type + " in cache.");
+    				log.debug("Found " + type + " in cache.");
     			}
     			
   				// try to find in cache - must be in synchronized block
@@ -222,7 +228,7 @@ public final class CooptoPluginFactory extends AbstractSpringPluginFactory
 						}
 					}
 				}
-				log.info("Found children: " + qr);
+				log.debug("Found children: " + qr);
     		}
     		catch (Exception e)
     		{
@@ -250,7 +256,7 @@ public final class CooptoPluginFactory extends AbstractSpringPluginFactory
 						}
 					}
 				}
-				log.info("Found children: " + qr);
+				log.debug("Found children: " + qr);
     		}
     		catch (Exception e)
     		{
@@ -267,7 +273,7 @@ public final class CooptoPluginFactory extends AbstractSpringPluginFactory
     @Override
     public List<?> findChildrenInRootRelation(String type, String relationName) 
     {
-    	log.info("running findChildrenInRootRelation() with type=" + type + " and relationName=" + relationName + ".");
+    	log.debug("running findChildrenInRootRelation() with type=" + type + " and relationName=" + relationName + ".");
 
     	if(type.equals(CooptoModuleBuilder.ROOT))
     	{
@@ -290,14 +296,14 @@ public final class CooptoPluginFactory extends AbstractSpringPluginFactory
     @Override
     public List<?> findChildrenInRelation(InventoryRef parent, String relationName) 
     {
-    	log.info("running findChildrenInRelation() with parent=" + parent + " and relationName=" + relationName + ".");
+    	log.debug("running findChildrenInRelation() with parent=" + parent + " and relationName=" + relationName + ".");
     	
     	if (parent.isOfType(CooptoModuleBuilder.ROOT)) 
     	{
-    		log.info("parent is of type " + CooptoModuleBuilder.ROOT);
+    		log.debug("parent is of type " + CooptoModuleBuilder.ROOT);
 	    	if (relationName.equals(CooptoModuleBuilder.NODERELATION)) 
 	    	{
-	    		log.info("relation is " + CooptoModuleBuilder.NODERELATION);
+	    		log.debug("relation is " + CooptoModuleBuilder.NODERELATION);
 	    		return findAll(DockerNode.TYPE, null).getElements();
 	    	}
 	    	else
@@ -307,7 +313,7 @@ public final class CooptoPluginFactory extends AbstractSpringPluginFactory
     	}
     	else if(parent.isOfType(DockerNode.TYPE))
     	{
-    		log.info("parent is of type " + DockerNode.TYPE + ". Searching...");
+    		log.debug("parent is of type " + DockerNode.TYPE + ". Searching...");
 	    	
     		try
 			{
@@ -320,10 +326,10 @@ public final class CooptoPluginFactory extends AbstractSpringPluginFactory
 						DockerNode node = itr.next();
 	    				if(node.getId().equals(parent.getId()))
 	    				{
-	    					log.info("Found parent " + DockerNode.TYPE + " with id " + parent.getId());
+	    					log.debug("Found parent " + DockerNode.TYPE + " with id " + parent.getId());
 	    			  		if (relationName.equals(DockerNode.IMAGERELATION)) 
 	    			    	{
-	    			    		log.info("Relation is " + DockerNode.IMAGERELATION);
+	    			    		log.debug("Relation is " + DockerNode.IMAGERELATION);
 	    						if(node != null)
 	    						{
 	    							return node.getImages();
@@ -331,7 +337,7 @@ public final class CooptoPluginFactory extends AbstractSpringPluginFactory
 	    			    	}
 	    			  		else if (relationName.equals(DockerNode.CONTAINERRELATION)) 
 	    			    	{
-	    			    		log.info("Relation is " + DockerNode.CONTAINERRELATION);
+	    			    		log.debug("Relation is " + DockerNode.CONTAINERRELATION);
 	    						if(node != null)
 	    						{
 	    							return node.getContainers();
@@ -371,7 +377,7 @@ public final class CooptoPluginFactory extends AbstractSpringPluginFactory
     	String apiVersion = config.getString(DockerNode.APIVERSION);
     	
     	// The same docker host may be added multiple times to the inventory - we have no way to prevent that - but the will be a different one
-    	log.info("Running makeDockerNode() for node with vco-id:" + id);
+    	log.debug("Running makeDockerNode() for node with vco-id:" + id);
     	
     	if(id != null && !id.isEmpty())
     	{
@@ -379,7 +385,7 @@ public final class CooptoPluginFactory extends AbstractSpringPluginFactory
     		{
     			if(hostName != null && !hostName.isEmpty())
     			{
-    				log.info("Starting node scripting object creation...");
+    				log.debug("Starting node scripting object creation...");
     				// No need to test port and API version since they will fallback to default if not set
     				DockerNode object = createScriptingObject(DockerNode.class);
     		        object.setId(id);
@@ -387,9 +393,9 @@ public final class CooptoPluginFactory extends AbstractSpringPluginFactory
     		        object.setHostName(hostName);
     		        object.setHostPortNumber(portNumber);
     		        object.setDockerApiVersion(apiVersion);
-    		        log.info("Finished node scripting object creation.");
+    		        log.debug("Finished node scripting object creation.");
     		        
-					log.info("Running init methods of the new node scripting object...");
+					log.debug("Running init methods of the new node scripting object...");
 					if(object.isOnline())
 					{
 						object.initImages(object.getShowRelatedImages());
@@ -405,7 +411,7 @@ public final class CooptoPluginFactory extends AbstractSpringPluginFactory
 						object.clearContainer();
 					}
 		        	
-					log.info("Finished running init methods of the new node scripting object.");
+					log.debug("Finished running init methods of the new node scripting object.");
     		        return object;
     			}
     	    	else
@@ -431,10 +437,10 @@ public final class CooptoPluginFactory extends AbstractSpringPluginFactory
     @Override
     public void invalidateAll()
     {
-    	log.info("Running INVALIDATEALL..");
+    	log.debug("Running INVALIDATEALL..");
     	this.rebuildCache();
     	super.invalidateAll();
-    	log.info("Finished running INVALIDATEALL.");
+    	log.debug("Finished running INVALIDATEALL.");
     }
     
     // invalidate may be called from within the plugin or from the vCO client when right-clicking an inventory object and selecting "refresh"
@@ -444,11 +450,11 @@ public final class CooptoPluginFactory extends AbstractSpringPluginFactory
     @Override
     public void invalidate(String type, String id)
     {
-    	log.info("Running INVALIDATE for type '" + type + "' and id '" + id + "'...");
+    	log.debug("Running INVALIDATE for type '" + type + "' and id '" + id + "'...");
     	if(type.equals(DockerNode.TYPE))
     	{
     		// reload the node configuration from EndpointConfiguration
-    		log.info("Found node with id '" + id + "'.");
+    		log.debug("Found node with id '" + id + "'.");
         	rebuildCache(id);
     	}
     	else if(type.equals(DockerImage.TYPE))
@@ -462,7 +468,7 @@ public final class CooptoPluginFactory extends AbstractSpringPluginFactory
 					DockerNode node = itr.next();
 	    			if(node.getImage(id) != null)
 	    			{
-	    				log.info("Found image on node with id '" + node.getId() + "'.");
+	    				log.debug("Found image on node with id '" + node.getId() + "'.");
 	    				node.reloadImages();
 	    			}
 				}
@@ -479,20 +485,20 @@ public final class CooptoPluginFactory extends AbstractSpringPluginFactory
 					DockerNode node = itr.next();
 		   			if(node.getContainer(id) != null)
 	    			{
-	    				log.info("Found container on node with id '" + node.getId() + "'.");
+	    				log.debug("Found container on node with id '" + node.getId() + "'.");
 	    				node.reloadContainers();
 	    			}
 				}
 			}
     	}
     	super.invalidate(type, id);
-    	log.info("Finished running INVALIDATE for type '" + type + "' and id '" + id + "'.");
+    	log.debug("Finished running INVALIDATE for type '" + type + "' and id '" + id + "'.");
     }
     
     private void rebuildCache()
     {
-    	log.info("Rebuilding full cache...");
-		log.info("Current cachesize: " + nodes.size() + ".");
+    	log.debug("Rebuilding full cache...");
+		log.debug("Current cachesize: " + nodes.size() + ".");
 		/* Do not just simply clear the cache because e.g. find() requests executed while the new cache is being build 
 		 * would result in cache misses and trigger a cache rebuild, causing multiple inventory-objects to be created.
 		 * 
@@ -515,14 +521,14 @@ public final class CooptoPluginFactory extends AbstractSpringPluginFactory
 		{
 			nodes = Collections.synchronizedList(newNodes);
 		}
-		log.info("New cachesize: " + nodes.size() + ".");
-		log.info("Finished full cache rebuild.");
+		log.debug("New cachesize: " + nodes.size() + ".");
+		log.debug("Finished full cache rebuild.");
     }
     
     private void rebuildCache(String nodeId)
     {
-    	log.info("Rebuilding cache for node '" + nodeId + "'.");
-    	log.info("Current cachesize: " + nodes.size() + ".");
+    	log.debug("Rebuilding cache for node '" + nodeId + "'.");
+    	log.debug("Current cachesize: " + nodes.size() + ".");
     	// Remove the node which should be refreshed if present in the cache - must be in synchronized block
 		synchronized (nodes) 
 		{
@@ -536,7 +542,7 @@ public final class CooptoPluginFactory extends AbstractSpringPluginFactory
 					// remove this node from nodes list without causing ConcurrentModificationExceptions by using iterator.remove()
 					itr.remove();
 
-	    			log.info("Cleared cache for node ' " + nodeId +"'.");
+	    			log.debug("Cleared cache for node ' " + nodeId +"'.");
 	    		}
 			}
 		}
@@ -545,8 +551,8 @@ public final class CooptoPluginFactory extends AbstractSpringPluginFactory
 		DockerNode node = this.makeDockerNode(service.getNode(nodeId));
 		
 		nodes.add(node);
-		log.info("New cachesize: " + nodes.size() + ".");
-    	log.info("Finished cache rebuild for node '" + nodeId + "'.");
+		log.debug("New cachesize: " + nodes.size() + ".");
+    	log.debug("Finished cache rebuild for node '" + nodeId + "'.");
     }
     
 }

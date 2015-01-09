@@ -21,8 +21,9 @@ package org.hexlogic.model;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import com.github.dockerjava.api.command.InspectImageResponse;
 import com.vmware.o11n.plugin.sdk.annotation.VsoFinder;
@@ -38,7 +39,7 @@ import com.vmware.o11n.plugin.sdk.spring.InventoryRef;
 @VsoObject(description = "A Docker image on a Docker node", create = false, strict = true)
 public class DockerImage
 {
-	private static final Logger log = LoggerFactory.getLogger(DockerImage.class);
+	private static final Logger log = LogManager.getLogger(DockerImage.class);
 	
 	// vCO TYPE & RELATION information
 	public static final String TYPE = "DockerImage";
@@ -74,6 +75,7 @@ public class DockerImage
 	//--------------------------------------------------------------------------------------------------------------------------
 	public DockerImage(DockerNode node, String imageTag, String imageId)
 	{
+		log.setLevel(Level.DEBUG);
 		// Do not use a random UUID here. We're not persisting image objects. Thus, on inventory reload we would loose reference to the image object if re-generating the UUID every time.
 		// Rather then using a random UUID, generate a unique ID using the persistent node id + the unique image id.
 		this.id = node.getId() + "_" + imageId;
@@ -108,7 +110,7 @@ public class DockerImage
 	@VsoMethod(showInApi = false)
 	public void reloadImage() throws Exception
 	{
-		log.info("Running reloadImage()...");
+		log.debug("Running reloadImage()...");
 		InspectImageResponse response = this.dockerNode.inspectDockerImage(this);
 		if(response != null)
 		{
@@ -126,7 +128,7 @@ public class DockerImage
 
 		// Inform the plugin-invetory about the property changes
 		dockerNode.updateChildInventory(toRef());
-		log.info("Finished running reloadImage().");
+		log.debug("Finished running reloadImage().");
 	}
 	
 	// NO ACCESS from vRO

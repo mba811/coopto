@@ -19,7 +19,6 @@
 package org.hexlogic.model;
 
 import java.util.UUID;
-
 import com.github.dockerjava.api.model.ExposedPort;
 import com.vmware.o11n.plugin.sdk.annotation.VsoConstructor;
 import com.vmware.o11n.plugin.sdk.annotation.VsoFinder;
