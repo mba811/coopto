@@ -19,7 +19,6 @@
 package org.hexlogic;
 
 import org.hexlogic.model.DockerNode;
-
 import com.vmware.o11n.plugin.sdk.module.ModuleBuilder;
 
 public final class CooptoModuleBuilder extends ModuleBuilder 
@@ -31,6 +30,8 @@ public final class CooptoModuleBuilder extends ModuleBuilder
 	public static final String ROOT = "COOPTOROOT";
 	public static final String NODERELATION = "DockerNodes";
 
+//	private static final Logger log = Logger.getLogger(ModuleBuilder.class);
+	
     @Override
     public void configure() 
     {
@@ -39,9 +40,10 @@ public final class CooptoModuleBuilder extends ModuleBuilder
         .withDescription(DESCRIPTION)
         .withImage("images/root_32x32.png")
         .buildNumber("${buildNumber}") // Will be attached to the version number, e.g.: version 1.0.1 build 1 == 1.0.0.1
-        .basePackages(CooptoModuleBuilder.class.getPackage().getName()).version("${project.version}");
-
-        installation(InstallationMode.BUILD).action(ActionType.INSTALL_PACKAGE,"packages/${project.artifactId}-package-${project.version}.package");
+        .basePackages(CooptoModuleBuilder.class.getPackage().getName()).version("${project.version}")
+        .installation(InstallationMode.VERSION)
+        .action(ActionType.INSTALL_PACKAGE,"packages/${project.artifactId}-package-${project.version}.package");
+        
         finderDatasource(CooptoPluginAdaptor.class, DATASOURCE).anonymousLogin(LoginMode.INTERNAL);
         inventory(ROOT);
         finder(ROOT, DATASOURCE).addRelation(DockerNode.TYPE, NODERELATION).hide(true);
