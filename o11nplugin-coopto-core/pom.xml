@@ -16,8 +16,8 @@
 		<plugins>
 			<!-- Custom Maven Plugins -->
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-clean-plugin</artifactId>
-				<version>2.4.1</version>
 				<executions>
 					<execution>
 						<id>auto-clean</id>
@@ -37,7 +37,6 @@
 			<artifactId>o11n-provided-deps</artifactId>
 			<type>pom</type>
 		</dependency>
-
 		<dependency>
 			<groupId>com.vmware.o11n</groupId>
 			<artifactId>o11n-sdkapi</artifactId>
@@ -51,11 +50,6 @@
 		<dependency>
 			<groupId>com.github.docker-java</groupId>
 			<artifactId>docker-java</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.neo4j</groupId>
-			<artifactId>neo4j-cypher-compiler-2.1</artifactId>
-			<version>2.1.2</version>
 		</dependency>
 	</dependencies>
 </project>

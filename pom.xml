@@ -33,6 +33,19 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<id>download-licenses</id>
+						<goals>
+							<goal>download-licenses</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-enforcer-plugin</artifactId>
 				<version>1.3.1</version>
@@ -113,6 +126,72 @@
 						<target>1.6</target>
 					</configuration>
 				</plugin>
+				<!-- As of MNG-2496 dependencyManagement should not be used for plugin-dependencies, 
+					so we have to use pluginManagement for that job. We configure this within 
+					our parent pom so all versioning is done here. -->
+				<plugin>
+					<groupId>com.vmware.o11n</groupId>
+					<artifactId>o11n-vso-generator</artifactId>
+					<version>${vco.version}</version>
+					<dependencies>
+						<dependency>
+							<groupId>com.vmware.o11n</groupId>
+							<artifactId>o11n-spring-tools</artifactId>
+							<version>${vco.version}</version>
+						</dependency>
+						<dependency>
+							<groupId>org.hexlogic</groupId>
+							<artifactId>o11nplugin-coopto-core</artifactId>
+							<version>${project.version}</version>
+							<scope>runtime</scope>
+						</dependency>
+						<dependency>
+							<groupId>com.fasterxml.jackson.jaxrs</groupId>
+							<artifactId>jackson-jaxrs-json-provider</artifactId>
+							<version>2.3.3</version>
+						</dependency>
+						<dependency>
+							<groupId>com.fasterxml.jackson.jaxrs</groupId>
+							<artifactId>jackson-jaxrs-base</artifactId>
+							<version>2.3.3</version>
+						</dependency>
+						<dependency>
+							<groupId>com.fasterxml.jackson.core</groupId>
+							<artifactId>jackson-core</artifactId>
+							<version>2.3.3</version>
+						</dependency>
+						<dependency>
+							<groupId>com.fasterxml.jackson.core</groupId>
+							<artifactId>jackson-databind</artifactId>
+							<version>2.3.3</version>
+						</dependency>
+						<dependency>
+							<groupId>com.fasterxml.jackson.module</groupId>
+							<artifactId>jackson-module-jaxb-annotations</artifactId>
+							<version>2.3.3</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+				<plugin>
+					<groupId>com.vmware.o11n.mojo.pkg</groupId>
+					<artifactId>maven-o11n-package-plugin</artifactId>
+					<version>${vco.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>com.vmware.o11n.mojo.dar</groupId>
+					<artifactId>maven-o11n-dar-plugin</artifactId>
+					<version>${vco.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>1.5</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>2.6.1</version>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
@@ -189,6 +268,7 @@
 				<artifactId>o11n-provided-deps</artifactId>
 				<version>${vco.version}</version>
 				<type>pom</type>
+				<scope>provided</scope>
 			</dependency>
 
 			<dependency>
@@ -201,6 +281,7 @@
 				<groupId>com.vmware.o11n</groupId>
 				<artifactId>o11n-sdkapi</artifactId>
 				<version>${vco.version}</version>
+				<scope>provided</scope>
 			</dependency>
 
 			<!-- Other dependencies -->
@@ -212,6 +293,4 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
-
 </project>

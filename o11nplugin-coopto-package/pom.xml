@@ -13,7 +13,8 @@
 	</parent>
 
 	<properties>
-		<!-- This keystore is meant for easier initial setup and should not be used in production! -->
+		<!-- This keystore is meant for easier initial setup and should not be 
+			used in production! -->
 		<keystoreLocation>coopto.public</keystoreLocation>
 		<keystorePassword>password123</keystorePassword>
 	</properties>
@@ -23,7 +24,6 @@
 			<plugin>
 				<groupId>com.vmware.o11n.mojo.pkg</groupId>
 				<artifactId>maven-o11n-package-plugin</artifactId>
-				<version>${vco.version}</version>
 				<extensions>true</extensions>
 				<configuration>
 					<packageName>org.hexlogic</packageName>
@@ -40,8 +40,8 @@
 			</plugin>
 			<!-- Custom Plugins -->
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-clean-plugin</artifactId>
-				<version>2.4.1</version>
 				<executions>
 					<execution>
 						<id>auto-clean</id>
