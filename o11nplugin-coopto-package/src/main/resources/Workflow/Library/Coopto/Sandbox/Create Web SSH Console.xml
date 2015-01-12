@@ -19,7 +19,7 @@
  *	You should have received a copy of the GNU Lesser General Public License	*
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.		*/
  -->
-<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item5" object-name="workflow:name=generic" id="3e557684-0ea9-49fa-9165-531c7e8e0409"  version="0.0.1" api-version="3.1.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0" >
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item5" object-name="workflow:name=generic" id="3e557684-0ea9-49fa-9165-531c7e8e0409"  version="0.0.2" api-version="3.1.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0" >
 <display-name><![CDATA[Create Web SSH Console]]></display-name>
 <description><![CDATA[This is a showcase workflow which demos creation a web based SSH console (wetty) which will establish a SSH connection to the provided SSH server. 
 Please note: Wetty is based on ChromeOS' terminal emulator (hterm), thus this will only work in Chrome web browser.

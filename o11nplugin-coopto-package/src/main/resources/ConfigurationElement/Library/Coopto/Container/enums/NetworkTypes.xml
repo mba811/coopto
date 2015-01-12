@@ -19,7 +19,7 @@
  *	You should have received a copy of the GNU Lesser General Public License	*
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.		*/
  -->
-<config-element id="3f308c99-0f20-44fc-9c55-855f5d055f1a"  version="0.0.1" >
+<config-element id="3f308c99-0f20-44fc-9c55-855f5d055f1a"  version="0.0.2" >
 <display-name><![CDATA[NetworkTypes]]></display-name>
 <description><![CDATA[Port binding network types]]></description>
 <atts>

@@ -449,7 +449,7 @@ License.
 
 #SECTION 4: GNU Lesser General Public License, V3
 ##Coopto vRO Plugin Core
-(org.hexlogic.o11nplugin-coopto-core:0.0.1 - https://github.com/m451/coopto)
+(org.hexlogic.o11nplugin-coopto-core - https://github.com/m451/coopto)
 Copyright (C) 2014-2015  Robert Szymczak	(rszymczak@fum.de)
 
 This program is free software: you can redistribute it and/or modify

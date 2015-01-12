@@ -19,7 +19,7 @@
  *	You should have received a copy of the GNU Lesser General Public License	*
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.		*/
  -->
-<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item6" object-name="workflow:name=generic" id="a738637c-5773-4205-b9c0-54015dd39452"  version="0.0.1" api-version="3.1.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0" >
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item6" object-name="workflow:name=generic" id="a738637c-5773-4205-b9c0-54015dd39452"  version="0.0.2" api-version="3.1.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0" >
 <display-name><![CDATA[Play Command & Conquer]]></display-name>
 <description><![CDATA[This is a showcase workflow which demos creation a browser based game using docker containers.
 

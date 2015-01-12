@@ -19,7 +19,7 @@
  *	You should have received a copy of the GNU Lesser General Public License	*
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.		*/
  -->
-<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="93f931b4-c8f6-494e-bcea-725c329b336f"  version="0.0.1" api-version="3.1.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0" >
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="93f931b4-c8f6-494e-bcea-725c329b336f"  version="0.0.2" api-version="3.1.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0" >
 <display-name><![CDATA[Create Busybox]]></display-name>
 <description><![CDATA[This is a showcase workflow which demos creation of a simple Busybox container using start CMD command.
 

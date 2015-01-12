@@ -19,7 +19,7 @@
  *	You should have received a copy of the GNU Lesser General Public License	*
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.		*/
  -->
-<dunes-script-module name="getAccessModes" result-type="Array/string" api-version="3.1.0"  id="e8a45d33-179e-4d34-8e6f-576f41654d40"  version="0.0.1"  allowed-operations="vef" ><description><![CDATA[Return configuration element keys for predefined workflow elements.]]></description>
+<dunes-script-module name="getAccessModes" result-type="Array/string" api-version="3.1.0"  id="e8a45d33-179e-4d34-8e6f-576f41654d40"  version="0.0.2"  allowed-operations="vef" ><description><![CDATA[Return configuration element keys for predefined workflow elements.]]></description>
 <script encoded='false'><![CDATA[var returnArray = [];
 var configpath = Server.getConfigurationElementCategoryWithPath("Library/Coopto/Container/enums");
 if(configpath != undefined && configpath != null)

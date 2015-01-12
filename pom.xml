@@ -28,13 +28,54 @@
 	<packaging>pom</packaging>
 	<version>${plugin.version}</version>
 
+	<profiles>
+		<!-- run 'mvn install -Denv=dev' for profile activation. 
+		This profile is active by default.. -->
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<property>
+					<name>env</name>
+					<value>dev</value>
+				</property>
+			</activation>
+			<properties>
+				<package.keystoreLocation>coopto-dev.jceks</package.keystoreLocation>
+				<package.keystorePassword>password123</package.keystorePassword>
+				<!-- use vef mask for development -->
+				<package.mask>vef</package.mask>
+				<vmoapp.suffix>dev</vmoapp.suffix>
+			</properties>
+		</profile>
+		<!-- run 'mvn install -Denv=vsx' for profile activation. 
+		You will need to specify additional parameters when using this profile, see below. -->
+		<profile>
+			<id>vsx</id>
+			<activation>
+				<property>
+					<name>env</name>
+					<value>vsx</value>
+				</property>
+			</activation>
+			<properties>
+				<package.keystoreLocation>coopto-vsx.jceks</package.keystoreLocation>
+				<!-- specify Dpackage.keystorePassword=YOURKEYSTOREPASSWORD on build -->
+				<!-- use vf mask for releases -->
+				<package.mask>vf</package.mask>
+				<vmoapp.suffix>vsx</vmoapp.suffix>
+			</properties>
+		</profile>
+	</profiles>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<vco.version>5.5.2</vco.version>
-		<plugin.version>0.0.1</plugin.version>
+		<plugin.version>0.0.2</plugin.version>
 		<repoUrl>http://192.168.6.46:8280/vco-repo</repoUrl>
 		<javadocker.version>0.10.4</javadocker.version>
 	</properties>
+
 
 	<modules>
 		<module>o11nplugin-coopto-core</module>

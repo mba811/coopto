@@ -19,7 +19,7 @@
  *	You should have received a copy of the GNU Lesser General Public License	*
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.		*/
  -->
-<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="c6ed4a86-bff5-428d-afdf-3468468bbeb2"  version="0.0.2" api-version="3.1.0" allowed-operations="vef" icon-id="31a576bf-8e9f-4ad3-83f2-14abb62fdc93" restartMode="1" resumeFromFailedMode="0" >
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="c6ed4a86-bff5-428d-afdf-3468468bbeb2"  version="0.0.3" api-version="3.1.0" allowed-operations="vef" icon-id="31a576bf-8e9f-4ad3-83f2-14abb62fdc93" restartMode="1" resumeFromFailedMode="0" >
 <display-name><![CDATA[Pull if NotExists]]></display-name>
 <description><![CDATA[Will check if a image exists on a given node and pull it if not.
 Will return the image in any case if pull dosn't fail.

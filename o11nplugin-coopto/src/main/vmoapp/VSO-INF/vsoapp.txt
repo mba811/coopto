@@ -1,5 +1,3 @@
-             	    END USER LICENSE AGREEMENT
-
 		Coopto - a Docker Plug-in for VMware vRealize Orchestrator
 
 -------------------------------------------------------------------------

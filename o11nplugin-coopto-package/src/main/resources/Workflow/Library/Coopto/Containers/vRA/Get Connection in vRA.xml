@@ -19,7 +19,7 @@
  *	You should have received a copy of the GNU Lesser General Public License	*
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.		*/
  -->
-<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="033dc10b-4be0-4fde-bddb-cdbc4fb14ce1"  version="0.0.1" api-version="3.1.0" allowed-operations="vef" icon-id="1b8bf4b9-126e-4e5e-9d7d-a9b4f0060529" restartMode="1" resumeFromFailedMode="0" >
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="033dc10b-4be0-4fde-bddb-cdbc4fb14ce1"  version="0.0.2" api-version="3.1.0" allowed-operations="vef" icon-id="1b8bf4b9-126e-4e5e-9d7d-a9b4f0060529" restartMode="1" resumeFromFailedMode="0" >
 <display-name><![CDATA[Get Connection in vRA]]></display-name>
 <description><![CDATA[Will return connection information in form of  PREFIXDockerhost:ContainerportPOSTFIX
 This may be used as custom day-2-operation to return the current connection information to the user. Prefix and postfix are optional parameters.

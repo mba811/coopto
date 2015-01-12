@@ -19,7 +19,7 @@
  *	You should have received a copy of the GNU Lesser General Public License	*
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.		*/
  -->
-<config-element id="6494ab88-176c-406a-9161-adef9f4cb836"  version="0.0.1" >
+<config-element id="6494ab88-176c-406a-9161-adef9f4cb836"  version="0.0.2" >
 <display-name><![CDATA[AccessModes]]></display-name>
 <description><![CDATA[Volume access modes]]></description>
 <atts>

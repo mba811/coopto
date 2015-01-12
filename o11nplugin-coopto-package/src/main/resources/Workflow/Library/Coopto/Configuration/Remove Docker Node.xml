@@ -19,7 +19,7 @@
  *	You should have received a copy of the GNU Lesser General Public License	*
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.		*/
  -->
-<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="f40f1f55-5d3d-4137-8fc7-d54c1b89e634"  version="0.0.1" api-version="3.1.0" allowed-operations="vef" icon-id="89a4ff61-6da0-4b7d-9f6d-b00b0e2e32dc" restartMode="1" resumeFromFailedMode="0" >
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="f40f1f55-5d3d-4137-8fc7-d54c1b89e634"  version="0.0.2" api-version="3.1.0" allowed-operations="vef" icon-id="89a4ff61-6da0-4b7d-9f6d-b00b0e2e32dc" restartMode="1" resumeFromFailedMode="0" >
 <display-name><![CDATA[Remove Docker Node]]></display-name>
 <description><![CDATA[Remove a docker node from the inventory.
 

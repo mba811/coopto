@@ -19,7 +19,7 @@
  *	You should have received a copy of the GNU Lesser General Public License	*
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.		*/
  -->
-<dunes-script-module name="getUnixSignals" result-type="Array/string" api-version="3.1.0"  id="c9fad03e-4a19-4d64-a931-fb4c908b4303"  version="0.0.1"  allowed-operations="vef" ><description><![CDATA[Return configuration element keys for predefined workflow elements.]]></description>
+<dunes-script-module name="getUnixSignals" result-type="Array/string" api-version="3.1.0"  id="c9fad03e-4a19-4d64-a931-fb4c908b4303"  version="0.0.2"  allowed-operations="vef" ><description><![CDATA[Return configuration element keys for predefined workflow elements.]]></description>
 <script encoded='false'><![CDATA[var returnArray = [];
 var configpath = Server.getConfigurationElementCategoryWithPath("Library/Coopto/Container/enums");
 if(configpath != undefined && configpath != null)

@@ -19,5 +19,5 @@
  *	You should have received a copy of the GNU Lesser General Public License	*
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.		*/
  -->
-<dunes-script-module name="removeImage" result-type="void" api-version="3.1.0"  id="3d5254c5-94c9-4d0e-b412-69919812db17"  version="0.0.1"  allowed-operations="vef" ><param n="image" t="Coopto:DockerImage"><![CDATA[]]></param><param n="force" t="boolean"><![CDATA[]]></param><script encoded='false'><![CDATA[image.remove(force);]]></script>
+<dunes-script-module name="removeImage" result-type="void" api-version="3.1.0"  id="3d5254c5-94c9-4d0e-b412-69919812db17"  version="0.0.2"  allowed-operations="vef" ><param n="image" t="Coopto:DockerImage"><![CDATA[]]></param><param n="force" t="boolean"><![CDATA[]]></param><script encoded='false'><![CDATA[image.remove(force);]]></script>
 </dunes-script-module>

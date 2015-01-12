@@ -19,5 +19,5 @@
  *	You should have received a copy of the GNU Lesser General Public License	*
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.		*/
  -->
-<dunes-script-module name="removeDockerNode" result-type="void" api-version="3.1.0"  id="f09efd95-8202-4e3f-aadb-0bee4f98af01"  version="0.0.1"  allowed-operations="vef" ><param n="node" t="Coopto:DockerNode"><![CDATA[]]></param><script encoded='false'><![CDATA[CooptoDockerNodeManager.deleteNode(node.getId());]]></script>
+<dunes-script-module name="removeDockerNode" result-type="void" api-version="3.1.0"  id="f09efd95-8202-4e3f-aadb-0bee4f98af01"  version="0.0.2"  allowed-operations="vef" ><param n="node" t="Coopto:DockerNode"><![CDATA[]]></param><script encoded='false'><![CDATA[CooptoDockerNodeManager.deleteNode(node.getId());]]></script>
 </dunes-script-module>

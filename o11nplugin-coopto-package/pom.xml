@@ -32,15 +32,6 @@
 		<version>${plugin.version}</version>
 	</parent>
 
-	<properties>
-		<!-- This keystore is meant for easier initial setup and should not be 
-			used in production! -->
-		<keystoreLocation>coopto.public</keystoreLocation>
-		<keystorePassword>password123</keystorePassword>
-		<!-- TODO For release build change to vf. It will lock the workflows -->
-		<packagemask>vef</packagemask>
-	</properties>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -50,14 +41,15 @@
 				<configuration>
 					<packageName>org.hexlogic</packageName>
 					<!-- Set the local path to the *.vmokeystore file used to sign the content -->
-					<keystoreLocation>${keystoreLocation}</keystoreLocation>
-					<keystorePassword>${keystorePassword}</keystorePassword>
+					<keystoreLocation>${package.keystoreLocation}</keystoreLocation>
+					<keystorePassword>${package.keystorePassword}</keystorePassword>
 					<includes>
 						<include>**/*.element_info.xml</include>
 					</includes>
 					<packageFileName>o11nplugin-coopto-package-${project.version}</packageFileName>
-					<!-- TODO For release build change to vf. It will lock the workflows -->
-					<allowedMask>${packagemask}</allowedMask>
+					<!-- For release build change to vf. It will lock the workflows. Otherwise 
+						use vef -->
+					<allowedMask>${package.mask}</allowedMask>
 				</configuration>
 			</plugin>
 			<!-- Custom Plugins -->

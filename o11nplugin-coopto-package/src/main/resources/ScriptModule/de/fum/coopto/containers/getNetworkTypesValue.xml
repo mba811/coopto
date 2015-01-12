@@ -19,7 +19,7 @@
  *	You should have received a copy of the GNU Lesser General Public License	*
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.		*/
  -->
-<dunes-script-module name="getNetworkTypesValue" result-type="string" api-version="3.1.0"  id="898510a5-5041-49d3-b299-79e37d7b56d6"  version="0.0.1"  allowed-operations="vef" ><description><![CDATA[Return configuration element values for a selected configuration element key]]></description>
+<dunes-script-module name="getNetworkTypesValue" result-type="string" api-version="3.1.0"  id="898510a5-5041-49d3-b299-79e37d7b56d6"  version="0.0.2"  allowed-operations="vef" ><description><![CDATA[Return configuration element values for a selected configuration element key]]></description>
 <param n="attributeName" t="string"><![CDATA[]]></param><script encoded='false'><![CDATA[var returnArray = [];
 var configpath = Server.getConfigurationElementCategoryWithPath("Library/Coopto/Container/enums");
 if(configpath != undefined && configpath != null)

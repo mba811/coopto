@@ -19,5 +19,5 @@
  *	You should have received a copy of the GNU Lesser General Public License	*
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.		*/
  -->
-<dunes-script-module name="getNodeFromImage" result-type="Coopto:DockerNode" api-version="3.1.0"  id="7d7c0733-acc2-45f7-ae84-7d724a22b42a"  version="0.0.1"  allowed-operations="vef" ><param n="image" t="Coopto:DockerImage"><![CDATA[]]></param><script encoded='false'><![CDATA[return image.getDockerNode();]]></script>
+<dunes-script-module name="getNodeFromImage" result-type="Coopto:DockerNode" api-version="3.1.0"  id="7d7c0733-acc2-45f7-ae84-7d724a22b42a"  version="0.0.2"  allowed-operations="vef" ><param n="image" t="Coopto:DockerImage"><![CDATA[]]></param><script encoded='false'><![CDATA[return image.getDockerNode();]]></script>
 </dunes-script-module>

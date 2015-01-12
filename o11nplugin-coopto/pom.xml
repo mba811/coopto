@@ -109,6 +109,7 @@
 									tofile="${basedir}/target/${project.artifactId}.${project.packaging}"
 									flatten="true" overwrite="true" verbose="true" failonerror="true"
 									file="${basedir}/target/${project.build.finalName}.${project.packaging}" />
+									
 								<mkdir dir="${basedir}/target/VSO-INF" />
 								<copy todir="${basedir}/target/VSO-INF" overwrite="true"
 									verbose="true" failonerror="true">
@@ -116,6 +117,7 @@
 								</copy>
 								
 								<!-- Copy license information to the resulting vmoapp target -->
+								<mkdir dir="${basedir}/target/META-INF" />
 								<copy todir="${basedir}/target/META-INF" overwrite="true"
 									verbose="true" failonerror="true">
 									<fileset dir="${basedir}/src/main/vmoapp/META-INF" />
@@ -125,7 +127,7 @@
 									flatten="true" overwrite="true" verbose="true" failonerror="true"
 									file="${basedir}/src/main/vmoapp/open_source_license.md" />
 									
-								<jar destfile="${basedir}/target/${project.build.finalName}.vmoapp">
+								<jar destfile="${basedir}/target/${project.build.finalName}-${vmoapp.suffix}.vmoapp">
 									<fileset dir="${basedir}/target/">
 										<include name="${project.artifactId}.${project.packaging}" />
 										<include name="VSO-INF/*" />
@@ -138,7 +140,7 @@
 								<!-- Custom copy job so clean plugin dosn't delete our bins -->
 								<copy todir="${basedir}/../bin" overwrite="true" verbose="true"
 									failonerror="true">
-									<fileset dir="${basedir}/target/" includes="${project.build.finalName}.vmoapp" />
+									<fileset dir="${basedir}/target/" includes="${project.build.finalName}-${vmoapp.suffix}.vmoapp" />
 								</copy>
 							</tasks>
 						</configuration>
@@ -159,7 +161,7 @@
 						<configuration>
 							<artifacts>
 								<artifact>
-									<file>${basedir}/target/${project.build.finalName}.vmoapp</file>
+									<file>${basedir}/target/${project.build.finalName}-${vmoapp.suffix}.vmoapp</file>
 									<type>vmoapp</type>
 								</artifact>
 							</artifacts>
