@@ -63,7 +63,7 @@ Brought to you courtesy of our legal counsel. For more context, please see the n
 All product and company names are trademarks™ or registered® trademarks of their respective holders. Use of them does not imply any affiliation with or endorsement by them.
 
 #Licensing
-Coopto is and open source project proudly presented by **Fritz & Macziol Software und Computervertrieb GmbH**.
+Coopto - from now on “this project” or “this software” - is an open source project proudly presented by **Fritz & Macziol Software und Computervertrieb GmbH**.
 
 This project is under GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the license, or (at your option) any later version. For more information, please review the license documents . *You may not use this software or any parts of it except in compliance with the license*. 
 
