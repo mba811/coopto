@@ -1,4 +1,4 @@
-		Coopto - a Docker Plug-in for VMware vRealize Orchestrator
+	Coopto - a Docker Plug-in for VMware vRealize Orchestrator
 
 -------------------------------------------------------------------------
 
@@ -9,7 +9,6 @@ utilizing Docker in VMware vRealize Orchestrator.
 
 Brought to you by Fritz & Macziol Software und Computervertrieb GmbH.
 Copyright (C) 2014-2015  Robert Szymczak	(rszymczak@fum.de)
-
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as
@@ -28,9 +27,9 @@ License along with this program. If not, see
 
 -------------------------------------------------------------------------
 
-					ADDITIONAL PRODUCT INFORMATION
+			ADDITIONAL PRODUCT INFORMATION
 
-This software may include “Open Source Software”, which means various 
+This software may include "Open Source Software", which means various 
 open source software components licensed under the terms of applicable 
 open source license agreements included in the materials relating to 
 such software.
@@ -48,7 +47,7 @@ open_source_licenses.md files may therefore accompany this Product.
 IT IS YOUR RESPONSIBILITY to ensure that your use and/or transfer does 
 not violate applicable laws.
 
-All product and company names are trademarks™ or registered® trademarks
+All product and company names are trademarks (TM) or registered (R) trademarks
 of their respective holders. Use of them does not imply any affiliation 
 with or endorsement by them.
 
