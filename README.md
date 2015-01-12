@@ -25,15 +25,9 @@ We can't say this often enough: be aware that this is still a **early version of
 This means that if you're using the current version of the plugin in order to build your custom workflows, you may need to change those workflows when upgradeing the Coopto plugin. There are plans to minimize the chances that user-created workflows need to be changed on plugin-changes as long as you're using the available actions and workflows only. So far we can not guarantee that yet, what basicly means that you'll have to check functionality of your Coopto workflows after upgradeing to a newer version of Coopto. It's self-explanatory that you should not do that in production.
 
 #Getting started
-If you own a copy of vRealize Orchestrator, you got everything you need to get started. Other products such as vRealize Automation may be combined but are not required at all if you just want to get some basic Docker functionality within your vSphere stack.
+If you own a copy of vRealize Orchestrator, you got everything you need to get started. Other products such as vRealize Automation may be combined but are not required at all if you just want to get some basic Docker functionality within your vSphere stack. Visit the [basic plug-in installation Wiki](https://github.com/m451/coopto/wiki/Basic-plug-in-installation) to get started.
 
-To get started you should visit the following sections of the plug-in wiki:
-
-1. [Basic plug-in installation](https://github.com/m451/coopto/wiki/Basic-plug-in-installation)
-3. [Adding a Docker node](https://github.com/m451/coopto/wiki/Adding-a-Docker-node)
-4. [Usage examples](https://github.com/m451/coopto/wiki/Usage-examples)
-
-#Help and issues
+#Support and issues
 To provide you with the support you need to get things going we’ve put together a [cosy wiki](https://github.com/m451/coopto/wiki) page for you. There's also a section about [debugging](https://github.com/m451/coopto/wiki/Debugging). This is the first place you should visit if you got any issues or questions. 
 
 If the issue you’re facing isn’t covered [within the wiki](https://github.com/m451/coopto/wiki) you might consider visiting the [Coopto thread](https://communities.vmware.com/thread/498430) within the [community forums of vRO](https://communities.vmware.com/community/vmtn/vcenter/orchestrator). Feel like you run into a software bug related to Coopto itself? Be free to submit a new issue on the [issues page](https://github.com/m451/coopto/issues). 
@@ -59,14 +53,17 @@ If you want to work on the Java core of Coopto, probably you should [check out t
 If you have any issue regarding security, please disclose the information responsibly by sending an email to vmware@fum.de.
 
 #Licensing & Legal
-Coopto - from now on “this project” or “this software” - is an open source project proudly presented by **Fritz & Macziol Software und Computervertrieb GmbH**.
+Coopto – from now on “this project”, “this program” or “this software” – is an open source project proudly presented by [Fritz & Macziol Software und Computervertrieb GmbH](https://www.fum.de).
 
-This project is under GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the license, or (at your option) any later version. For more information, please review the license documents . *You may not use this software or any parts of it except in compliance with the license*. 
+*This program is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.*
 
-This software may include "Open Source Software", which means various open source software components licensed under the terms of applicable open source license agreements included in the materials relating to such software.
-Open Source Software is composed of individual software components, each of which has its own copyright and its own applicable license conditions. Information about the used Open Source Software and their licenses can be found in the open_source_licenses.md file.
-The Product may also include other components, which may contain additional open source software packages. One or more such open_source_licenses.md files may therefore accompany this Product.
+*This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.*
 
-Brought to you courtesy of our legal counsel. For more context, please see the notice and license documents. It is your responsibility to ensure that your use and/or transfer does not violate applicable laws.
+*You should have received a copy of the GNU Lesser General Public License along with this program. If not, see http://www.gnu.org/licenses/.*
 
-All product and company names are trademarks™ or registered® trademarks of their respective holders. Use of them does not imply any affiliation with or endorsement by them.
+
+This software may include *“Open Source Software”*, which means various open source software components licensed under the terms of applicable open source license agreements included in the materials relating to such software. Open Source Software is composed of individual software components, each of which has its own copyright and its own applicable license conditions. Information about the used Open Source Software and their licenses can be found in the *open_source_licenses.md* file. The Product may also include other components, which may contain additional open source software packages. One or more such *open_source_licenses.md* files may therefore accompany this Product.
+
+Brought to you courtesy of our legal counsel. For more context, please see the notice and license documents. It is your responsibility to ensure that your use and/or transfer does not violate applicable laws. 
+
+All product and company names are trademarks ™ or registered ® trademarks of their respective holders. Use of them does not imply any affiliation with or endorsement by them.
