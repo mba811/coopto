@@ -114,12 +114,27 @@
 									verbose="true" failonerror="true">
 									<fileset dir="${basedir}/src/main/vmoapp/VSO-INF" />
 								</copy>
+								
+								<!-- Copy license information to the resulting vmoapp target -->
+								<copy todir="${basedir}/target/META-INF" overwrite="true"
+									verbose="true" failonerror="true">
+									<fileset dir="${basedir}/src/main/vmoapp/META-INF" />
+								</copy>
+								<copy
+									tofile="${basedir}/target/open_source_license.md"
+									flatten="true" overwrite="true" verbose="true" failonerror="true"
+									file="${basedir}/src/main/vmoapp/open_source_license.md" />
+									
 								<jar destfile="${basedir}/target/${project.build.finalName}.vmoapp">
 									<fileset dir="${basedir}/target/">
 										<include name="${project.artifactId}.${project.packaging}" />
 										<include name="VSO-INF/*" />
+										<!-- include license information in the resulting vmoapp package -->
+										<include name="META-INF/*" />
+										<include name="open_source_license.md" />
 									</fileset>
 								</jar>
+								
 								<!-- Custom copy job so clean plugin dosn't delete our bins -->
 								<copy todir="${basedir}/../bin" overwrite="true" verbose="true"
 									failonerror="true">
