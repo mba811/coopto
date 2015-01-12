@@ -1,3 +1,23 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<!-- 
+/*	This file is part of project "Coopto", a computer software plugin for 		*
+ *  utilizing Docker in VMware vRealize Orchestrator.							*
+ *																				*
+ *	Copyright (C) 2014-2015  Robert Szymczak	(rszymczak@fum.de)				*
+ *																				*
+ *																				*
+ *	This program is free software: you can redistribute it and/or modify		*
+ *	it under the terms of the GNU Lesser General Public License as published 	*
+ *	by the Free Software Foundation, either version 3 of the License, or		*
+ *	(at your option) any later version.											*
+ *																				*
+ *	This program is distributed in the hope that it will be useful,				*
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of				*
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  						*
+ *	See the GNU Lesser General Public License for more details.					*
+ *																				*
+ *	You should have received a copy of the GNU Lesser General Public License	*
+ *	along with this program.  If not, see <http://www.gnu.org/licenses/>.		*/
+ -->
 <dunes-script-module name="getContainerById" result-type="Coopto:DockerContainer" api-version="3.1.0"  id="51c0b6b7-73c2-43d5-91ba-7bb0c2faf355"  version="0.0.1"  allowed-operations="vef" ><param n="node" t="Coopto:DockerNode"><![CDATA[]]></param><param n="containerId" t="string"><![CDATA[]]></param><script encoded='false'><![CDATA[return node.getContainerById(containerId);]]></script>
 </dunes-script-module>

@@ -12,6 +12,6 @@ Coopto authors ordered by first contribution
 - Robert Szymczak (rszymczak@fum.de)
 
 
-#Issues fixed & special thanks
+#Supporters & special thanks
 Coopto is a community project that many support by reporting and fixing issues, improving the wiki and making enhancement suggestions.
 A full and always up-to-date list of all participants therefore may always be found at [the contributors sections](https://github.com/m451/coopto/graphs/contributors).

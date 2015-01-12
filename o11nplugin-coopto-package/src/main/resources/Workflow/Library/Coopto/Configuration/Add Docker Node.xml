@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<!-- 
+/*	This file is part of project "Coopto", a computer software plugin for 		*
+ *  utilizing Docker in VMware vRealize Orchestrator.							*
+ *																				*
+ *	Copyright (C) 2014-2015  Robert Szymczak	(rszymczak@fum.de)				*
+ *																				*
+ *																				*
+ *	This program is free software: you can redistribute it and/or modify		*
+ *	it under the terms of the GNU Lesser General Public License as published 	*
+ *	by the Free Software Foundation, either version 3 of the License, or		*
+ *	(at your option) any later version.											*
+ *																				*
+ *	This program is distributed in the hope that it will be useful,				*
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of				*
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  						*
+ *	See the GNU Lesser General Public License for more details.					*
+ *																				*
+ *	You should have received a copy of the GNU Lesser General Public License	*
+ *	along with this program.  If not, see <http://www.gnu.org/licenses/>.		*/
+ -->
 <workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="114a8f66-a346-40c9-be00-cae244bdcb04"  version="0.0.1" api-version="3.1.0" allowed-operations="vef" icon-id="89a4ff61-6da0-4b7d-9f6d-b00b0e2e32dc" restartMode="1" resumeFromFailedMode="0" >
 <display-name><![CDATA[Add Docker Node]]></display-name>
 <description><![CDATA[Add a new docker node to the inventory.

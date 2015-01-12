@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<!-- 
+/*	This file is part of project "Coopto", a computer software plugin for 		*
+ *  utilizing Docker in VMware vRealize Orchestrator.							*
+ *																				*
+ *	Copyright (C) 2014-2015  Robert Szymczak	(rszymczak@fum.de)				*
+ *																				*
+ *																				*
+ *	This program is free software: you can redistribute it and/or modify		*
+ *	it under the terms of the GNU Lesser General Public License as published 	*
+ *	by the Free Software Foundation, either version 3 of the License, or		*
+ *	(at your option) any later version.											*
+ *																				*
+ *	This program is distributed in the hope that it will be useful,				*
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of				*
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  						*
+ *	See the GNU Lesser General Public License for more details.					*
+ *																				*
+ *	You should have received a copy of the GNU Lesser General Public License	*
+ *	along with this program.  If not, see <http://www.gnu.org/licenses/>.		*/
+ -->
 <workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item2" object-name="workflow:name=generic" id="773f6606-8fb4-432b-aa13-5f9c8b5a4ded"  version="0.0.1" api-version="3.1.0" allowed-operations="vef" icon-id="1b8bf4b9-126e-4e5e-9d7d-a9b4f0060529" restartMode="1" resumeFromFailedMode="0" >
 <display-name><![CDATA[Kill Container]]></display-name>
 <description><![CDATA[Kill a container.

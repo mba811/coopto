@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<!-- 
+/*	This file is part of project "Coopto", a computer software plugin for 		*
+ *  utilizing Docker in VMware vRealize Orchestrator.							*
+ *																				*
+ *	Copyright (C) 2014-2015  Robert Szymczak	(rszymczak@fum.de)				*
+ *																				*
+ *																				*
+ *	This program is free software: you can redistribute it and/or modify		*
+ *	it under the terms of the GNU Lesser General Public License as published 	*
+ *	by the Free Software Foundation, either version 3 of the License, or		*
+ *	(at your option) any later version.											*
+ *																				*
+ *	This program is distributed in the hope that it will be useful,				*
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of				*
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  						*
+ *	See the GNU Lesser General Public License for more details.					*
+ *																				*
+ *	You should have received a copy of the GNU Lesser General Public License	*
+ *	along with this program.  If not, see <http://www.gnu.org/licenses/>.		*/
+ -->
 <config-element id="6aaaae12-cad4-49d4-8915-f34d0446972c"  version="0.0.1" >
 <display-name><![CDATA[UnixSignals]]></display-name>
 <description><![CDATA[List of UNIX signals one can send along with some Docker operations]]></description>
