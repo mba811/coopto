@@ -36,11 +36,11 @@ To get started you should visit the following sections of the plug-in wiki:
 #Help and issues
 To provide you with the support you need to get things going we’ve put together a [cosy wiki](https://github.com/m451/coopto/wiki) page for you. There's also a section about [debugging](https://github.com/m451/coopto/wiki/Debugging). This is the first place you should visit if you got any issues or questions. 
 
-If the issue you’re facing isn’t covered [within the wiki](https://github.com/m451/coopto/wiki) you might consider visiting the [Coopto thread](https://communities.vmware.com/thread/498430) within the [community forums of vRO](https://communities.vmware.com/community/vmtn/vcenter/orchestrator). Nothing there? Feel free to submit a new issue on the [issues page](https://github.com/m451/coopto/issues). 
+If the issue you’re facing isn’t covered [within the wiki](https://github.com/m451/coopto/wiki) you might consider visiting the [Coopto thread](https://communities.vmware.com/thread/498430) within the [community forums of vRO](https://communities.vmware.com/community/vmtn/vcenter/orchestrator). Feel like you run into a software bug related to Coopto itself? Be free to submit a new issue on the [issues page](https://github.com/m451/coopto/issues). 
 
 Please understand that the open source nature of this project also means that we – as in *we the Coopto open source community* – cannot guarantee to provide you with support and even less with support within a certain response time. 
 
-If you require enterprise support you might consider contacting [vmware@fum.de](mailto:vmware@fum.de) but please be aware that this is out of scope of the open source process this project is based on and thus should not be submitted into the projects issues section.
+If you require enterprise support with costs you might consider contacting [vmware@fum.de](mailto:vmware@fum.de) *but please be aware that this is out of scope of the open source process this project is based on and thus should not be submitted into the projects issues section*.
 
 
 #Contributing to Coopto
