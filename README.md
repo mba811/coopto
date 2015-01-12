@@ -58,15 +58,15 @@ If you want to work on the Java core of Coopto, probably you should [check out t
 #Security Disclosure
 If you have any issue regarding security, please disclose the information responsibly by sending an email to vmware@fum.de.
 
-#Legal
-Brought to you courtesy of our legal counsel. For more context, please see the notice and license documents. It is your responsibility to ensure that your use and/or transfer does not violate applicable laws.
-All product and company names are trademarks™ or registered® trademarks of their respective holders. Use of them does not imply any affiliation with or endorsement by them.
-
-#Licensing
+#Licensing & Legal
 Coopto - from now on “this project” or “this software” - is an open source project proudly presented by **Fritz & Macziol Software und Computervertrieb GmbH**.
 
 This project is under GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the license, or (at your option) any later version. For more information, please review the license documents . *You may not use this software or any parts of it except in compliance with the license*. 
 
-This software may include “Open Source Software”, which means various open source software components licensed under the terms of applicable open source license agreements included in the materials relating to such software.
+This software may include "Open Source Software", which means various open source software components licensed under the terms of applicable open source license agreements included in the materials relating to such software.
 Open Source Software is composed of individual software components, each of which has its own copyright and its own applicable license conditions. Information about the used Open Source Software and their licenses can be found in the open_source_licenses.md file.
 The Product may also include other components, which may contain additional open source software packages. One or more such open_source_licenses.md files may therefore accompany this Product.
+
+Brought to you courtesy of our legal counsel. For more context, please see the notice and license documents. It is your responsibility to ensure that your use and/or transfer does not violate applicable laws.
+
+All product and company names are trademarks™ or registered® trademarks of their respective holders. Use of them does not imply any affiliation with or endorsement by them.
