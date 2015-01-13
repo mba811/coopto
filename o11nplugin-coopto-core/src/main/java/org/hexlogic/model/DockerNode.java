@@ -967,7 +967,7 @@ public class DockerNode implements IDockerNode
 		{
 			configureNode();
 			DockerClient dockerClient = DockerClientBuilder.getInstance(config).build();
-			System.out.println("Starting pull operation...");
+			log.debug("Starting pull operation...");
 
 			/*
 			 * We will check the final result by comparing the initial image id, which is the first ID provided by the stream such as:
@@ -1003,7 +1003,7 @@ public class DockerNode implements IDockerNode
 				String progress = "";
 
 				// info OUTPUT
-				// System.out.println("info: " + element);
+				// log.debug("info: " + element);
 
 				try
 				{
@@ -1033,7 +1033,7 @@ public class DockerNode implements IDockerNode
 					// remember the first id of the output stream, which is the id of the image we want to pull
 					if (firstId == null)
 					{
-						System.out.println("Remembering first id: " + id);
+						log.debug("Remembering first id: " + id);
 						firstId = id;
 					}
 
@@ -1044,16 +1044,16 @@ public class DockerNode implements IDockerNode
 						lastStatus = status;
 						if (!progress.isEmpty())
 						{
-							System.out.println("Progress: " + progress);
+							log.debug("Progress: " + progress);
 						}
 					}
 					else
 					{
 						lastId = id;
-						System.out.println("Image '" + id + "' status is: " + status + ".");
+						log.debug("Image '" + id + "' status is: " + status + ".");
 						if (!progress.isEmpty())
 						{
-							System.out.println("Progress: " + progress);
+							log.debug("Progress: " + progress);
 						}
 					}
 				}
@@ -1068,7 +1068,7 @@ public class DockerNode implements IDockerNode
 			String downloadStatus = "undefined";
 			if (lastId.equals(firstId))
 			{
-				System.out.println("Last download layer id does match the requested image id: " + firstId);
+				log.debug("Last download layer id does match the requested image id: " + firstId);
 				if (StringUtils.containsIgnoreCase(lastStatus, "Download complete"))
 				{
 					downloadStatus = "successed";
