@@ -19,14 +19,17 @@
 package org.hexlogic.model;
 
 import java.io.IOException;
-
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.hexlogic.CooptoPluginAdaptor;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import ch.dunes.vso.sdk.api.IPluginFactory;
-
+import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.core.DockerClientBuilder;
+import com.github.dockerjava.core.DockerClientConfig;
 import com.vmware.o11n.plugin.sdk.annotation.VsoMethod;
 import com.vmware.o11n.plugin.sdk.annotation.VsoObject;
 import com.vmware.o11n.plugin.sdk.annotation.VsoParam;
@@ -75,17 +78,33 @@ public class DockerNodeManager
     public void createNode(	@VsoParam(description = "The display name to be used for this Docker node", required = true) String displayName, 
     						@VsoParam(description = "The hostname or IP-address to be used for this Docker node", required = true) String hostName, 
     						@VsoParam(description = "The docker remote API port to be used for this Docker node", required = false) int hostPort,
-    						@VsoParam(description = "The version of the docker remote API executed on this Docker node", required = false) String dockerApiVersion) throws NullPointerException
+    						@VsoParam(description = "The version of the docker remote API executed on this Docker node", required = false) String dockerApiVersion) throws NullPointerException, Exception
     {
     	log.debug("Running createNode(...)...");
     	if(displayName != null && !displayName.isEmpty())
     	{
     		if(hostName != null && !hostName.isEmpty())
     		{
-    			// The same docker host may be added multiple times to the inventory - we have no way to prevent that - but the will be a different one
-    			log.debug("Creating new Docker node configuration...");
-    			service.createNode(displayName, hostName, hostPort, dockerApiVersion);
-    			log.debug("Finished running createNode(...)...");
+    			
+    			// Check Docker service reachability
+    	    	log.debug("Testing connection with Docker service on ");
+    	    	
+    	    	if(dockerIsReachable(hostName, hostPort, dockerApiVersion))
+    	    	{
+    	    		log.debug("Connection to Docker service verified. Proceeding...");
+        			// The same docker host may be added multiple times to the inventory - we have no way to prevent that - but the will be a different one
+        			log.debug("Creating new Docker node configuration...");
+        			service.createNode(displayName, hostName, hostPort, dockerApiVersion);
+        			log.debug("Finished running createNode(...)...");
+    	    	}
+    	    	else
+    	    	{
+    	    		throw new Exception("Unable to connect the Docker service. Please verify:\n"
+    	    				+ "- your provided input parameters are correct\n"
+    	    				+ "- network connectifity between VMware Orchestrator and your Docker host\n"
+    	    				+ "- your docker service is listening on the specified port\n"
+    	    				+ "- various other requirements as listed in the Coopto project wiki on GitHub");
+    	    	}
     		}
     		else
     		{
@@ -118,6 +137,51 @@ public class DockerNodeManager
 		}
     }
     
+	private boolean dockerIsReachable(String hostName, int hostPortNumber, String dockerApiVersion)
+	{
+		DockerClient dockerClient = null;
+		try
+		{
+			// Fallback to default port if none was provided!
+			if(!(hostPortNumber > 0) || !(hostPortNumber <65535))
+			{
+				hostPortNumber = DockerNode.defaultPort;
+			}
+			
+			// Fallback to default API if none was provided!
+			if(dockerApiVersion == null || dockerApiVersion.isEmpty())
+			{
+				dockerApiVersion = DockerNode.defaultApi;
+			}
+			
+			DockerClientConfig config = DockerClientConfig.createDefaultConfigBuilder()
+					.withVersion(dockerApiVersion)
+				    .withUri("http://" + hostName + ":" + hostPortNumber)
+				    .withReadTimeout(10000) // 10 seconds timeout
+				    .build();
+			dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
+		}
+		catch (Exception e)
+		{
+			final StringWriter sw = new StringWriter();
+			final PrintWriter pw = new PrintWriter(sw, true);
+			e.printStackTrace(pw);
+			log.error("Error: " + sw.getBuffer().toString());
+			return false;
+		}
+
+		try
+		{
+			dockerClient.pingCmd().exec();
+			return true;
+		}
+		catch(Exception e)
+		{
+			log.error("Error while adding Docker node - host was unreachable.");
+			return false;
+		}
+	}
+
 // -------------------------------------------------------------------------------------------------------------------------------------------
 // TODO Async calls do not work yet. WatcherEvent is never called. Also, when implementing, give it some love and exception handling
 // Async operations may be executed using the DockerNodeManager. They will trigger the sync operations of a Docker node in a async manner.

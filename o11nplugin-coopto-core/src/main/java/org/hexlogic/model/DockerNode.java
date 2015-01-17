@@ -93,7 +93,7 @@ public class DockerNode implements IDockerNode
 
 	// Minimum set of values we need to persist the object properties, using K-V mapping in IEndpointConfiguration
 	public final static int defaultPort = 2375; // Fall back to default 2375
-	public final static String defaultApi = "1.15"; // Fall back to default 1.15
+	public final static String defaultApi = "1.16"; // Fall back to default 1.16
 	
 	// config done at runtime
 	DockerClientConfig config;
@@ -216,7 +216,7 @@ public class DockerNode implements IDockerNode
 			final StringWriter sw = new StringWriter();
 			final PrintWriter pw = new PrintWriter(sw, true);
 			e.printStackTrace(pw);
-			log.error("Error: " + sw.getBuffer().toString());
+			log.error("Error while creating Docker client. Details:\n" + sw.getBuffer().toString());
 		}
 
 		return dockerClient;
@@ -313,7 +313,7 @@ public class DockerNode implements IDockerNode
 				try
 				{	
 					configureNode();
-					DockerClient dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
+					DockerClient dockerClient = getDockerClient();
 					log.debug("Loading Images with option all=" + allImages + ".");
 					newImages = dockerClient.listImagesCmd().withShowAll(allImages).exec();
 				}
@@ -570,7 +570,7 @@ public class DockerNode implements IDockerNode
 				try
 				{
 					configureNode();
-					DockerClient dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
+					DockerClient dockerClient = getDockerClient();
 					log.debug("Loading containers with option all=" + allContainers + ".");
 					newContainers = dockerClient.listContainersCmd().withShowAll(allContainers).exec();
 				}
@@ -764,7 +764,7 @@ public class DockerNode implements IDockerNode
 		try
 		{
 			configureNode();
-			dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
+			dockerClient = getDockerClient();
 
 			return dockerClient.inspectContainerCmd(container.getContainerId()).exec();
 		}
@@ -788,7 +788,7 @@ public class DockerNode implements IDockerNode
 		try
 		{
 			configureNode();
-			dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
+			dockerClient = getDockerClient();
 
 			return dockerClient.inspectImageCmd(image.getImageId()).exec();
 		}
@@ -919,7 +919,7 @@ public class DockerNode implements IDockerNode
 		try
 		{
 			configureNode();
-			dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
+			dockerClient = getDockerClient();
 			return dockerClient.infoCmd().exec().toString();
 		}
 		catch (Exception e)
@@ -1193,7 +1193,7 @@ public class DockerNode implements IDockerNode
 	{
 		log.debug("Removing image '" + id + "'.");
 		configureNode();
-		DockerClient dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
+		DockerClient dockerClient = getDockerClient();
 
 		try
 		{
@@ -1254,7 +1254,7 @@ public class DockerNode implements IDockerNode
 		try
 		{
 			configureNode();
-			dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
+			dockerClient = getDockerClient();
 			result = dockerClient.searchImagesCmd(imageName).exec();
 		}
 		catch (Exception e)
@@ -1327,7 +1327,7 @@ public class DockerNode implements IDockerNode
 		try
 		{
 			configureNode();
-			DockerClient dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
+			DockerClient dockerClient = getDockerClient();
 
 			CreateContainerCmd command = dockerClient
 					.createContainerCmd(image.getImageId())
@@ -1518,7 +1518,7 @@ public class DockerNode implements IDockerNode
 		try
 		{
 			configureNode();
-			DockerClient dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
+			DockerClient dockerClient = getDockerClient();
 
 			dockerClient
 			.removeContainerCmd(container.getContainerId())
@@ -1577,7 +1577,7 @@ public class DockerNode implements IDockerNode
 		try
 		{
 			configureNode();
-			DockerClient dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
+			DockerClient dockerClient = getDockerClient();
 
 			StartContainerCmd command = dockerClient
 					.startContainerCmd(container.getContainerId())
@@ -1680,7 +1680,7 @@ public class DockerNode implements IDockerNode
 		try
 		{
 			configureNode();
-			DockerClient dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
+			DockerClient dockerClient = getDockerClient();
 
 			StopContainerCmd command = dockerClient.stopContainerCmd(container.getContainerId());
 			if (wait < 0)
@@ -1735,7 +1735,7 @@ public class DockerNode implements IDockerNode
 		try
 		{
 			configureNode();
-			DockerClient dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
+			DockerClient dockerClient = getDockerClient();
 			RestartContainerCmd command = dockerClient.restartContainerCmd(container.getContainerId());
 			
 			if (wait < 0)
@@ -1783,7 +1783,7 @@ public class DockerNode implements IDockerNode
 		try
 		{
 			configureNode();
-			DockerClient dockerClient = DockerClientBuilder.getInstance(config).withServiceLoaderClassLoader(CooptoPluginAdaptor.class.getClassLoader()).build();
+			DockerClient dockerClient = getDockerClient();
 
 			KillContainerCmd command = dockerClient.killContainerCmd(container.getContainerId());
 			if (signal != null && !signal.isEmpty())
