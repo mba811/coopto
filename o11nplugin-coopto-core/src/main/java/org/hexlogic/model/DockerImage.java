@@ -78,7 +78,7 @@ public class DockerImage
 		log.setLevel(Level.DEBUG);
 		// Do not use a random UUID here. We're not persisting image objects. Thus, on inventory reload we would loose reference to the image object if re-generating the UUID every time.
 		// Rather then using a random UUID, generate a unique ID using the persistent node id + the unique image id.
-		this.id = node.getId() + "_" + imageId;
+		this.id = node.getId() + ":" + imageId;
 		
 		this.dockerNode = node;
 		this.imageId = imageId;

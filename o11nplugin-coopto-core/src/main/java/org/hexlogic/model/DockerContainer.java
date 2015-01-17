@@ -123,7 +123,7 @@ public class DockerContainer
 		log.setLevel(Level.DEBUG);
 		// Do not use a random UUID here. We're not persisting container objects. Thus, on inventory reload we would loose reference to the container object if re-generating the UUID every time.
 		// Rather then using a random UUID, generate a unique ID using the persistent node id + the unique container id.
-		this.id = node.getId() + "_" + containerId;
+		this.id = node.getId() + ":" + containerId;
 		
 		this.dockerNode = node;
 		this.containerId = containerId;
