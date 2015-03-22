@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<!-- 
+/*	This file is part of project "Coopto", a computer software plugin for 		*
+ *  utilizing Docker in VMware vRealize Orchestrator.							*
+ *																				*
+ *	Copyright (C) 2014-2015  Robert Szymczak	(rszymczak@fum.de)				*
+ *																				*
+ *																				*
+ *	This program is free software: you can redistribute it and/or modify		*
+ *	it under the terms of the GNU Lesser General Public License as published 	*
+ *	by the Free Software Foundation, either version 3 of the License, or		*
+ *	(at your option) any later version.											*
+ *																				*
+ *	This program is distributed in the hope that it will be useful,				*
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of				*
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  						*
+ *	See the GNU Lesser General Public License for more details.					*
+ *																				*
+ *	You should have received a copy of the GNU Lesser General Public License	*
+ *	along with this program.  If not, see <http://www.gnu.org/licenses/>.		*/
+ -->
 <workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item5" object-name="workflow:name=generic" id="3e557684-0ea9-49fa-9165-531c7e8e0409"  version="0.0.3" api-version="3.1.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0" >
 <display-name><![CDATA[Create Web SSH Console]]></display-name>
 <description><![CDATA[This is a showcase workflow which demos creation a web based SSH console (wetty) which will establish a SSH connection to the provided SSH server. 
