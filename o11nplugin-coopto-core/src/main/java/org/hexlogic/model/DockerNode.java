@@ -1564,7 +1564,8 @@ public class DockerNode implements IDockerNode
 			@VsoParam(description = "A list of DNS search domains") String[] dnsSearch,
 			
 			// bools
-			@VsoParam(description = "Allocates a random host port for all of a container's exposed ports") boolean publishAllPorts
+			@VsoParam(description = "Allocates a random host port for all of a container's exposed ports") boolean publishAllPorts,
+			@VsoParam(description = "Runs this container in privileged mode") boolean privileged
 			) throws Exception
 	{		
 		if(container == null)
@@ -1581,7 +1582,9 @@ public class DockerNode implements IDockerNode
 
 			StartContainerCmd command = dockerClient
 					.startContainerCmd(container.getContainerId())
-					.withPublishAllPorts(publishAllPorts);
+					.withPublishAllPorts(publishAllPorts)
+					.withPrivileged(privileged);
+			
 			
 			if(portBindings != null && (portBindings.length > 0))
 			{

@@ -1039,10 +1039,11 @@ public class DockerContainer
 			@VsoParam(description = "A list of DNS search domains") String[] dnsSearch,
 			
 			// bools
-			@VsoParam(description = "Allocates a random host port for all of a container's exposed ports") boolean publishAllPorts
+			@VsoParam(description = "Allocates a random host port for all of a container's exposed ports") boolean publishAllPorts,
+			@VsoParam(description = "Runs this container in privileged mode") boolean privileged
 			) throws Exception
 	{
-		this.dockerNode.startContainer(this, links, portBindings, volumeBindings, dns, dnsSearch, publishAllPorts);
+		this.dockerNode.startContainer(this, links, portBindings, volumeBindings, dns, dnsSearch, publishAllPorts, privileged);
 	}
 
 	@VsoMethod(showInApi = true, name = "stop")

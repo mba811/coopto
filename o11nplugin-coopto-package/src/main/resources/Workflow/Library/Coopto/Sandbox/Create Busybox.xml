@@ -1,25 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
-<!-- 
-/*	This file is part of project "Coopto", a computer software plugin for 		*
- *  utilizing Docker in VMware vRealize Orchestrator.							*
- *																				*
- *	Copyright (C) 2014-2015  Robert Szymczak	(rszymczak@fum.de)				*
- *																				*
- *																				*
- *	This program is free software: you can redistribute it and/or modify		*
- *	it under the terms of the GNU Lesser General Public License as published 	*
- *	by the Free Software Foundation, either version 3 of the License, or		*
- *	(at your option) any later version.											*
- *																				*
- *	This program is distributed in the hope that it will be useful,				*
- *	but WITHOUT ANY WARRANTY; without even the implied warranty of				*
- *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  						*
- *	See the GNU Lesser General Public License for more details.					*
- *																				*
- *	You should have received a copy of the GNU Lesser General Public License	*
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.		*/
- -->
-<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="93f931b4-c8f6-494e-bcea-725c329b336f"  version="0.0.2" api-version="3.1.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0" >
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="93f931b4-c8f6-494e-bcea-725c329b336f"  version="0.0.3" api-version="3.1.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0" >
 <display-name><![CDATA[Create Busybox]]></display-name>
 <description><![CDATA[This is a showcase workflow which demos creation of a simple Busybox container using start CMD command.
 
@@ -54,6 +34,8 @@ Author: Robert Szymczak (rszymczak@fum.de)
 <attrib name='openStdIn' type='boolean' read-only='false' ><value encoded='n'><![CDATA[true]]></value>
 </attrib>
 <attrib name='stdInOnce' type='boolean' read-only='false' ><value encoded='n'><![CDATA[true]]></value>
+</attrib>
+<attrib name='privileged' type='boolean' read-only='false' ><value encoded='n'><![CDATA[false]]></value>
 </attrib>
 <workflow-item name='item0' type='end' end-mode='0' >
 <position x='804.5' y='45.40909090909091'/>
@@ -97,7 +79,7 @@ actionResult = System.getModule("de.fum.coopto.containers").createContainerFromI
 <workflow-item name='item3' out-name='item0' type='task' script-module='de.fum.coopto.containers/startContainer' >
 <display-name><![CDATA[startContainer]]></display-name>
 <script encoded='false'><![CDATA[//Auto generated script, cannot be modified !
-System.getModule("de.fum.coopto.containers").startContainer(container,links,portBindings,volumeBindings,dns,dnsSearch,publishAllPorts) ;]]></script>
+System.getModule("de.fum.coopto.containers").startContainer(container,links,portBindings,volumeBindings,dns,dnsSearch,publishAllPorts,privileged) ;]]></script>
 <in-binding><bind name='container' type='Coopto:DockerContainer' export-name="container" ></bind>
 <bind name='dns' type='Array/string' explicitly-not-bound='true' export-name="NULL" ></bind>
 <bind name='dnsSearch' type='Array/string' explicitly-not-bound='true' export-name="NULL" ></bind>
@@ -105,6 +87,7 @@ System.getModule("de.fum.coopto.containers").startContainer(container,links,port
 <bind name='publishAllPorts' type='boolean' explicitly-not-bound='true' export-name="NULL" ></bind>
 <bind name='volumeBindings' type='Array/Coopto:DockerVolumeBind' explicitly-not-bound='true' export-name="NULL" ></bind>
 <bind name='portBindings' type='Array/Coopto:DockerPortBind' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='privileged' type='boolean' export-name="privileged" ></bind>
 </in-binding><out-binding></out-binding><position x='624.5' y='55.40909090909091'/>
 </workflow-item>
 <workflow-item name='item4' out-name='item3' type='task' script-module='de.fum.coopto.containers/getContainerById' >

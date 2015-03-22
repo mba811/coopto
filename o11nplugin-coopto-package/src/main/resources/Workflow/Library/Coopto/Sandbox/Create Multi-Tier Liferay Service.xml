@@ -1,24 +1,4 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
-<!-- 
-/*	This file is part of project "Coopto", a computer software plugin for 		*
- *  utilizing Docker in VMware vRealize Orchestrator.							*
- *																				*
- *	Copyright (C) 2014-2015  Robert Szymczak	(rszymczak@fum.de)				*
- *																				*
- *																				*
- *	This program is free software: you can redistribute it and/or modify		*
- *	it under the terms of the GNU Lesser General Public License as published 	*
- *	by the Free Software Foundation, either version 3 of the License, or		*
- *	(at your option) any later version.											*
- *																				*
- *	This program is distributed in the hope that it will be useful,				*
- *	but WITHOUT ANY WARRANTY; without even the implied warranty of				*
- *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  						*
- *	See the GNU Lesser General Public License for more details.					*
- *																				*
- *	You should have received a copy of the GNU Lesser General Public License	*
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.		*/
- -->
 <workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item2" object-name="workflow:name=generic" id="b2798a07-c748-4409-a4b5-c1526c0dad78"  version="0.0.2" api-version="3.1.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0" >
 <display-name><![CDATA[Create Multi-Tier Liferay Service]]></display-name>
 <description><![CDATA[This is a showcase workflow which demos multi-container setups for a multi-tier web-application (liferay 6.2) with a external database (mysql 5.6).
@@ -85,6 +65,8 @@ Author: Robert Szymczak (rszymczak@fum.de)]]></description>
 </attrib>
 <attrib name='liferayStdInOnce' type='boolean' read-only='false' ><value encoded='n'><![CDATA[false]]></value>
 </attrib>
+<attrib name='privileged' type='boolean' read-only='false' ><value encoded='n'><![CDATA[false]]></value>
+</attrib>
 <workflow-item name='item0' type='end' end-mode='0' >
 <position x='224.5' y='118.13636363636363'/>
 </workflow-item>
@@ -114,7 +96,7 @@ actionResult = System.getModule("de.fum.coopto.containers").createContainerFromI
 <workflow-item name='item3' out-name='item9' type='task' script-module='de.fum.coopto.containers/startContainer' >
 <display-name><![CDATA[start database]]></display-name>
 <script encoded='false'><![CDATA[//Auto generated script, cannot be modified !
-System.getModule("de.fum.coopto.containers").startContainer(container,links,portBindings,volumeBindings,dns,dnsSearch,publishAllPorts) ;]]></script>
+System.getModule("de.fum.coopto.containers").startContainer(container,links,portBindings,volumeBindings,dns,dnsSearch,publishAllPorts,privileged) ;]]></script>
 <in-binding><bind name='container' type='Coopto:DockerContainer' export-name="mysqlContainer" ></bind>
 <bind name='dns' type='Array/string' explicitly-not-bound='true' export-name="NULL" ></bind>
 <bind name='dnsSearch' type='Array/string' explicitly-not-bound='true' export-name="NULL" ></bind>
@@ -122,6 +104,7 @@ System.getModule("de.fum.coopto.containers").startContainer(container,links,port
 <bind name='publishAllPorts' type='boolean' export-name="mysqlPublishPorts" ></bind>
 <bind name='volumeBindings' type='Array/Coopto:DockerVolumeBind' explicitly-not-bound='true' export-name="NULL" ></bind>
 <bind name='portBindings' type='Array/Coopto:DockerPortBind' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='privileged' type='boolean' export-name="privileged" ></bind>
 </in-binding><out-binding></out-binding><position x='704.5' y='55.40909090909091'/>
 </workflow-item>
 <workflow-item name='item4' out-name='item5' type='task' script-module='de.fum.coopto.containers/createContainerFromImage' >
@@ -168,7 +151,7 @@ actionResult = System.getModule("de.fum.coopto.containers").getContainerById(nod
 <workflow-item name='item8' out-name='item10' type='task' script-module='de.fum.coopto.containers/startContainer' >
 <display-name><![CDATA[start webportal]]></display-name>
 <script encoded='false'><![CDATA[//Auto generated script, cannot be modified !
-System.getModule("de.fum.coopto.containers").startContainer(container,links,portBindings,volumeBindings,dns,dnsSearch,publishAllPorts) ;]]></script>
+System.getModule("de.fum.coopto.containers").startContainer(container,links,portBindings,volumeBindings,dns,dnsSearch,publishAllPorts,privileged) ;]]></script>
 <in-binding><bind name='container' type='Coopto:DockerContainer' export-name="liferayContainer" ></bind>
 <bind name='dns' type='Array/string' explicitly-not-bound='true' export-name="NULL" ></bind>
 <bind name='dnsSearch' type='Array/string' explicitly-not-bound='true' export-name="NULL" ></bind>
@@ -176,6 +159,7 @@ System.getModule("de.fum.coopto.containers").startContainer(container,links,port
 <bind name='publishAllPorts' type='boolean' export-name="LiferayPublishPorts" ></bind>
 <bind name='volumeBindings' type='Array/Coopto:DockerVolumeBind' explicitly-not-bound='true' export-name="NULL" ></bind>
 <bind name='portBindings' type='Array/Coopto:DockerPortBind' explicitly-not-bound='true' export-name="NULL" ></bind>
+<bind name='privileged' type='boolean' export-name="privileged" ></bind>
 </in-binding><out-binding></out-binding><position x='324.5' y='182.68181818181816'/>
 </workflow-item>
 <workflow-item name='item5' out-name='item7' type='task' >

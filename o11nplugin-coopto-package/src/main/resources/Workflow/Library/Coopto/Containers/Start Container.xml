@@ -1,25 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
-<!-- 
-/*	This file is part of project "Coopto", a computer software plugin for 		*
- *  utilizing Docker in VMware vRealize Orchestrator.							*
- *																				*
- *	Copyright (C) 2014-2015  Robert Szymczak	(rszymczak@fum.de)				*
- *																				*
- *																				*
- *	This program is free software: you can redistribute it and/or modify		*
- *	it under the terms of the GNU Lesser General Public License as published 	*
- *	by the Free Software Foundation, either version 3 of the License, or		*
- *	(at your option) any later version.											*
- *																				*
- *	This program is distributed in the hope that it will be useful,				*
- *	but WITHOUT ANY WARRANTY; without even the implied warranty of				*
- *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  						*
- *	See the GNU Lesser General Public License for more details.					*
- *																				*
- *	You should have received a copy of the GNU Lesser General Public License	*
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.		*/
- -->
-<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item2" object-name="workflow:name=generic" id="5e90bab4-a14f-4b65-aaf7-11d89883545d"  version="0.0.2" api-version="3.1.0" allowed-operations="vef" icon-id="1b8bf4b9-126e-4e5e-9d7d-a9b4f0060529" restartMode="1" resumeFromFailedMode="0" >
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item2" object-name="workflow:name=generic" id="5e90bab4-a14f-4b65-aaf7-11d89883545d"  version="0.0.3" api-version="3.1.0" allowed-operations="vef" icon-id="1b8bf4b9-126e-4e5e-9d7d-a9b4f0060529" restartMode="1" resumeFromFailedMode="0" >
 <display-name><![CDATA[Start Container]]></display-name>
 <description><![CDATA[Start a container.
 
@@ -56,6 +36,9 @@ Author: Robert Szymczak (rszymczak@fum.de)]]></description>
 <param name='mountBool' type='boolean' >
 <description><![CDATA[Mount volumes?]]></description>
 </param>
+<param name='privileged' type='boolean' >
+<description><![CDATA[Run container in privileged mode?]]></description>
+</param>
 </input><attrib name='dockerLinks' type='Array/Coopto:DockerLink' read-only='false' ><value encoded='n'><![CDATA[__NULL__]]></value>
 </attrib>
 <attrib name='dockerPortBinds' type='Array/Coopto:DockerPortBind' read-only='false' ><value encoded='n'><![CDATA[__NULL__]]></value>
@@ -68,7 +51,7 @@ Author: Robert Szymczak (rszymczak@fum.de)]]></description>
 <workflow-item name='item1' out-name='item0' type='task' script-module='de.fum.coopto.containers/startContainer' >
 <display-name><![CDATA[startContainer]]></display-name>
 <script encoded='false'><![CDATA[//Auto generated script, cannot be modified !
-System.getModule("de.fum.coopto.containers").startContainer(container,links,portBindings,volumeBindings,dns,dnsSearch,publishAllPorts) ;]]></script>
+System.getModule("de.fum.coopto.containers").startContainer(container,links,portBindings,volumeBindings,dns,dnsSearch,publishAllPorts,privileged) ;]]></script>
 <in-binding><bind name='container' type='Coopto:DockerContainer' export-name="container" ></bind>
 <bind name='dns' type='Array/string' export-name="dns" ></bind>
 <bind name='links' type='Array/Coopto:DockerLink' export-name="dockerLinks" ></bind>
@@ -76,6 +59,7 @@ System.getModule("de.fum.coopto.containers").startContainer(container,links,port
 <bind name='publishAllPorts' type='boolean' export-name="publishAllPorts" ></bind>
 <bind name='volumeBindings' type='Array/Coopto:DockerVolumeBind' export-name="dockerVolumeBinds" ></bind>
 <bind name='portBindings' type='Array/Coopto:DockerPortBind' export-name="dockerPortBinds" ></bind>
+<bind name='privileged' type='boolean' export-name="privileged" ></bind>
 </in-binding><out-binding></out-binding><position x='344.5' y='55.40909090909091'/>
 </workflow-item>
 <workflow-item name='item2' out-name='item1' type='task' >
@@ -140,6 +124,8 @@ if(volumeBindings != null)
 <p-param name="portBool"><desc><![CDATA[Map ports?]]></desc>
 <p-qual kind="static" name="defaultValue" type="boolean" ><![CDATA[__NULL__]]></p-qual></p-param>
 <p-param name="mountBool"><desc><![CDATA[Mount volumes?]]></desc>
+<p-qual kind="static" name="defaultValue" type="boolean" ><![CDATA[__NULL__]]></p-qual></p-param>
+<p-param name="privileged"><desc><![CDATA[Run container in privileged mode?]]></desc>
 <p-qual kind="static" name="defaultValue" type="boolean" ><![CDATA[__NULL__]]></p-qual></p-param>
 </p-step>
 <p-step>
