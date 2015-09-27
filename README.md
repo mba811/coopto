@@ -1,6 +1,8 @@
 Coopto – a Docker Plug-in for VMware vRealize Orchestrator
 ======
 
+[![Join the chat at https://gitter.im/m451/coopto](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/m451/coopto?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Purpose of this project is to create a community process of plug-in development for vRealize Orchestrator (vRO) by fully integrating Docker, a new container technology.
 
 Because the project focus is primary set on integrating functionality into vRO and not on making the Docker API accessible from Java, this project is using [docker-java](https://github.com/docker-java/docker-java), a free library which aims to do exactly that. Any functionality provided by the Docker API and not available within the [docker-java](https://github.com/docker-java/docker-java) library should not be implemented within Coopto, but contributed to the [docker-java](https://github.com/docker-java/docker-java) project.
